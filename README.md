@@ -3,7 +3,7 @@ For ISTD Computational Structures 1D Project 2022
 
 Hello world
 
-Contributors:
+Contributors: <br>
   Jit (Team Leader) <br>
   Acqquilaa <br>
   Beverley <br>
