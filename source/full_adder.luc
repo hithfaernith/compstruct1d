@@ -1,0 +1,13 @@
+module full_adder (
+    input x,
+    input y,
+    input cin,
+    output s,
+    output cout
+  ) {
+
+  always {
+    s = x ^ y ^ cin;
+    cout = x&y | cin & (x^y);
+  }
+}
