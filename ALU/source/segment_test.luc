@@ -1,0 +1,13 @@
+module segment_test (
+    input clk,  // clock
+    output io_seg[8],  // 7-segment LEDs on IO Shield
+    output io_sel[4]
+  ) {
+  
+  sig rst;                  // reset signal
+  
+  always {
+    io_seg = 7h0F;
+    io_sel = 4b1110; // select first digit
+  }
+}

@@ -1,0 +1,27 @@
+/*
+module adder_b16_tester (
+    input clk,
+    input rst_n,            // reset button (active low)
+    output io_led [3][8]   // LEDs on IO Shield
+  ) {
+
+  sig rst;                  // reset signal
+
+  clk(clk) {
+    // The reset conditioner is used to synchronize the reset signal to the FPGA
+    // clock. This ensures the entire FPGA comes out of reset at the same time.
+    reset_conditioner reset_cond;
+    
+    .rst(rst) {
+      counter slowclock(#SIZE(1), #DIV(26));
+    }
+  }
+
+  always {
+    reset_cond.in = ~rst_n; // input raw inverted reset signal
+    io_led[0] = 0xFF;
+    io_led[1] = 0xFF;
+    io_led[2] = 0xFF;
+  }
+}
+*/

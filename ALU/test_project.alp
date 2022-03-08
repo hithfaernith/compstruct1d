@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="test_project" board="Alchitry Au" language="Lucid" version="3">
+  <files>
+    <src>fsm.luc</src>
+    <component>counter.luc</component>
+    <src>dff_b16.luc</src>
+    <src>segment_test.luc</src>
+    <src>seq_plus_two.luc</src>
+    <src>adder_b16.luc</src>
+    <src>seq_plus_vary.luc</src>
+    <src>eight_bit_shiftleft.luc</src>
+    <src>full_adder.luc</src>
+    <src top="true">au_top.luc</src>
+    <src>full_adder_ROM.luc</src>
+    <src>eight_bit_adder.luc</src>
+    <component>reset_conditioner.luc</component>
+    <src>adder_b16_tester.luc</src>
+    <constraint lib="true">io.acf</constraint>
+    <constraint lib="true">alchitry.acf</constraint>
+    <constraint lib="true">au.xdc</constraint>
+  </files>
+</project>

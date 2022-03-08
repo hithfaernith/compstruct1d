@@ -1,0 +1,17 @@
+module adder_b16 (
+	input x[16],
+	input y[16],
+	input cin,
+	output s[16],
+	output cout
+) {
+  full_adder fulladder[16];
+  always {
+    fulladder.x = x;
+    fulladder.y = y;
+    fulladder.cin[0] = cin;
+    fulladder.cin[15:1] = fulladder.cout[14:0];
+    s = fulladder.s;
+    cout = fulladder.cout[15];
+  } 
+}

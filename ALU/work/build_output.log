@@ -1,0 +1,829 @@
+Warnings in file /home/milselarch/SUTD/50-002/FPGA/1D/ALU/source/fsm.luc:
+    Line 1, Column 7 : The module name "fsk" doesn't match the file name "fsm"
+Warnings in file /home/milselarch/SUTD/50-002/FPGA/1D/ALU/source/segment_test.luc:
+    Line 7, Column 2 : "rst" was never used
+    Line 2, Column 4 : "clk" was never used
+Warnings in file /home/milselarch/SUTD/50-002/FPGA/1D/ALU/source/au_top.luc:
+    Line 22, Column 6 : "slowclock" was never used
+    Line 10, Column 4 : "io_button" was never used
+    Line 11, Column 4 : "io_dip" was never used
+Starting Vivado...
+
+****** Vivado v2021.2 (64-bit)
+  **** SW Build 3367213 on Tue Oct 19 02:47:39 MDT 2021
+  **** IP Build 3369179 on Thu Oct 21 08:25:16 MDT 2021
+    ** Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+
+source /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/project.tcl
+# set projDir "/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado"
+# set projName "test_project"
+# set topName top
+# set device xc7a35tftg256-1
+# if {[file exists "$projDir/$projName"]} { file delete -force "$projDir/$projName" }
+# create_project $projName "$projDir/$projName" -part $device
+# set_property design_mode RTL [get_filesets sources_1]
+# set verilogSources [list "/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/verilog/au_top_0.v" "/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/verilog/reset_conditioner_1.v" "/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/verilog/counter_2.v" ]
+# import_files -fileset [get_filesets sources_1] -force -norecurse $verilogSources
+# set xdcSources [list "/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/constraint/io.xdc" "/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/constraint/alchitry.xdc" "/home/milselarch/SUTD/50-002/FPGA/alcrity/library/components/au.xdc" ]
+# read_xdc $xdcSources
+# set_property STEPS.WRITE_BITSTREAM.ARGS.BIN_FILE true [get_runs impl_1]
+# update_compile_order -fileset sources_1
+# launch_runs -runs synth_1 -jobs 12
+WARNING: [Vivado 12-7122] Auto Incremental Compile:: No reference checkpoint was found in run synth_1. Auto-incremental flow will not be run, the standard flow will be run instead.
+[Tue Mar  8 23:48:20 2022] Launched synth_1...
+Run output will be captured here: /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.runs/synth_1/runme.log
+# wait_on_run synth_1
+[Tue Mar  8 23:48:20 2022] Waiting for synth_1 to finish...
+
+*** Running vivado
+    with args -log au_top_0.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source au_top_0.tcl
+
+
+****** Vivado v2021.2 (64-bit)
+  **** SW Build 3367213 on Tue Oct 19 02:47:39 MDT 2021
+  **** IP Build 3369179 on Thu Oct 21 08:25:16 MDT 2021
+    ** Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+
+source au_top_0.tcl -notrace
+Command: synth_design -top au_top_0 -part xc7a35tftg256-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: [Device 21-403] Loading part xc7a35tftg256-1
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 4 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 1444674
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:02 . Memory (MB): peak = 2600.941 ; gain = 0.000 ; free physical = 21370 ; free virtual = 67457
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'au_top_0' [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/au_top_0.v:7]
+INFO: [Synth 8-6157] synthesizing module 'reset_conditioner_1' [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/reset_conditioner_1.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'reset_conditioner_1' (1#1) [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/reset_conditioner_1.v:11]
+INFO: [Synth 8-6157] synthesizing module 'counter_2' [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_2.v:14]
+INFO: [Synth 8-6155] done synthesizing module 'counter_2' (2#1) [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_2.v:14]
+INFO: [Synth 8-6155] done synthesizing module 'au_top_0' (3#1) [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/au_top_0.v:7]
+WARNING: [Synth 8-3917] design au_top_0 has port led[7] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port led[6] driven by constant 0
+WARNING: [Synth 8-3917] design au_top_0 has port led[5] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port led[4] driven by constant 0
+WARNING: [Synth 8-3917] design au_top_0 has port led[3] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port led[2] driven by constant 0
+WARNING: [Synth 8-3917] design au_top_0 has port led[1] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port led[0] driven by constant 0
+WARNING: [Synth 8-3917] design au_top_0 has port io_seg[7] driven by constant 0
+WARNING: [Synth 8-3917] design au_top_0 has port io_seg[6] driven by constant 0
+WARNING: [Synth 8-3917] design au_top_0 has port io_seg[5] driven by constant 0
+WARNING: [Synth 8-3917] design au_top_0 has port io_seg[4] driven by constant 0
+WARNING: [Synth 8-3917] design au_top_0 has port io_seg[3] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port io_seg[2] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port io_seg[1] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port io_seg[0] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port io_sel[3] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port io_sel[2] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port io_sel[1] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port io_sel[0] driven by constant 0
+WARNING: [Synth 8-7129] Port io_button[4] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_button[3] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_button[2] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_button[1] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_button[0] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[23] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[22] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[21] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[20] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[19] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[18] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[17] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[16] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[15] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[14] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[13] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[12] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[11] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[10] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[9] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[8] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[7] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[6] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[5] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[4] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[3] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[2] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[1] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[0] in module au_top_0 is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:03 . Memory (MB): peak = 2600.941 ; gain = 0.000 ; free physical = 21260 ; free virtual = 67349
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2600.941 ; gain = 0.000 ; free physical = 21255 ; free virtual = 67344
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2600.941 ; gain = 0.000 ; free physical = 21255 ; free virtual = 67344
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2600.941 ; gain = 0.000 ; free physical = 21248 ; free virtual = 67337
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/constraint/io.xdc]
+Finished Parsing XDC File [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/constraint/io.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/constraint/io.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/au_top_0_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/au_top_0_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Parsing XDC File [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/constraint/alchitry.xdc]
+Finished Parsing XDC File [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/constraint/alchitry.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/constraint/alchitry.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/au_top_0_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/au_top_0_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Parsing XDC File [/home/milselarch/SUTD/50-002/FPGA/alcrity/library/components/au.xdc]
+Finished Parsing XDC File [/home/milselarch/SUTD/50-002/FPGA/alcrity/library/components/au.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2664.852 ; gain = 0.000 ; free physical = 22097 ; free virtual = 68186
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2664.852 ; gain = 0.000 ; free physical = 22097 ; free virtual = 68186
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2664.852 ; gain = 63.910 ; free physical = 22163 ; free virtual = 68252
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7a35tftg256-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2664.852 ; gain = 63.910 ; free physical = 22166 ; free virtual = 68255
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2664.852 ; gain = 63.910 ; free physical = 22167 ; free virtual = 68256
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2664.852 ; gain = 63.910 ; free physical = 22166 ; free virtual = 68256
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Registers : 
+	                4 Bit    Registers := 1     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 90 (col length:60)
+BRAMs: 100 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+WARNING: [Synth 8-3330] design au_top_0 has an empty top module
+WARNING: [Synth 8-3917] design au_top_0 has port led[7] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port led[6] driven by constant 0
+WARNING: [Synth 8-3917] design au_top_0 has port led[5] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port led[4] driven by constant 0
+WARNING: [Synth 8-3917] design au_top_0 has port led[3] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port led[2] driven by constant 0
+WARNING: [Synth 8-3917] design au_top_0 has port led[1] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port led[0] driven by constant 0
+WARNING: [Synth 8-3917] design au_top_0 has port io_led[15] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port io_led[14] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port io_led[13] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port io_led[12] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port io_led[11] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port io_led[10] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port io_led[9] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port io_led[8] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port io_seg[7] driven by constant 0
+WARNING: [Synth 8-3917] design au_top_0 has port io_seg[6] driven by constant 0
+WARNING: [Synth 8-3917] design au_top_0 has port io_seg[5] driven by constant 0
+WARNING: [Synth 8-3917] design au_top_0 has port io_seg[4] driven by constant 0
+WARNING: [Synth 8-3917] design au_top_0 has port io_seg[3] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port io_seg[2] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port io_seg[1] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port io_seg[0] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port io_sel[3] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port io_sel[2] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port io_sel[1] driven by constant 1
+WARNING: [Synth 8-3917] design au_top_0 has port io_sel[0] driven by constant 0
+WARNING: [Synth 8-7129] Port io_led[23] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_led[22] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_led[21] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_led[20] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_led[19] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_led[18] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_led[17] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_led[16] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_led[7] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_led[6] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_led[5] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_led[4] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_led[3] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_led[2] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_led[1] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_led[0] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port clk in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rst_n in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_button[4] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_button[3] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_button[2] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_button[1] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_button[0] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[23] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[22] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[21] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[20] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[19] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[18] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[17] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[16] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[15] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[14] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[13] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[12] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[11] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[10] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[9] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[8] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[7] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[6] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[5] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[4] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[3] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[2] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[1] in module au_top_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port io_dip[0] in module au_top_0 is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 2664.852 ; gain = 63.910 ; free physical = 22163 ; free virtual = 68256
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:09 ; elapsed = 00:00:10 . Memory (MB): peak = 2664.852 ; gain = 63.910 ; free physical = 22045 ; free virtual = 68138
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:09 ; elapsed = 00:00:10 . Memory (MB): peak = 2664.852 ; gain = 63.910 ; free physical = 22045 ; free virtual = 68138
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:09 ; elapsed = 00:00:10 . Memory (MB): peak = 2664.852 ; gain = 63.910 ; free physical = 22043 ; free virtual = 68136
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 2664.852 ; gain = 63.910 ; free physical = 22043 ; free virtual = 68136
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 2664.852 ; gain = 63.910 ; free physical = 22043 ; free virtual = 68136
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 2664.852 ; gain = 63.910 ; free physical = 22043 ; free virtual = 68136
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 2664.852 ; gain = 63.910 ; free physical = 22043 ; free virtual = 68136
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 2664.852 ; gain = 63.910 ; free physical = 22043 ; free virtual = 68136
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 2664.852 ; gain = 63.910 ; free physical = 22043 ; free virtual = 68136
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+------+------+
+|      |Cell  |Count |
++------+------+------+
+|1     |IBUF  |     1|
+|2     |OBUF  |    29|
+|3     |OBUFT |    16|
++------+------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 2664.852 ; gain = 63.910 ; free physical = 22043 ; free virtual = 68136
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 77 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:10 ; elapsed = 00:00:11 . Memory (MB): peak = 2664.852 ; gain = 0.000 ; free physical = 22101 ; free virtual = 68194
+Synthesis Optimization Complete : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 2664.852 ; gain = 63.910 ; free physical = 22101 ; free virtual = 68194
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2664.852 ; gain = 0.000 ; free physical = 22190 ; free virtual = 68283
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2664.852 ; gain = 0.000 ; free physical = 22124 ; free virtual = 68217
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Synth Design complete, checksum: 8f395448
+INFO: [Common 17-83] Releasing license: Synthesis
+20 Infos, 126 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:16 ; elapsed = 00:00:14 . Memory (MB): peak = 2664.852 ; gain = 64.031 ; free physical = 22318 ; free virtual = 68412
+INFO: [Common 17-1381] The checkpoint '/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.runs/synth_1/au_top_0.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file au_top_0_utilization_synth.rpt -pb au_top_0_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Tue Mar  8 23:48:42 2022...
+[Tue Mar  8 23:48:45 2022] synth_1 finished
+wait_on_runs: Time (s): cpu = 00:00:25 ; elapsed = 00:00:25 . Memory (MB): peak = 2600.973 ; gain = 0.000 ; free physical = 23107 ; free virtual = 69195
+# launch_runs impl_1 -to_step write_bitstream -jobs 12
+[Tue Mar  8 23:48:45 2022] Launched impl_1...
+Run output will be captured here: /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.runs/impl_1/runme.log
+# wait_on_run impl_1
+[Tue Mar  8 23:48:45 2022] Waiting for impl_1 to finish...
+
+*** Running vivado
+    with args -log au_top_0.vdi -applog -m64 -product Vivado -messageDb vivado.pb -mode batch -source au_top_0.tcl -notrace
+
+
+****** Vivado v2021.2 (64-bit)
+  **** SW Build 3367213 on Tue Oct 19 02:47:39 MDT 2021
+  **** IP Build 3369179 on Thu Oct 21 08:25:16 MDT 2021
+    ** Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+
+source au_top_0.tcl -notrace
+Command: link_design -top au_top_0 -part xc7a35tftg256-1
+Design is defaulting to srcset: sources_1
+Design is defaulting to constrset: constrs_1
+INFO: [Device 21-403] Loading part xc7a35tftg256-1
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2600.945 ; gain = 0.000 ; free physical = 22547 ; free virtual = 68637
+INFO: [Project 1-479] Netlist was created with Vivado 2021.2
+INFO: [Project 1-570] Preparing netlist for logic optimization
+Parsing XDC File [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/constraint/io.xdc]
+Finished Parsing XDC File [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/constraint/io.xdc]
+Parsing XDC File [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/constraint/alchitry.xdc]
+Finished Parsing XDC File [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/constraint/alchitry.xdc]
+Parsing XDC File [/home/milselarch/SUTD/50-002/FPGA/alcrity/library/components/au.xdc]
+Finished Parsing XDC File [/home/milselarch/SUTD/50-002/FPGA/alcrity/library/components/au.xdc]
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2600.945 ; gain = 0.000 ; free physical = 22443 ; free virtual = 68532
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+5 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+link_design completed successfully
+Command: opt_design
+Attempting to get a license for feature 'Implementation' and/or device 'xc7a35t'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7a35t'
+Running DRC as a precondition to command opt_design
+
+Starting DRC Task
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Project 1-461] DRC finished with 0 Errors
+INFO: [Project 1-462] Please refer to the DRC report (report_drc) for more information.
+
+Time (s): cpu = 00:00:00.54 ; elapsed = 00:00:00.37 . Memory (MB): peak = 2664.855 ; gain = 63.910 ; free physical = 22442 ; free virtual = 68532
+
+Starting Cache Timing Information Task
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+Ending Cache Timing Information Task | Checksum: 164013947
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2664.855 ; gain = 0.000 ; free physical = 22075 ; free virtual = 68165
+
+Starting Logic Optimization Task
+
+Phase 1 Retarget
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+INFO: [Opt 31-49] Retargeted 0 cell(s).
+Phase 1 Retarget | Checksum: 164013947
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2897.965 ; gain = 0.000 ; free physical = 21833 ; free virtual = 67922
+INFO: [Opt 31-389] Phase Retarget created 0 cells and removed 0 cells
+
+Phase 2 Constant propagation
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Phase 2 Constant propagation | Checksum: 164013947
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2897.965 ; gain = 0.000 ; free physical = 21833 ; free virtual = 67922
+INFO: [Opt 31-389] Phase Constant propagation created 0 cells and removed 0 cells
+
+Phase 3 Sweep
+Phase 3 Sweep | Checksum: 164013947
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2897.965 ; gain = 0.000 ; free physical = 21833 ; free virtual = 67922
+INFO: [Opt 31-389] Phase Sweep created 0 cells and removed 0 cells
+
+Phase 4 BUFG optimization
+Phase 4 BUFG optimization | Checksum: 164013947
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2897.965 ; gain = 0.000 ; free physical = 21833 ; free virtual = 67922
+INFO: [Opt 31-662] Phase BUFG optimization created 0 cells of which 0 are BUFGs and removed 0 cells.
+
+Phase 5 Shift Register Optimization
+INFO: [Opt 31-1064] SRL Remap converted 0 SRLs to 0 registers and converted 0 registers of register chains to 0 SRLs
+Phase 5 Shift Register Optimization | Checksum: 164013947
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2897.965 ; gain = 0.000 ; free physical = 21833 ; free virtual = 67922
+INFO: [Opt 31-389] Phase Shift Register Optimization created 0 cells and removed 0 cells
+
+Phase 6 Post Processing Netlist
+Phase 6 Post Processing Netlist | Checksum: 164013947
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2897.965 ; gain = 0.000 ; free physical = 21833 ; free virtual = 67922
+INFO: [Opt 31-389] Phase Post Processing Netlist created 0 cells and removed 0 cells
+Opt_design Change Summary
+=========================
+
+
+-------------------------------------------------------------------------------------------------------------------------
+|  Phase                        |  #Cells created  |  #Cells Removed  |  #Constrained objects preventing optimizations  |
+-------------------------------------------------------------------------------------------------------------------------
+|  Retarget                     |               0  |               0  |                                              0  |
+|  Constant propagation         |               0  |               0  |                                              0  |
+|  Sweep                        |               0  |               0  |                                              0  |
+|  BUFG optimization            |               0  |               0  |                                              0  |
+|  Shift Register Optimization  |               0  |               0  |                                              0  |
+|  Post Processing Netlist      |               0  |               0  |                                              0  |
+-------------------------------------------------------------------------------------------------------------------------
+
+
+
+Starting Connectivity Check Task
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2897.965 ; gain = 0.000 ; free physical = 21833 ; free virtual = 67922
+Ending Logic Optimization Task | Checksum: 164013947
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2897.965 ; gain = 0.000 ; free physical = 21833 ; free virtual = 67922
+
+Starting Power Optimization Task
+INFO: [Pwropt 34-132] Skipping clock gating for clocks with a period < 2.00 ns.
+Ending Power Optimization Task | Checksum: 164013947
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2897.965 ; gain = 0.000 ; free physical = 21832 ; free virtual = 67922
+
+Starting Final Cleanup Task
+Ending Final Cleanup Task | Checksum: 164013947
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2897.965 ; gain = 0.000 ; free physical = 21832 ; free virtual = 67922
+
+Starting Netlist Obfuscation Task
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2897.965 ; gain = 0.000 ; free physical = 21832 ; free virtual = 67922
+Ending Netlist Obfuscation Task | Checksum: 164013947
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2897.965 ; gain = 0.000 ; free physical = 21832 ; free virtual = 67922
+INFO: [Common 17-83] Releasing license: Implementation
+22 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+opt_design completed successfully
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Writing placer database...
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Write XDEF Complete: Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2937.984 ; gain = 0.000 ; free physical = 21831 ; free virtual = 67921
+INFO: [Common 17-1381] The checkpoint '/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.runs/impl_1/au_top_0_opt.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_drc -file au_top_0_drc_opted.rpt -pb au_top_0_drc_opted.pb -rpx au_top_0_drc_opted.rpx
+Command: report_drc -file au_top_0_drc_opted.rpt -pb au_top_0_drc_opted.pb -rpx au_top_0_drc_opted.rpx
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/tools/Xilinx/Vivado/2021.2/data/ip'.
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 2-168] The results of DRC are in file /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.runs/impl_1/au_top_0_drc_opted.rpt.
+report_drc completed successfully
+Command: place_design
+Attempting to get a license for feature 'Implementation' and/or device 'xc7a35t'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7a35t'
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 4-198] DRC finished with 0 Errors
+INFO: [Vivado_Tcl 4-199] Please refer to the DRC report (report_drc) for more information.
+Running DRC as a precondition to command place_design
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 4-198] DRC finished with 0 Errors
+INFO: [Vivado_Tcl 4-199] Please refer to the DRC report (report_drc) for more information.
+
+Starting Placer Task
+INFO: [Place 30-611] Multithreading enabled for place_design using a maximum of 8 CPUs
+
+Phase 1 Placer Initialization
+
+Phase 1.1 Placer Initialization Netlist Sorting
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3137.520 ; gain = 0.000 ; free physical = 21772 ; free virtual = 67865
+Phase 1.1 Placer Initialization Netlist Sorting | Checksum: d4c7e4ff
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.02 . Memory (MB): peak = 3137.520 ; gain = 0.000 ; free physical = 21772 ; free virtual = 67865
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3137.520 ; gain = 0.000 ; free physical = 21772 ; free virtual = 67865
+
+Phase 1.2 IO Placement/ Clock Placement/ Build Placer Device
+Phase 1.2 IO Placement/ Clock Placement/ Build Placer Device | Checksum: d4c7e4ff
+
+Time (s): cpu = 00:00:00.18 ; elapsed = 00:00:00.07 . Memory (MB): peak = 3137.520 ; gain = 0.000 ; free physical = 21799 ; free virtual = 67892
+
+Phase 1.3 Build Placer Netlist Model
+Phase 1.3 Build Placer Netlist Model | Checksum: 1b0dbe881
+
+Time (s): cpu = 00:00:00.25 ; elapsed = 00:00:00.08 . Memory (MB): peak = 3137.520 ; gain = 0.000 ; free physical = 21799 ; free virtual = 67892
+
+Phase 1.4 Constrain Clocks/Macros
+Phase 1.4 Constrain Clocks/Macros | Checksum: 1b0dbe881
+
+Time (s): cpu = 00:00:00.26 ; elapsed = 00:00:00.08 . Memory (MB): peak = 3137.520 ; gain = 0.000 ; free physical = 21799 ; free virtual = 67893
+Phase 1 Placer Initialization | Checksum: 1b0dbe881
+
+Time (s): cpu = 00:00:00.26 ; elapsed = 00:00:00.08 . Memory (MB): peak = 3137.520 ; gain = 0.000 ; free physical = 21799 ; free virtual = 67893
+
+Phase 2 Final Placement Cleanup
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3137.520 ; gain = 0.000 ; free physical = 21799 ; free virtual = 67893
+
+Time (s): cpu = 00:00:00.26 ; elapsed = 00:00:00.08 . Memory (MB): peak = 3137.520 ; gain = 0.000 ; free physical = 21799 ; free virtual = 67893
+INFO: [Place 30-281] No place-able instance is found; design doesn't contain any instance or all instances are placed
+Ending Placer Task | Checksum: d4c7e4ff
+
+Time (s): cpu = 00:00:00.26 ; elapsed = 00:00:00.08 . Memory (MB): peak = 3137.520 ; gain = 0.000 ; free physical = 21799 ; free virtual = 67893
+INFO: [Common 17-83] Releasing license: Implementation
+41 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+place_design completed successfully
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Writing placer database...
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Write XDEF Complete: Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.01 . Memory (MB): peak = 3137.520 ; gain = 0.000 ; free physical = 21799 ; free virtual = 67893
+INFO: [Common 17-1381] The checkpoint '/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.runs/impl_1/au_top_0_placed.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_io -file au_top_0_io_placed.rpt
+report_io: Time (s): cpu = 00:00:00.07 ; elapsed = 00:00:00.11 . Memory (MB): peak = 3137.520 ; gain = 0.000 ; free physical = 21785 ; free virtual = 67878
+INFO: [runtcl-4] Executing : report_utilization -file au_top_0_utilization_placed.rpt -pb au_top_0_utilization_placed.pb
+INFO: [runtcl-4] Executing : report_control_sets -verbose -file au_top_0_control_sets_placed.rpt
+report_control_sets: Time (s): cpu = 00:00:00.03 ; elapsed = 00:00:00.08 . Memory (MB): peak = 3137.520 ; gain = 0.000 ; free physical = 21798 ; free virtual = 67891
+Command: phys_opt_design
+Attempting to get a license for feature 'Implementation' and/or device 'xc7a35t'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7a35t'
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+INFO: [Vivado_Tcl 4-383] Design worst setup slack (WNS) is greater than or equal to 0.000 ns. Skipping all physical synthesis optimizations.
+INFO: [Vivado_Tcl 4-232] No setup violation found. The netlist was not modified.
+INFO: [Common 17-83] Releasing license: Implementation
+51 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+phys_opt_design completed successfully
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Writing placer database...
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Write XDEF Complete: Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.01 . Memory (MB): peak = 3137.520 ; gain = 0.000 ; free physical = 21797 ; free virtual = 67891
+INFO: [Common 17-1381] The checkpoint '/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.runs/impl_1/au_top_0_physopt.dcp' has been generated.
+Command: route_design
+Attempting to get a license for feature 'Implementation' and/or device 'xc7a35t'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7a35t'
+Running DRC as a precondition to command route_design
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 4-198] DRC finished with 0 Errors
+INFO: [Vivado_Tcl 4-199] Please refer to the DRC report (report_drc) for more information.
+
+
+Starting Routing Task
+INFO: [Route 35-254] Multithreading enabled for route_design using a maximum of 8 CPUs
+
+Phase 1 Build RT Design
+Checksum: PlaceDB: 7432e52a ConstDB: 0 ShapeSum: 6094ffd5 RouteDB: 0
+Post Restoration Checksum: NetGraph: a6137152 NumContArr: e0363f95 Constraints: 0 Timing: 0
+Phase 1 Build RT Design | Checksum: 18649b0e7
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 3137.520 ; gain = 0.000 ; free physical = 21689 ; free virtual = 67783
+
+Phase 2 Router Initialization
+
+Phase 2.1 Create Timer
+Phase 2.1 Create Timer | Checksum: 18649b0e7
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 3137.520 ; gain = 0.000 ; free physical = 21660 ; free virtual = 67754
+
+Phase 2.2 Fix Topology Constraints
+Phase 2.2 Fix Topology Constraints | Checksum: 18649b0e7
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 3137.520 ; gain = 0.000 ; free physical = 21627 ; free virtual = 67721
+
+Phase 2.3 Pre Route Cleanup
+Phase 2.3 Pre Route Cleanup | Checksum: 18649b0e7
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 3137.520 ; gain = 0.000 ; free physical = 21627 ; free virtual = 67721
+ Number of Nodes with overlaps = 0
+
+Phase 2.4 Update Timing
+Phase 2.4 Update Timing | Checksum: 1461cb44a
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 3141.148 ; gain = 3.629 ; free physical = 21624 ; free virtual = 67718
+
+Router Utilization Summary
+  Global Vertical Routing Utilization    = 0 %
+  Global Horizontal Routing Utilization  = 0 %
+  Routable Net Status*
+  *Does not include unroutable nets such as driverless and loadless.
+  Run report_route_status for detailed report.
+  Number of Failed Nets               = 1
+    (Failed Nets is the sum of unrouted and partially routed nets)
+  Number of Unrouted Nets             = 1
+  Number of Partially Routed Nets     = 0
+  Number of Node Overlaps             = 0
+
+Phase 2 Router Initialization | Checksum: 1461cb44a
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 3141.148 ; gain = 3.629 ; free physical = 21622 ; free virtual = 67716
+
+Phase 3 Initial Routing
+
+Phase 3.1 Global Routing
+Phase 3.1 Global Routing | Checksum: 1461cb44a
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 3141.148 ; gain = 3.629 ; free physical = 21622 ; free virtual = 67716
+ Number of Nodes with overlaps = 0
+Phase 3 Initial Routing | Checksum: 1cb2e2629
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 3173.164 ; gain = 35.645 ; free physical = 21622 ; free virtual = 67716
+
+Phase 4 Rip-up And Reroute
+
+Phase 4.1 Global Iteration 0
+Phase 4.1 Global Iteration 0 | Checksum: 1cb2e2629
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 3173.164 ; gain = 35.645 ; free physical = 21622 ; free virtual = 67716
+Phase 4 Rip-up And Reroute | Checksum: 1cb2e2629
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 3173.164 ; gain = 35.645 ; free physical = 21622 ; free virtual = 67716
+
+Phase 5 Delay and Skew Optimization
+
+Phase 5.1 Delay CleanUp
+Phase 5.1 Delay CleanUp | Checksum: 1cb2e2629
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 3173.164 ; gain = 35.645 ; free physical = 21622 ; free virtual = 67716
+
+Phase 5.2 Clock Skew Optimization
+Phase 5.2 Clock Skew Optimization | Checksum: 1cb2e2629
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 3173.164 ; gain = 35.645 ; free physical = 21622 ; free virtual = 67716
+Phase 5 Delay and Skew Optimization | Checksum: 1cb2e2629
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 3173.164 ; gain = 35.645 ; free physical = 21622 ; free virtual = 67716
+
+Phase 6 Post Hold Fix
+
+Phase 6.1 Hold Fix Iter
+
+Phase 6.1.1 Update Timing
+Phase 6.1.1 Update Timing | Checksum: 1cb2e2629
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 3173.164 ; gain = 35.645 ; free physical = 21622 ; free virtual = 67716
+Phase 6.1 Hold Fix Iter | Checksum: 1cb2e2629
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 3173.164 ; gain = 35.645 ; free physical = 21622 ; free virtual = 67716
+Phase 6 Post Hold Fix | Checksum: 1cb2e2629
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 3173.164 ; gain = 35.645 ; free physical = 21622 ; free virtual = 67716
+
+Phase 7 Route finalize
+
+Router Utilization Summary
+  Global Vertical Routing Utilization    = 7.97257e-05 %
+  Global Horizontal Routing Utilization  = 0.000130141 %
+  Routable Net Status*
+  *Does not include unroutable nets such as driverless and loadless.
+  Run report_route_status for detailed report.
+  Number of Failed Nets               = 0
+    (Failed Nets is the sum of unrouted and partially routed nets)
+  Number of Unrouted Nets             = 0
+  Number of Partially Routed Nets     = 0
+  Number of Node Overlaps             = 0
+
+Phase 7 Route finalize | Checksum: 1cb2e2629
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 3173.164 ; gain = 35.645 ; free physical = 21621 ; free virtual = 67715
+
+Phase 8 Verifying routed nets
+
+ Verification completed successfully
+Phase 8 Verifying routed nets | Checksum: 1cb2e2629
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 3175.164 ; gain = 37.645 ; free physical = 21620 ; free virtual = 67714
+
+Phase 9 Depositing Routes
+Phase 9 Depositing Routes | Checksum: 1cb2e2629
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 3223.188 ; gain = 85.668 ; free physical = 21620 ; free virtual = 67714
+
+Phase 10 Post Router Timing
+Phase 10 Post Router Timing | Checksum: 1cb2e2629
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 3223.188 ; gain = 85.668 ; free physical = 21620 ; free virtual = 67714
+INFO: [Route 35-16] Router Completed Successfully
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 3223.188 ; gain = 85.668 ; free physical = 21653 ; free virtual = 67746
+
+Routing Is Done.
+INFO: [Common 17-83] Releasing license: Implementation
+60 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+route_design completed successfully
+route_design: Time (s): cpu = 00:00:09 ; elapsed = 00:00:08 . Memory (MB): peak = 3223.188 ; gain = 85.668 ; free physical = 21648 ; free virtual = 67741
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Writing placer database...
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Write XDEF Complete: Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.01 . Memory (MB): peak = 3223.188 ; gain = 0.000 ; free physical = 21647 ; free virtual = 67742
+INFO: [Common 17-1381] The checkpoint '/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.runs/impl_1/au_top_0_routed.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_drc -file au_top_0_drc_routed.rpt -pb au_top_0_drc_routed.pb -rpx au_top_0_drc_routed.rpx
+Command: report_drc -file au_top_0_drc_routed.rpt -pb au_top_0_drc_routed.pb -rpx au_top_0_drc_routed.rpx
+INFO: [IP_Flow 19-1839] IP Catalog is up to date.
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 2-168] The results of DRC are in file /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.runs/impl_1/au_top_0_drc_routed.rpt.
+report_drc completed successfully
+INFO: [runtcl-4] Executing : report_methodology -file au_top_0_methodology_drc_routed.rpt -pb au_top_0_methodology_drc_routed.pb -rpx au_top_0_methodology_drc_routed.rpx
+Command: report_methodology -file au_top_0_methodology_drc_routed.rpt -pb au_top_0_methodology_drc_routed.pb -rpx au_top_0_methodology_drc_routed.rpx
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+INFO: [DRC 23-133] Running Methodology with 8 threads
+INFO: [Vivado_Tcl 2-1520] The results of Report Methodology are in file /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.runs/impl_1/au_top_0_methodology_drc_routed.rpt.
+report_methodology completed successfully
+INFO: [runtcl-4] Executing : report_power -file au_top_0_power_routed.rpt -pb au_top_0_power_summary_routed.pb -rpx au_top_0_power_routed.rpx
+Command: report_power -file au_top_0_power_routed.rpt -pb au_top_0_power_summary_routed.pb -rpx au_top_0_power_routed.rpx
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+Running Vector-less Activity Propagation...
+
+Finished Running Vector-less Activity Propagation
+72 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+report_power completed successfully
+INFO: [runtcl-4] Executing : report_route_status -file au_top_0_route_status.rpt -pb au_top_0_route_status.pb
+INFO: [runtcl-4] Executing : report_timing_summary -max_paths 10 -report_unconstrained -file au_top_0_timing_summary_routed.rpt -pb au_top_0_timing_summary_routed.pb -rpx au_top_0_timing_summary_routed.rpx -warn_on_violation 
+INFO: [Timing 38-91] UpdateTimingParams: Speed grade: -1, Delay Type: min_max.
+INFO: [Timing 38-191] Multithreading enabled for timing update using a maximum of 8 CPUs
+INFO: [runtcl-4] Executing : report_incremental_reuse -file au_top_0_incremental_reuse_routed.rpt
+INFO: [Vivado_Tcl 4-1062] Incremental flow is disabled. No incremental reuse Info to report.
+INFO: [runtcl-4] Executing : report_clock_utilization -file au_top_0_clock_utilization_routed.rpt
+INFO: [runtcl-4] Executing : report_bus_skew -warn_on_violation -file au_top_0_bus_skew_routed.rpt -pb au_top_0_bus_skew_routed.pb -rpx au_top_0_bus_skew_routed.rpx
+INFO: [Timing 38-91] UpdateTimingParams: Speed grade: -1, Delay Type: min_max.
+INFO: [Timing 38-191] Multithreading enabled for timing update using a maximum of 8 CPUs
+Command: write_bitstream -force au_top_0.bit -bin_file
+Attempting to get a license for feature 'Implementation' and/or device 'xc7a35t'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7a35t'
+Running DRC as a precondition to command write_bitstream
+INFO: [IP_Flow 19-1839] IP Catalog is up to date.
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado 12-3199] DRC finished with 0 Errors
+INFO: [Vivado 12-3200] Please refer to the DRC report (report_drc) for more information.
+INFO: [Designutils 20-2272] Running write_bitstream with 8 threads.
+Loading data files...
+Loading site data...
+Loading route data...
+Processing options...
+Creating bitmap...
+Creating bitstream...
+Bitstream compression saved 15905504 bits.
+Writing bitstream ./au_top_0.bit...
+Writing bitstream ./au_top_0.bin...
+INFO: [Vivado 12-1842] Bitgen Completed Successfully.
+INFO: [Project 1-1876] WebTalk data collection is mandatory when using a ULT device. To see the specific WebTalk data collected for your design, open the usage_statistics_webtalk.html or usage_statistics_webtalk.xml file in the implementation directory.
+INFO: [Common 17-83] Releasing license: Implementation
+12 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+write_bitstream completed successfully
+write_bitstream: Time (s): cpu = 00:00:04 ; elapsed = 00:00:07 . Memory (MB): peak = 3494.082 ; gain = 270.895 ; free physical = 21607 ; free virtual = 67704
+INFO: [Common 17-206] Exiting Vivado at Tue Mar  8 23:49:17 2022...
+[Tue Mar  8 23:49:23 2022] impl_1 finished
+wait_on_runs: Time (s): cpu = 00:00:00.56 ; elapsed = 00:00:37 . Memory (MB): peak = 2600.973 ; gain = 0.000 ; free physical = 23101 ; free virtual = 69197
+INFO: [Common 17-206] Exiting Vivado at Tue Mar  8 23:49:23 2022...
+Vivado exited.
+
+Finished building project.

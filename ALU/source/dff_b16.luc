@@ -1,0 +1,20 @@
+module dff_b16 (
+    input clk,  // clock
+    input rst,  // reset
+    input write_val[16],
+    input write_enable,
+    output out[16]
+  ) {
+    dff register[16](#INIT(0), .clk(clk), .rst(rst)); 
+  
+  always {
+    // output of registers is module output
+    out = register.q;
+    
+    // write to registers if write_enable == true
+    case (write_enable) {
+      b1:
+        register.d = write_val;
+    }
+  }
+}
