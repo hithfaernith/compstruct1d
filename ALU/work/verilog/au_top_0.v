@@ -40,7 +40,7 @@ module au_top_0 (
     rst = M_reset_cond_out;
     usb_tx = usb_rx;
     led = 8'haa;
-    io_seg = 7'h0f;
+    io_seg = 8'ha4;
     io_sel = 4'he;
     io_led[8+7-:8] = 8'hff;
   end

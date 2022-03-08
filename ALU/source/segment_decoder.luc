@@ -1,0 +1,81 @@
+module segment_decoder (
+    input clk,  // clock
+    input rst,  // reset
+    input segment_no[2],
+    input segment_digit[4],
+    input clear,
+    input decimal,
+    output io_sel[4],
+    output io_out[8]
+  ) {
+
+  always {
+    /*
+    Note that output signal is inverted
+    i.e. if a bit is 0 is turns the corresponding segment ON
+    same idea goes for io_sel (which 7 segment LED to select)
+    */
+    io_out = 8h00;
+    // by default, don't select any of the 7-segment LEDs
+    io_sel = 4b1111;
+    
+    case (segment_no) {
+      2d0: // select first 7-segment LED
+        io_sel = 4b1110;
+      2d1: // select second 7-segment LED
+        io_sel = 4b1101;
+      2d2: // select third 7-segment LED
+        io_sel = 4b1011;
+      2d3: // select fouth 7-segment LED
+        io_sel = 4b0111;
+    }
+    
+    // blank 7-segment display if clear
+    case (clear) {
+      b1:
+        io_out = 7h00;
+    }
+    
+    case (segment_digit) {
+      4h0: // write 0 to 7-segment LED
+        io_out = 8b11000000;
+      4h1: // write 1 to 7-segment LED
+        io_out = 8b11111001;
+      4h2: // write 2 to 7-segment LED
+        io_out = 8b10100100;
+      4h3: // write 3 to 7-segment LED
+        io_out = 8b10110000;
+      4h4: // write 4 to 7-segment LED
+        io_out = 8b10011001;
+      4h5: // write 5 to 7-segment LED
+        io_out = 8b10010010;
+      4h6: // write 6 to 7-segment LED
+        io_out = 8b10000010;
+      4h7: // write 7 to 7-segment LED
+        io_out = 8b11111000;
+      4h8: // write 8 to 7-segment LED
+        io_out = 8b10000000;
+      4h9: // write 9 to 7-segment LED
+        io_out = 8b10011000;
+      4hA: // write A to 7-segment LED
+        io_out = 8b10001000;
+      4hB: // write B (actually b) to 7-segment LED
+        io_out = 8b10000011;
+      4hC: // write C to 7-segment LED
+        io_out = 8b11000110;
+      4hD: // write D (actually d) to 7-segment LED
+        io_out = 8b10100001;
+      4hE: // write E to 7-segment LED
+        io_out = 8b10000110;
+      4hF: // write F to 7-segment LED
+        io_out = 8b10001110;
+    }
+    
+    case (decimal) {
+      b1:
+        // write MSB of io_out to 0
+        // this turns on the decimal point on the 7-segment
+        io_out[7] = 0;
+    }
+  }
+}

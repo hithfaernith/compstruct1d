@@ -34,7 +34,7 @@ module au_top (
     led = 8hAA;             // turn LEDs off
     
     //io_led = 3x{{8h00}};    // turn LEDs off
-    io_seg = 7h0F;
+    io_seg = 8b10100100;
     io_sel = 4b1110; // select first digit
     
     io_led[1] = 8hFF;

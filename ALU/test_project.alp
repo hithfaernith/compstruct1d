@@ -10,6 +10,7 @@
     <src>seq_plus_vary.luc</src>
     <src>eight_bit_shiftleft.luc</src>
     <src>full_adder.luc</src>
+    <src>segment_decoder.luc</src>
     <src top="true">au_top.luc</src>
     <src>full_adder_ROM.luc</src>
     <src>eight_bit_adder.luc</src>
