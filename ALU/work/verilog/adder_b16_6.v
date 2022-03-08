@@ -4,12 +4,15 @@
    This is a temporary file and any changes made to it will be destroyed.
 */
 
-module adder_b16_5 (
+module adder_b16_6 (
     input [15:0] x,
     input [15:0] y,
-    input cin,
+    input subtract,
     output reg [15:0] s,
-    output reg cout
+    output reg cout,
+    output reg z,
+    output reg n,
+    output reg v
   );
   
   
@@ -23,7 +26,7 @@ module adder_b16_5 (
   genvar GEN_fulladder0;
   generate
   for (GEN_fulladder0=0;GEN_fulladder0<5'h10;GEN_fulladder0=GEN_fulladder0+1) begin: fulladder_gen_0
-    full_adder_7 fulladder (
+    full_adder_8 fulladder (
       .x(M_fulladder_x[GEN_fulladder0*(1)+(1)-1-:(1)]),
       .y(M_fulladder_y[GEN_fulladder0*(1)+(1)-1-:(1)]),
       .cin(M_fulladder_cin[GEN_fulladder0*(1)+(1)-1-:(1)]),
@@ -36,9 +39,24 @@ module adder_b16_5 (
   always @* begin
     M_fulladder_x = x;
     M_fulladder_y = y;
-    M_fulladder_cin[0+0-:1] = cin;
+    
+    case (subtract)
+      1'h1: begin
+        M_fulladder_y = ~y;
+      end
+    endcase
+    M_fulladder_cin[0+0-:1] = subtract;
     M_fulladder_cin[1+14-:15] = M_fulladder_cout[0+14-:15];
     s = M_fulladder_s;
     cout = M_fulladder_cout[15+0-:1];
+    n = M_fulladder_s[15+0-:1];
+    v = ((x[15+0-:1] & y[15+0-:1] & ~M_fulladder_s[15+0-:1]) | (~x[15+0-:1] & ~y[15+0-:1] & M_fulladder_s[15+0-:1]));
+    z = 1'h0;
+    
+    case (M_fulladder_s)
+      16'h0000: begin
+        z = 1'h1;
+      end
+    endcase
   end
 endmodule

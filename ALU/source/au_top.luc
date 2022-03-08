@@ -19,6 +19,7 @@ module au_top (
     reset_conditioner reset_cond;
     
     .rst(rst){
+      counter segment_counter(#SIZE(2), #DIV(10));
       counter slowclock(#SIZE(1), #DIV(26));
       counter medclock(#SIZE(1), #DIV(25));
     }
@@ -26,17 +27,17 @@ module au_top (
   
   // seq_plus_vary seqplusvary(.clk(slowclock.value), .rst(rst));
   // segment_test segment_tester(.clk(slowclock.value), .rst(rst));
-  sig write_val[16];
+  sig write_a[16];
   sig write_enable;
   sig a_value[16];
   
   dff_b16 reg_a(
-    .clk(medclock.value), .rst(rst), .write_val(write_val), 
+    .clk(medclock.value), .rst(rst), .write_val(write_a), 
     .write_enable(b1)
   );
   
   adder_b16 adder;
-  segment_decoder segment_display;
+  multi_segment segment_display(.clk(clk), .rst(rst));
   
   always {
     reset_cond.in = ~rst_n; // input raw inverted reset signal
@@ -44,28 +45,36 @@ module au_top (
     
     a_value = reg_a.out;
     adder.x = reg_a.out;
-    adder.y = 16h0000;
-    adder.cin = b1;
-    write_val = adder.s;
+    adder.y = 16h0001;
+    adder.subtract = b1;
+    write_a = adder.s;
     
     io_led[0] = adder.s[7:0];
     io_led[1] = adder.s[15:8];
-    segment_display.clk = clk;
-    segment_display.rst = rst;
-    segment_display.segment_no = 2d0;
-    segment_display.segment_digit = adder.s[3:0];
-    segment_display.clear = b0;
-    segment_display.decimal = b0;
-    io_sel = segment_display.io_sel;
-    io_seg = segment_display.io_out;
-        
+    segment_display.number = adder.s;
+    io_sel = 4b1111; // don't select any 7-segs by default
+    io_seg = 8hFF; // blank the target 7-seg by default
+    
+    case (segment_counter.value) {
+      2b00:
+        io_sel = 4b1110;
+        io_seg = segment_display.seg_out1;
+      2b01:
+        io_sel = 4b1101;
+        io_seg = segment_display.seg_out2;
+      2b10:
+        io_sel = 4b1011;
+        io_seg = segment_display.seg_out3;
+      2b11:
+        io_sel = 4b0111;
+        io_seg = segment_display.seg_out4;
+    }
+    
     usb_tx = usb_rx;        // loop serial port
     led = 8hAA;             // turn LEDs off
     
     // io_led = 3x{{8h00}};    // turn LEDs off
     // io_seg = 8b10100100;
     // io_sel = 4b1110; // select first digit
-    
-    io_led[1] = 8hFF;
   }
 }

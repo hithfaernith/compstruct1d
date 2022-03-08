@@ -4,7 +4,7 @@
    This is a temporary file and any changes made to it will be destroyed.
 */
 
-module dff_b16_4 (
+module dff_b16_5 (
     input clk,
     input rst,
     input [15:0] write_val,

@@ -20,13 +20,13 @@ module segment_decoder (
     io_sel = 4b1111;
     
     case (segment_no) {
-      2d0: // select first 7-segment LED
+      2d0: // select first 7-segment LED (rightmost)
         io_sel = 4b1110;
       2d1: // select second 7-segment LED
         io_sel = 4b1101;
       2d2: // select third 7-segment LED
         io_sel = 4b1011;
-      2d3: // select fouth 7-segment LED
+      2d3: // select fouth 7-segment LED (leftmost)
         io_sel = 4b0111;
     }
     

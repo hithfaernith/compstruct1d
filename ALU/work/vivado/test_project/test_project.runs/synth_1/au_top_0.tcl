@@ -84,13 +84,15 @@ set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_verilog -library xil_defaultlib {
-  /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/adder_b16_5.v
+  /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/adder_b16_6.v
   /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_2.v
   /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_3.v
-  /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/dff_b16_4.v
-  /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/full_adder_7.v
+  /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_4.v
+  /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/dff_b16_5.v
+  /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/full_adder_8.v
+  /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/multi_segment_7.v
   /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/reset_conditioner_1.v
-  /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/segment_decoder_6.v
+  /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/segment_decoder_9.v
   /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/au_top_0.v
 }
 OPTRACE "Adding files" END { }
