@@ -34,14 +34,80 @@ module au_top_0 (
     .rst(rst),
     .value(M_slowclock_value)
   );
+  wire [1-1:0] M_medclock_value;
+  counter_3 medclock (
+    .clk(clk),
+    .rst(rst),
+    .value(M_medclock_value)
+  );
+  
+  reg [15:0] write_val;
+  
+  reg write_enable;
+  
+  reg [15:0] a_value;
+  
+  wire [16-1:0] M_reg_a_out;
+  dff_b16_4 reg_a (
+    .clk(M_medclock_value),
+    .rst(rst),
+    .write_val(write_val),
+    .write_enable(1'h1),
+    .out(M_reg_a_out)
+  );
+  
+  wire [16-1:0] M_adder_s;
+  wire [1-1:0] M_adder_cout;
+  reg [16-1:0] M_adder_x;
+  reg [16-1:0] M_adder_y;
+  reg [1-1:0] M_adder_cin;
+  adder_b16_5 adder (
+    .x(M_adder_x),
+    .y(M_adder_y),
+    .cin(M_adder_cin),
+    .s(M_adder_s),
+    .cout(M_adder_cout)
+  );
+  
+  wire [4-1:0] M_segment_display_io_sel;
+  wire [8-1:0] M_segment_display_io_out;
+  reg [1-1:0] M_segment_display_clk;
+  reg [1-1:0] M_segment_display_rst;
+  reg [2-1:0] M_segment_display_segment_no;
+  reg [4-1:0] M_segment_display_segment_digit;
+  reg [1-1:0] M_segment_display_clear;
+  reg [1-1:0] M_segment_display_decimal;
+  segment_decoder_6 segment_display (
+    .clk(M_segment_display_clk),
+    .rst(M_segment_display_rst),
+    .segment_no(M_segment_display_segment_no),
+    .segment_digit(M_segment_display_segment_digit),
+    .clear(M_segment_display_clear),
+    .decimal(M_segment_display_decimal),
+    .io_sel(M_segment_display_io_sel),
+    .io_out(M_segment_display_io_out)
+  );
   
   always @* begin
     M_reset_cond_in = ~rst_n;
     rst = M_reset_cond_out;
+    a_value = M_reg_a_out;
+    M_adder_x = M_reg_a_out;
+    M_adder_y = 16'h0000;
+    M_adder_cin = 1'h1;
+    write_val = M_adder_s;
+    io_led[0+7-:8] = M_adder_s[0+7-:8];
+    io_led[8+7-:8] = M_adder_s[8+7-:8];
+    M_segment_display_clk = clk;
+    M_segment_display_rst = rst;
+    M_segment_display_segment_no = 2'h0;
+    M_segment_display_segment_digit = M_adder_s[0+3-:4];
+    M_segment_display_clear = 1'h0;
+    M_segment_display_decimal = 1'h0;
+    io_sel = M_segment_display_io_sel;
+    io_seg = M_segment_display_io_out;
     usb_tx = usb_rx;
     led = 8'haa;
-    io_seg = 8'ha4;
-    io_sel = 4'he;
     io_led[8+7-:8] = 8'hff;
   end
 endmodule
