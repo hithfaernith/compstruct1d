@@ -1,0 +1,29 @@
+module shifter (
+    input clk,  // clock
+    input rst,  // reset
+    input number[16],
+    input bits[4],
+    input activate,
+    input shift_type[2],
+    output out[16]
+  ) {
+
+  const LEFT_SHIFT = 2b10;
+  const RIGHT_SHIFT = 2b01;
+  const RIGHT_ARITH_SHIFT = 2b11;
+  
+  always {
+    out = number;
+    
+    if (activate) {
+      if (shift_type == LEFT_SHIFT) {
+        out = number << bits;
+      } else if (shift_type == RIGHT_SHIFT) {
+        out = number >> bits;
+      } else if (shift_type == RIGHT_ARITH_SHIFT) {
+        out = number >> bits;
+        out[15:16-bits] = 16h0000;
+      }
+    }
+  }
+}

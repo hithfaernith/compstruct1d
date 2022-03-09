@@ -28,11 +28,17 @@ module au_top (
   // seq_plus_vary seqplusvary(.clk(slowclock.value), .rst(rst));
   // segment_test segment_tester(.clk(slowclock.value), .rst(rst));
   sig write_a[16];
-  sig write_enable;
   sig a_value[16];
+  sig write_b[16];
+  sig b_value[16];
+  sig write_enable;
   
   dff_b16 reg_a(
     .clk(medclock.value), .rst(rst), .write_val(write_a), 
+    .write_enable(b1)
+  );
+  dff_b16 reg_b(
+    .clk(medclock.value), .rst(rst), .write_val(write_b), 
     .write_enable(b1)
   );
   

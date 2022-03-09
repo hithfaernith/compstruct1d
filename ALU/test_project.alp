@@ -2,16 +2,20 @@
 <project name="test_project" board="Alchitry Au" language="Lucid" version="3">
   <files>
     <src>fsm.luc</src>
+    <src>shifter_unit.luc</src>
     <component>counter.luc</component>
     <src>dff_b16.luc</src>
     <src>segment_test.luc</src>
+    <src>compare_unit.luc</src>
     <src>seq_plus_two.luc</src>
+    <src>boolean_unit.luc</src>
     <src>adder_b16.luc</src>
     <src>seq_plus_vary.luc</src>
     <src>eight_bit_shiftleft.luc</src>
     <src>full_adder.luc</src>
     <src>segment_decoder.luc</src>
     <src top="true">au_top.luc</src>
+    <src>shifter.luc</src>
     <src>full_adder_ROM.luc</src>
     <src>multi_segment.luc</src>
     <src>eight_bit_adder.luc</src>
