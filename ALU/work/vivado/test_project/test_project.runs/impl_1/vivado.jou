@@ -1,13 +1,13 @@
 #-----------------------------------------------------------
 # Vivado v2021.2 (64-bit)
-# SW Build 3367213 on Tue Oct 19 02:47:39 MDT 2021
+# SW Build 3367213 on Tue Oct 19 02:48:09 MDT 2021
 # IP Build 3369179 on Thu Oct 21 08:25:16 MDT 2021
-# Start of session at: Wed Mar  9 06:04:11 2022
-# Process ID: 1900813
-# Current directory: /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.runs/impl_1
-# Command line: vivado -log au_top_0.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source au_top_0.tcl -notrace
-# Log file: /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.runs/impl_1/au_top_0.vdi
-# Journal file: /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.runs/impl_1/vivado.jou
-# Running On: jormungandr, OS: Linux, CPU Frequency: 2200.000 MHz, CPU Physical cores: 12, Host memory: 84248 MB
+# Start of session at: Wed Mar  9 23:12:06 2022
+# Process ID: 8820
+# Current directory: C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.runs/impl_1
+# Command line: vivado.exe -log au_top_0.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source au_top_0.tcl -notrace
+# Log file: C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.runs/impl_1/au_top_0.vdi
+# Journal file: C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.runs/impl_1\vivado.jou
+# Running On: DESKTOP-C406UL4, OS: Windows, CPU Frequency: 2808 MHz, CPU Physical cores: 4, Host memory: 68597 MB
 #-----------------------------------------------------------
 source au_top_0.tcl -notrace

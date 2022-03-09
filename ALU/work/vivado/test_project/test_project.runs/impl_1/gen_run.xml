@@ -1,86 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="impl_1" LaunchPart="xc7a35tftg256-1" LaunchTime="1646777050">
-  <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
-  <File Type="BITSTR-SYSDEF" Name="au_top_0.sysdef"/>
-  <File Type="BITSTR-LTX" Name="debug_nets.ltx"/>
-  <File Type="BITSTR-LTX" Name="au_top_0.ltx"/>
-  <File Type="BG-BGN" Name="au_top_0.bgn"/>
-  <File Type="RNPI_FILE" Name="au_top_0.rnpi"/>
-  <File Type="BG-DRC" Name="au_top_0.drc"/>
-  <File Type="CFI_FILE" Name="au_top_0.cfi"/>
-  <File Type="RCFI_FILE" Name="au_top_0.rcfi"/>
-  <File Type="BITSTR-MMI" Name="au_top_0.mmi"/>
-  <File Type="BITSTR-BMM" Name="au_top_0_bd.bmm"/>
-  <File Type="BITSTR-NKY" Name="au_top_0.nky"/>
-  <File Type="BITSTR-RBT" Name="au_top_0.rbt"/>
-  <File Type="RBD_FILE" Name="au_top_0.rbd"/>
-  <File Type="BITSTR-MSK" Name="au_top_0.msk"/>
-  <File Type="NPI_FILE" Name="au_top_0.npi"/>
-  <File Type="BG-BIN" Name="au_top_0.bin"/>
-  <File Type="PDI-FILE" Name="au_top_0.pdi"/>
-  <File Type="BG-BIT" Name="au_top_0.bit"/>
-  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-RPX" Name="au_top_0_bus_skew_postroute_physopted.rpx"/>
-  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-PB" Name="au_top_0_bus_skew_postroute_physopted.pb"/>
-  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW" Name="au_top_0_bus_skew_postroute_physopted.rpt"/>
-  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="au_top_0_timing_summary_postroute_physopted.rpx"/>
-  <File Type="RDI-RDI" Name="au_top_0.vdi"/>
-  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="au_top_0_timing_summary_postroute_physopted.pb"/>
-  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="au_top_0_timing_summary_postroute_physopted.rpt"/>
-  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="au_top_0_postroute_physopt_bb.dcp"/>
-  <File Type="POSTROUTE-PHYSOPT-DCP" Name="au_top_0_postroute_physopt.dcp"/>
-  <File Type="ROUTE-BUS-SKEW" Name="au_top_0_bus_skew_routed.rpt"/>
-  <File Type="ROUTE-CLK" Name="au_top_0_clock_utilization_routed.rpt"/>
-  <File Type="ROUTE-SIMILARITY" Name="au_top_0_incremental_reuse_routed.rpt"/>
-  <File Type="ROUTE-TIMING-RPX" Name="au_top_0_timing_summary_routed.rpx"/>
-  <File Type="ROUTE-TIMING-PB" Name="au_top_0_timing_summary_routed.pb"/>
-  <File Type="ROUTE-TIMINGSUMMARY" Name="au_top_0_timing_summary_routed.rpt"/>
-  <File Type="ROUTE-STATUS-PB" Name="au_top_0_route_status.pb"/>
-  <File Type="ROUTE-STATUS" Name="au_top_0_route_status.rpt"/>
-  <File Type="PLACE-CTRL" Name="au_top_0_control_sets_placed.rpt"/>
-  <File Type="PLACE-UTIL-PB" Name="au_top_0_utilization_placed.pb"/>
-  <File Type="PLACE-UTIL" Name="au_top_0_utilization_placed.rpt"/>
-  <File Type="PLACE-CLK" Name="au_top_0_clock_utilization_placed.rpt"/>
-  <File Type="PLACE-IO" Name="au_top_0_io_placed.rpt"/>
-  <File Type="PLACE-DCP" Name="au_top_0_placed.dcp"/>
-  <File Type="PWROPT-DCP" Name="au_top_0_pwropt.dcp"/>
-  <File Type="OPT-TIMING" Name="au_top_0_timing_summary_opted.rpt"/>
-  <File Type="PLACE-PRE-SIMILARITY" Name="au_top_0_incremental_reuse_pre_placed.rpt"/>
-  <File Type="INIT-TIMING" Name="au_top_0_timing_summary_init.rpt"/>
-  <File Type="PLACE-SIMILARITY" Name="au_top_0_incremental_reuse_placed.rpt"/>
-  <File Type="PWROPT-DRC" Name="au_top_0_drc_pwropted.rpt"/>
-  <File Type="ROUTE-BUS-SKEW-RPX" Name="au_top_0_bus_skew_routed.rpx"/>
-  <File Type="REPORTS-TCL" Name="au_top_0_reports.tcl"/>
-  <File Type="ROUTE-BUS-SKEW-PB" Name="au_top_0_bus_skew_routed.pb"/>
-  <File Type="PA-TCL" Name="au_top_0.tcl"/>
-  <File Type="PWROPT-TIMING" Name="au_top_0_timing_summary_pwropted.rpt"/>
-  <File Type="ROUTE-DRC" Name="au_top_0_drc_routed.rpt"/>
-  <File Type="OPT-DCP" Name="au_top_0_opt.dcp"/>
-  <File Type="OPT-METHODOLOGY-DRC" Name="au_top_0_methodology_drc_opted.rpt"/>
-  <File Type="OPT-HWDEF" Name="au_top_0.hwdef"/>
-  <File Type="OPT-DRC" Name="au_top_0_drc_opted.rpt"/>
-  <File Type="PLACE-TIMING" Name="au_top_0_timing_summary_placed.rpt"/>
-  <File Type="ROUTE-DRC-PB" Name="au_top_0_drc_routed.pb"/>
-  <File Type="POSTPLACE-PWROPT-DCP" Name="au_top_0_postplace_pwropt.dcp"/>
-  <File Type="POSTPLACE-PWROPT-TIMING" Name="au_top_0_timing_summary_postplace_pwropted.rpt"/>
+<GenRun Id="impl_1" LaunchPart="xc7a35tftg256-1" LaunchTime="1646838718">
   <File Type="ROUTE-PWR" Name="au_top_0_power_routed.rpt"/>
+  <File Type="PA-TCL" Name="au_top_0.tcl"/>
+  <File Type="BITSTR-MMI" Name="au_top_0.mmi"/>
+  <File Type="OPT-METHODOLOGY-DRC" Name="au_top_0_methodology_drc_opted.rpt"/>
+  <File Type="INIT-TIMING" Name="au_top_0_timing_summary_init.rpt"/>
+  <File Type="ROUTE-PWR-SUM" Name="au_top_0_power_summary_routed.pb"/>
+  <File Type="REPORTS-TCL" Name="au_top_0_reports.tcl"/>
+  <File Type="OPT-TIMING" Name="au_top_0_timing_summary_opted.rpt"/>
+  <File Type="OPT-DCP" Name="au_top_0_opt.dcp"/>
+  <File Type="OPT-DRC" Name="au_top_0_drc_opted.rpt"/>
+  <File Type="OPT-HWDEF" Name="au_top_0.hwdef"/>
+  <File Type="PWROPT-DCP" Name="au_top_0_pwropt.dcp"/>
+  <File Type="PWROPT-DRC" Name="au_top_0_drc_pwropted.rpt"/>
+  <File Type="PWROPT-TIMING" Name="au_top_0_timing_summary_pwropted.rpt"/>
+  <File Type="PLACE-DCP" Name="au_top_0_placed.dcp"/>
+  <File Type="PLACE-IO" Name="au_top_0_io_placed.rpt"/>
+  <File Type="PLACE-CLK" Name="au_top_0_clock_utilization_placed.rpt"/>
+  <File Type="PLACE-UTIL" Name="au_top_0_utilization_placed.rpt"/>
+  <File Type="PLACE-UTIL-PB" Name="au_top_0_utilization_placed.pb"/>
+  <File Type="PLACE-CTRL" Name="au_top_0_control_sets_placed.rpt"/>
+  <File Type="PLACE-SIMILARITY" Name="au_top_0_incremental_reuse_placed.rpt"/>
+  <File Type="PLACE-PRE-SIMILARITY" Name="au_top_0_incremental_reuse_pre_placed.rpt"/>
+  <File Type="BG-BIN" Name="au_top_0.bin"/>
+  <File Type="PLACE-TIMING" Name="au_top_0_timing_summary_placed.rpt"/>
+  <File Type="POSTPLACE-PWROPT-DCP" Name="au_top_0_postplace_pwropt.dcp"/>
+  <File Type="BITSTR-MSK" Name="au_top_0.msk"/>
+  <File Type="POSTPLACE-PWROPT-TIMING" Name="au_top_0_timing_summary_postplace_pwropted.rpt"/>
   <File Type="PHYSOPT-DCP" Name="au_top_0_physopt.dcp"/>
   <File Type="PHYSOPT-DRC" Name="au_top_0_drc_physopted.rpt"/>
+  <File Type="BITSTR-RBT" Name="au_top_0.rbt"/>
   <File Type="PHYSOPT-TIMING" Name="au_top_0_timing_summary_physopted.rpt"/>
-  <File Type="ROUTE-PWR-SUM" Name="au_top_0_power_summary_routed.pb"/>
   <File Type="ROUTE-ERROR-DCP" Name="au_top_0_routed_error.dcp"/>
-  <File Type="ROUTE-DRC-RPX" Name="au_top_0_drc_routed.rpx"/>
   <File Type="ROUTE-DCP" Name="au_top_0_routed.dcp"/>
-  <File Type="ROUTE-METHODOLOGY-DRC" Name="au_top_0_methodology_drc_routed.rpt"/>
   <File Type="ROUTE-BLACKBOX-DCP" Name="au_top_0_routed_bb.dcp"/>
+  <File Type="ROUTE-DRC" Name="au_top_0_drc_routed.rpt"/>
+  <File Type="ROUTE-DRC-PB" Name="au_top_0_drc_routed.pb"/>
+  <File Type="ROUTE-DRC-RPX" Name="au_top_0_drc_routed.rpx"/>
+  <File Type="ROUTE-METHODOLOGY-DRC" Name="au_top_0_methodology_drc_routed.rpt"/>
   <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="au_top_0_methodology_drc_routed.rpx"/>
   <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="au_top_0_methodology_drc_routed.pb"/>
   <File Type="ROUTE-PWR-RPX" Name="au_top_0_power_routed.rpx"/>
+  <File Type="ROUTE-STATUS" Name="au_top_0_route_status.rpt"/>
+  <File Type="ROUTE-STATUS-PB" Name="au_top_0_route_status.pb"/>
+  <File Type="ROUTE-TIMINGSUMMARY" Name="au_top_0_timing_summary_routed.rpt"/>
+  <File Type="ROUTE-TIMING-PB" Name="au_top_0_timing_summary_routed.pb"/>
+  <File Type="ROUTE-TIMING-RPX" Name="au_top_0_timing_summary_routed.rpx"/>
+  <File Type="ROUTE-SIMILARITY" Name="au_top_0_incremental_reuse_routed.rpt"/>
+  <File Type="ROUTE-CLK" Name="au_top_0_clock_utilization_routed.rpt"/>
+  <File Type="ROUTE-BUS-SKEW" Name="au_top_0_bus_skew_routed.rpt"/>
+  <File Type="ROUTE-BUS-SKEW-PB" Name="au_top_0_bus_skew_routed.pb"/>
+  <File Type="ROUTE-BUS-SKEW-RPX" Name="au_top_0_bus_skew_routed.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-DCP" Name="au_top_0_postroute_physopt.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="au_top_0_postroute_physopt_bb.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="au_top_0_timing_summary_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="au_top_0_timing_summary_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="au_top_0_timing_summary_postroute_physopted.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW" Name="au_top_0_bus_skew_postroute_physopted.rpt"/>
+  <File Type="BG-BIT" Name="au_top_0.bit"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-PB" Name="au_top_0_bus_skew_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-RPX" Name="au_top_0_bus_skew_postroute_physopted.rpx"/>
+  <File Type="BITSTR-NKY" Name="au_top_0.nky"/>
+  <File Type="BITSTR-BMM" Name="au_top_0_bd.bmm"/>
+  <File Type="PDI-FILE" Name="au_top_0.pdi"/>
+  <File Type="RCFI_FILE" Name="au_top_0.rcfi"/>
+  <File Type="CFI_FILE" Name="au_top_0.cfi"/>
+  <File Type="RNPI_FILE" Name="au_top_0.rnpi"/>
+  <File Type="NPI_FILE" Name="au_top_0.npi"/>
+  <File Type="RBD_FILE" Name="au_top_0.rbd"/>
+  <File Type="BITSTR-LTX" Name="debug_nets.ltx"/>
+  <File Type="BITSTR-LTX" Name="au_top_0.ltx"/>
+  <File Type="BITSTR-SYSDEF" Name="au_top_0.sysdef"/>
+  <File Type="BG-BGN" Name="au_top_0.bgn"/>
+  <File Type="BG-DRC" Name="au_top_0.drc"/>
+  <File Type="RDI-RDI" Name="au_top_0.vdi"/>
+  <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PSRCDIR/sources_1/imports/verilog/adder_b16_6.v">
       <FileInfo>
         <Attr Name="ImportPath" Val="$PPRDIR/../../verilog/adder_b16_6.v"/>
-        <Attr Name="ImportTime" Val="1646777015"/>
+        <Attr Name="ImportTime" Val="1646838657"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -89,7 +89,7 @@
     <File Path="$PSRCDIR/sources_1/imports/verilog/counter_2.v">
       <FileInfo>
         <Attr Name="ImportPath" Val="$PPRDIR/../../verilog/counter_2.v"/>
-        <Attr Name="ImportTime" Val="1646777015"/>
+        <Attr Name="ImportTime" Val="1646838657"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -98,7 +98,7 @@
     <File Path="$PSRCDIR/sources_1/imports/verilog/counter_3.v">
       <FileInfo>
         <Attr Name="ImportPath" Val="$PPRDIR/../../verilog/counter_3.v"/>
-        <Attr Name="ImportTime" Val="1646777015"/>
+        <Attr Name="ImportTime" Val="1646838657"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -107,7 +107,7 @@
     <File Path="$PSRCDIR/sources_1/imports/verilog/counter_4.v">
       <FileInfo>
         <Attr Name="ImportPath" Val="$PPRDIR/../../verilog/counter_4.v"/>
-        <Attr Name="ImportTime" Val="1646777015"/>
+        <Attr Name="ImportTime" Val="1646838657"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -116,16 +116,16 @@
     <File Path="$PSRCDIR/sources_1/imports/verilog/dff_b16_5.v">
       <FileInfo>
         <Attr Name="ImportPath" Val="$PPRDIR/../../verilog/dff_b16_5.v"/>
-        <Attr Name="ImportTime" Val="1646777015"/>
+        <Attr Name="ImportTime" Val="1646838657"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PSRCDIR/sources_1/imports/verilog/full_adder_8.v">
+    <File Path="$PSRCDIR/sources_1/imports/verilog/full_adder_9.v">
       <FileInfo>
-        <Attr Name="ImportPath" Val="$PPRDIR/../../verilog/full_adder_8.v"/>
-        <Attr Name="ImportTime" Val="1646777015"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../verilog/full_adder_9.v"/>
+        <Attr Name="ImportTime" Val="1646838657"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -134,7 +134,7 @@
     <File Path="$PSRCDIR/sources_1/imports/verilog/multi_segment_7.v">
       <FileInfo>
         <Attr Name="ImportPath" Val="$PPRDIR/../../verilog/multi_segment_7.v"/>
-        <Attr Name="ImportTime" Val="1646777015"/>
+        <Attr Name="ImportTime" Val="1646838657"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -143,16 +143,25 @@
     <File Path="$PSRCDIR/sources_1/imports/verilog/reset_conditioner_1.v">
       <FileInfo>
         <Attr Name="ImportPath" Val="$PPRDIR/../../verilog/reset_conditioner_1.v"/>
-        <Attr Name="ImportTime" Val="1646777015"/>
+        <Attr Name="ImportTime" Val="1646838657"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PSRCDIR/sources_1/imports/verilog/segment_decoder_9.v">
+    <File Path="$PSRCDIR/sources_1/imports/verilog/segment_decoder_10.v">
       <FileInfo>
-        <Attr Name="ImportPath" Val="$PPRDIR/../../verilog/segment_decoder_9.v"/>
-        <Attr Name="ImportTime" Val="1646777015"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../verilog/segment_decoder_10.v"/>
+        <Attr Name="ImportTime" Val="1646838657"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/verilog/shifter_8.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../verilog/shifter_8.v"/>
+        <Attr Name="ImportTime" Val="1646838657"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -161,7 +170,7 @@
     <File Path="$PSRCDIR/sources_1/imports/verilog/au_top_0.v">
       <FileInfo>
         <Attr Name="ImportPath" Val="$PPRDIR/../../verilog/au_top_0.v"/>
-        <Attr Name="ImportTime" Val="1646777015"/>
+        <Attr Name="ImportTime" Val="1646838657"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -175,19 +184,19 @@
   </FileSet>
   <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1">
     <Filter Type="Constrs"/>
-    <File Path="$PPRDIR/../../constraint/io.xdc">
-      <FileInfo>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-      </FileInfo>
-    </File>
     <File Path="$PPRDIR/../../constraint/alchitry.xdc">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
       </FileInfo>
     </File>
-    <File Path="$PPRDIR/../../../../../alcrity/library/components/au.xdc">
+    <File Path="$PPRDIR/../../constraint/io.xdc">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../../../../../../../Program Files/Alchitry/Alchitry Labs/library/components/au.xdc">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>

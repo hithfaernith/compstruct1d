@@ -1,14 +1,14 @@
 #-----------------------------------------------------------
 # Vivado v2021.2 (64-bit)
-# SW Build 3367213 on Tue Oct 19 02:47:39 MDT 2021
+# SW Build 3367213 on Tue Oct 19 02:48:09 MDT 2021
 # IP Build 3369179 on Thu Oct 21 08:25:16 MDT 2021
-# Start of session at: Wed Mar  9 06:03:44 2022
-# Process ID: 1900140
-# Current directory: /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.runs/synth_1
-# Command line: vivado -log au_top_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source au_top_0.tcl
-# Log file: /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.runs/synth_1/au_top_0.vds
-# Journal file: /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.runs/synth_1/vivado.jou
-# Running On: jormungandr, OS: Linux, CPU Frequency: 2200.000 MHz, CPU Physical cores: 12, Host memory: 84248 MB
+# Start of session at: Wed Mar  9 23:11:10 2022
+# Process ID: 10340
+# Current directory: C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.runs/synth_1
+# Command line: vivado.exe -log au_top_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source au_top_0.tcl
+# Log file: C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.runs/synth_1/au_top_0.vds
+# Journal file: C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.runs/synth_1\vivado.jou
+# Running On: DESKTOP-C406UL4, OS: Windows, CPU Frequency: 2808 MHz, CPU Physical cores: 4, Host memory: 68597 MB
 #-----------------------------------------------------------
 source au_top_0.tcl -notrace
 Command: synth_design -top au_top_0 -part xc7a35tftg256-1
@@ -16,37 +16,40 @@ Starting synth_design
 Attempting to get a license for feature 'Synthesis' and/or device 'xc7a35t'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t'
 INFO: [Device 21-403] Loading part xc7a35tftg256-1
-INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 4 processes.
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 1900245
+INFO: [Synth 8-7075] Helper process launched with PID 15812
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:02 . Memory (MB): peak = 2596.945 ; gain = 0.000 ; free physical = 20702 ; free virtual = 66708
+Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 1243.121 ; gain = 0.000
 ---------------------------------------------------------------------------------
-INFO: [Synth 8-6157] synthesizing module 'au_top_0' [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/au_top_0.v:7]
-INFO: [Synth 8-6157] synthesizing module 'reset_conditioner_1' [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/reset_conditioner_1.v:11]
-INFO: [Synth 8-6155] done synthesizing module 'reset_conditioner_1' (1#1) [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/reset_conditioner_1.v:11]
-INFO: [Synth 8-6157] synthesizing module 'counter_2' [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_2.v:14]
-INFO: [Synth 8-6155] done synthesizing module 'counter_2' (2#1) [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_2.v:14]
-INFO: [Synth 8-6157] synthesizing module 'counter_3' [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_3.v:14]
-INFO: [Synth 8-6155] done synthesizing module 'counter_3' (3#1) [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_3.v:14]
-INFO: [Synth 8-6157] synthesizing module 'counter_4' [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_4.v:14]
-INFO: [Synth 8-6155] done synthesizing module 'counter_4' (4#1) [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_4.v:14]
-INFO: [Synth 8-6157] synthesizing module 'dff_b16_5' [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/dff_b16_5.v:7]
-INFO: [Synth 8-155] case statement is not full and has no default [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/dff_b16_5.v:24]
-INFO: [Synth 8-6155] done synthesizing module 'dff_b16_5' (5#1) [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/dff_b16_5.v:7]
-INFO: [Synth 8-6157] synthesizing module 'adder_b16_6' [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/adder_b16_6.v:7]
-INFO: [Synth 8-6157] synthesizing module 'full_adder_8' [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/full_adder_8.v:7]
-INFO: [Synth 8-6155] done synthesizing module 'full_adder_8' (6#1) [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/full_adder_8.v:7]
-INFO: [Synth 8-155] case statement is not full and has no default [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/adder_b16_6.v:43]
-INFO: [Synth 8-155] case statement is not full and has no default [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/adder_b16_6.v:56]
-INFO: [Synth 8-6155] done synthesizing module 'adder_b16_6' (7#1) [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/adder_b16_6.v:7]
-INFO: [Synth 8-6157] synthesizing module 'multi_segment_7' [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/multi_segment_7.v:7]
-INFO: [Synth 8-6157] synthesizing module 'segment_decoder_9' [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/segment_decoder_9.v:7]
-INFO: [Synth 8-155] case statement is not full and has no default [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/segment_decoder_9.v:39]
-INFO: [Synth 8-155] case statement is not full and has no default [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/segment_decoder_9.v:96]
-INFO: [Synth 8-6155] done synthesizing module 'segment_decoder_9' (8#1) [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/segment_decoder_9.v:7]
-INFO: [Synth 8-6155] done synthesizing module 'multi_segment_7' (9#1) [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/multi_segment_7.v:7]
-INFO: [Synth 8-6155] done synthesizing module 'au_top_0' (10#1) [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/au_top_0.v:7]
+INFO: [Synth 8-6157] synthesizing module 'au_top_0' [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/au_top_0.v:7]
+INFO: [Synth 8-6157] synthesizing module 'reset_conditioner_1' [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/reset_conditioner_1.v:11]
+INFO: [Synth 8-6155] done synthesizing module 'reset_conditioner_1' (1#1) [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/reset_conditioner_1.v:11]
+INFO: [Synth 8-6157] synthesizing module 'counter_2' [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_2.v:14]
+INFO: [Synth 8-6155] done synthesizing module 'counter_2' (2#1) [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_2.v:14]
+INFO: [Synth 8-6157] synthesizing module 'counter_3' [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_3.v:14]
+INFO: [Synth 8-6155] done synthesizing module 'counter_3' (3#1) [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_3.v:14]
+INFO: [Synth 8-6157] synthesizing module 'counter_4' [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_4.v:14]
+INFO: [Synth 8-6155] done synthesizing module 'counter_4' (4#1) [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_4.v:14]
+INFO: [Synth 8-6157] synthesizing module 'dff_b16_5' [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/dff_b16_5.v:7]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/dff_b16_5.v:24]
+INFO: [Synth 8-6155] done synthesizing module 'dff_b16_5' (5#1) [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/dff_b16_5.v:7]
+INFO: [Synth 8-6157] synthesizing module 'adder_b16_6' [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/adder_b16_6.v:7]
+INFO: [Synth 8-6157] synthesizing module 'full_adder_9' [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/full_adder_9.v:7]
+INFO: [Synth 8-6155] done synthesizing module 'full_adder_9' (6#1) [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/full_adder_9.v:7]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/adder_b16_6.v:43]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/adder_b16_6.v:56]
+INFO: [Synth 8-6155] done synthesizing module 'adder_b16_6' (7#1) [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/adder_b16_6.v:7]
+INFO: [Synth 8-6157] synthesizing module 'multi_segment_7' [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/multi_segment_7.v:7]
+INFO: [Synth 8-6157] synthesizing module 'segment_decoder_10' [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/segment_decoder_10.v:7]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/segment_decoder_10.v:39]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/segment_decoder_10.v:96]
+INFO: [Synth 8-6155] done synthesizing module 'segment_decoder_10' (8#1) [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/segment_decoder_10.v:7]
+INFO: [Synth 8-6155] done synthesizing module 'multi_segment_7' (9#1) [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/multi_segment_7.v:7]
+INFO: [Synth 8-6157] synthesizing module 'shifter_8' [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/shifter_8.v:7]
+INFO: [Synth 8-6155] done synthesizing module 'shifter_8' (10#1) [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/shifter_8.v:7]
+WARNING: [Synth 8-3848] Net write_b in module/entity au_top_0 does not have driver. [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/au_top_0.v:54]
+INFO: [Synth 8-6155] done synthesizing module 'au_top_0' (11#1) [C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/au_top_0.v:7]
 WARNING: [Synth 8-3917] design au_top_0 has port led[7] driven by constant 1
 WARNING: [Synth 8-3917] design au_top_0 has port led[6] driven by constant 0
 WARNING: [Synth 8-3917] design au_top_0 has port led[5] driven by constant 1
@@ -55,22 +58,16 @@ WARNING: [Synth 8-3917] design au_top_0 has port led[3] driven by constant 1
 WARNING: [Synth 8-3917] design au_top_0 has port led[2] driven by constant 0
 WARNING: [Synth 8-3917] design au_top_0 has port led[1] driven by constant 1
 WARNING: [Synth 8-3917] design au_top_0 has port led[0] driven by constant 0
-WARNING: [Synth 8-7129] Port clk in module segment_decoder_9 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port rst in module segment_decoder_9 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port clear in module segment_decoder_9 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port clk in module shifter_8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rst in module shifter_8 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port clk in module segment_decoder_10 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rst in module segment_decoder_10 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port clear in module segment_decoder_10 is either unconnected or has no load
 WARNING: [Synth 8-7129] Port io_button[4] in module au_top_0 is either unconnected or has no load
 WARNING: [Synth 8-7129] Port io_button[3] in module au_top_0 is either unconnected or has no load
 WARNING: [Synth 8-7129] Port io_button[2] in module au_top_0 is either unconnected or has no load
 WARNING: [Synth 8-7129] Port io_button[1] in module au_top_0 is either unconnected or has no load
 WARNING: [Synth 8-7129] Port io_button[0] in module au_top_0 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port io_dip[23] in module au_top_0 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port io_dip[22] in module au_top_0 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port io_dip[21] in module au_top_0 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port io_dip[20] in module au_top_0 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port io_dip[19] in module au_top_0 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port io_dip[18] in module au_top_0 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port io_dip[17] in module au_top_0 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port io_dip[16] in module au_top_0 is either unconnected or has no load
 WARNING: [Synth 8-7129] Port io_dip[15] in module au_top_0 is either unconnected or has no load
 WARNING: [Synth 8-7129] Port io_dip[14] in module au_top_0 is either unconnected or has no load
 WARNING: [Synth 8-7129] Port io_dip[13] in module au_top_0 is either unconnected or has no load
@@ -88,57 +85,57 @@ WARNING: [Synth 8-7129] Port io_dip[2] in module au_top_0 is either unconnected 
 WARNING: [Synth 8-7129] Port io_dip[1] in module au_top_0 is either unconnected or has no load
 WARNING: [Synth 8-7129] Port io_dip[0] in module au_top_0 is either unconnected or has no load
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2596.945 ; gain = 0.000 ; free physical = 20443 ; free virtual = 66450
+Finished RTL Elaboration : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 1243.121 ; gain = 0.000
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2596.945 ; gain = 0.000 ; free physical = 20434 ; free virtual = 66441
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 1243.121 ; gain = 0.000
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2596.945 ; gain = 0.000 ; free physical = 20434 ; free virtual = 66441
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 1243.121 ; gain = 0.000
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2596.945 ; gain = 0.000 ; free physical = 20426 ; free virtual = 66433
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.004 . Memory (MB): peak = 1243.121 ; gain = 0.000
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
 Initializing timing engine
-Parsing XDC File [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/constraint/io.xdc]
-Finished Parsing XDC File [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/constraint/io.xdc]
-INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/constraint/io.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/au_top_0_propImpl.xdc].
+Parsing XDC File [C:/SUTD/50.002/FPGA1D/ALU/work/constraint/alchitry.xdc]
+Finished Parsing XDC File [C:/SUTD/50.002/FPGA1D/ALU/work/constraint/alchitry.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/SUTD/50.002/FPGA1D/ALU/work/constraint/alchitry.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/au_top_0_propImpl.xdc].
 Resolution: To avoid this warning, move constraints listed in [.Xil/au_top_0_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
-Parsing XDC File [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/constraint/alchitry.xdc]
-Finished Parsing XDC File [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/constraint/alchitry.xdc]
-INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/constraint/alchitry.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/au_top_0_propImpl.xdc].
+Parsing XDC File [C:/SUTD/50.002/FPGA1D/ALU/work/constraint/io.xdc]
+Finished Parsing XDC File [C:/SUTD/50.002/FPGA1D/ALU/work/constraint/io.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/SUTD/50.002/FPGA1D/ALU/work/constraint/io.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/au_top_0_propImpl.xdc].
 Resolution: To avoid this warning, move constraints listed in [.Xil/au_top_0_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
-Parsing XDC File [/home/milselarch/SUTD/50-002/FPGA/alcrity/library/components/au.xdc]
-Finished Parsing XDC File [/home/milselarch/SUTD/50-002/FPGA/alcrity/library/components/au.xdc]
+Parsing XDC File [C:/Program Files/Alchitry/Alchitry Labs/library/components/au.xdc]
+Finished Parsing XDC File [C:/Program Files/Alchitry/Alchitry Labs/library/components/au.xdc]
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2660.855 ; gain = 0.000 ; free physical = 21284 ; free virtual = 67291
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1243.121 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2660.855 ; gain = 0.000 ; free physical = 21284 ; free virtual = 67291
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.004 . Memory (MB): peak = 1243.121 ; gain = 0.000
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2660.855 ; gain = 63.910 ; free physical = 21354 ; free virtual = 67360
+Finished Constraint Validation : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 1243.121 ; gain = 0.000
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a35tftg256-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2660.855 ; gain = 63.910 ; free physical = 21354 ; free virtual = 67360
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 1243.121 ; gain = 0.000
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2660.855 ; gain = 63.910 ; free physical = 21353 ; free virtual = 67360
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 1243.121 ; gain = 0.000
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 2660.855 ; gain = 63.910 ; free physical = 21346 ; free virtual = 67353
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 1243.121 ; gain = 0.000
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
@@ -147,10 +144,11 @@ Detailed RTL Component Info :
 +---XORs : 
 	   2 Input      1 Bit         XORs := 32    
 +---Registers : 
-	               16 Bit    Registers := 1     
+	               16 Bit    Registers := 2     
 	                4 Bit    Registers := 1     
 +---Muxes : 
-	   2 Input   16 Bit        Muxes := 1     
+	   2 Input   16 Bit        Muxes := 3     
+	   4 Input   16 Bit        Muxes := 1     
 	   4 Input    8 Bit        Muxes := 1     
 	   4 Input    4 Bit        Muxes := 5     
 ---------------------------------------------------------------------------------
@@ -177,27 +175,11 @@ WARNING: [Synth 8-3917] design au_top_0 has port led[3] driven by constant 1
 WARNING: [Synth 8-3917] design au_top_0 has port led[2] driven by constant 0
 WARNING: [Synth 8-3917] design au_top_0 has port led[1] driven by constant 1
 WARNING: [Synth 8-3917] design au_top_0 has port led[0] driven by constant 0
-WARNING: [Synth 8-7129] Port io_led[23] in module au_top_0 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port io_led[22] in module au_top_0 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port io_led[21] in module au_top_0 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port io_led[20] in module au_top_0 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port io_led[19] in module au_top_0 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port io_led[18] in module au_top_0 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port io_led[17] in module au_top_0 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port io_led[16] in module au_top_0 is either unconnected or has no load
 WARNING: [Synth 8-7129] Port io_button[4] in module au_top_0 is either unconnected or has no load
 WARNING: [Synth 8-7129] Port io_button[3] in module au_top_0 is either unconnected or has no load
 WARNING: [Synth 8-7129] Port io_button[2] in module au_top_0 is either unconnected or has no load
 WARNING: [Synth 8-7129] Port io_button[1] in module au_top_0 is either unconnected or has no load
 WARNING: [Synth 8-7129] Port io_button[0] in module au_top_0 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port io_dip[23] in module au_top_0 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port io_dip[22] in module au_top_0 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port io_dip[21] in module au_top_0 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port io_dip[20] in module au_top_0 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port io_dip[19] in module au_top_0 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port io_dip[18] in module au_top_0 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port io_dip[17] in module au_top_0 is either unconnected or has no load
-WARNING: [Synth 8-7129] Port io_dip[16] in module au_top_0 is either unconnected or has no load
 WARNING: [Synth 8-7129] Port io_dip[15] in module au_top_0 is either unconnected or has no load
 WARNING: [Synth 8-7129] Port io_dip[14] in module au_top_0 is either unconnected or has no load
 WARNING: [Synth 8-7129] Port io_dip[13] in module au_top_0 is either unconnected or has no load
@@ -215,25 +197,25 @@ WARNING: [Synth 8-7129] Port io_dip[2] in module au_top_0 is either unconnected 
 WARNING: [Synth 8-7129] Port io_dip[1] in module au_top_0 is either unconnected or has no load
 WARNING: [Synth 8-7129] Port io_dip[0] in module au_top_0 is either unconnected or has no load
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 2660.855 ; gain = 63.910 ; free physical = 21336 ; free virtual = 67347
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 1243.121 ; gain = 0.000
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2660.855 ; gain = 63.910 ; free physical = 21212 ; free virtual = 67226
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:24 ; elapsed = 00:00:25 . Memory (MB): peak = 1243.121 ; gain = 0.000
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:10 ; elapsed = 00:00:11 . Memory (MB): peak = 2660.855 ; gain = 63.910 ; free physical = 21209 ; free virtual = 67223
+Finished Timing Optimization : Time (s): cpu = 00:00:26 ; elapsed = 00:00:27 . Memory (MB): peak = 1243.121 ; gain = 0.000
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:10 ; elapsed = 00:00:11 . Memory (MB): peak = 2660.855 ; gain = 63.910 ; free physical = 21209 ; free virtual = 67223
+Finished Technology Mapping : Time (s): cpu = 00:00:26 ; elapsed = 00:00:27 . Memory (MB): peak = 1243.121 ; gain = 0.000
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -251,37 +233,37 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:13 ; elapsed = 00:00:13 . Memory (MB): peak = 2660.855 ; gain = 63.910 ; free physical = 21315 ; free virtual = 67334
+Finished IO Insertion : Time (s): cpu = 00:00:31 ; elapsed = 00:00:32 . Memory (MB): peak = 1243.121 ; gain = 0.000
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:13 ; elapsed = 00:00:13 . Memory (MB): peak = 2660.855 ; gain = 63.910 ; free physical = 21315 ; free virtual = 67334
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:31 ; elapsed = 00:00:32 . Memory (MB): peak = 1243.121 ; gain = 0.000
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:13 ; elapsed = 00:00:13 . Memory (MB): peak = 2660.855 ; gain = 63.910 ; free physical = 21315 ; free virtual = 67334
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:31 ; elapsed = 00:00:32 . Memory (MB): peak = 1243.121 ; gain = 0.000
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:13 ; elapsed = 00:00:13 . Memory (MB): peak = 2660.855 ; gain = 63.910 ; free physical = 21315 ; free virtual = 67334
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:31 ; elapsed = 00:00:32 . Memory (MB): peak = 1243.121 ; gain = 0.000
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:13 ; elapsed = 00:00:13 . Memory (MB): peak = 2660.855 ; gain = 63.910 ; free physical = 21315 ; free virtual = 67334
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:31 ; elapsed = 00:00:32 . Memory (MB): peak = 1243.121 ; gain = 0.000
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:13 ; elapsed = 00:00:13 . Memory (MB): peak = 2660.855 ; gain = 63.910 ; free physical = 21315 ; free virtual = 67334
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:31 ; elapsed = 00:00:32 . Memory (MB): peak = 1243.121 ; gain = 0.000
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -298,40 +280,39 @@ Report Cell Usage:
 |      |Cell   |Count |
 +------+-------+------+
 |1     |BUFG   |     1|
-|2     |CARRY4 |    10|
-|3     |LUT1   |     4|
-|4     |LUT2   |     7|
-|5     |LUT3   |     4|
-|6     |LUT4   |     4|
-|7     |LUT5   |    17|
-|8     |LUT6   |    26|
-|9     |FDRE   |    54|
+|2     |CARRY4 |     9|
+|3     |LUT1   |     3|
+|4     |LUT2   |     9|
+|5     |LUT3   |     9|
+|6     |LUT4   |    17|
+|7     |LUT5   |    35|
+|8     |LUT6   |    97|
+|9     |FDRE   |    49|
 |10    |FDSE   |     4|
-|11    |IBUF   |     3|
-|12    |OBUF   |    37|
-|13    |OBUFT  |     8|
+|11    |IBUF   |    11|
+|12    |OBUF   |    45|
 +------+-------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:13 ; elapsed = 00:00:13 . Memory (MB): peak = 2660.855 ; gain = 63.910 ; free physical = 21315 ; free virtual = 67334
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:31 ; elapsed = 00:00:32 . Memory (MB): peak = 1243.121 ; gain = 0.000
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 46 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 2660.855 ; gain = 0.000 ; free physical = 21368 ; free virtual = 67387
-Synthesis Optimization Complete : Time (s): cpu = 00:00:13 ; elapsed = 00:00:13 . Memory (MB): peak = 2660.855 ; gain = 63.910 ; free physical = 21368 ; free virtual = 67387
+Synthesis finished with 0 errors, 0 critical warnings and 30 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:22 ; elapsed = 00:00:30 . Memory (MB): peak = 1243.121 ; gain = 0.000
+Synthesis Optimization Complete : Time (s): cpu = 00:00:31 ; elapsed = 00:00:32 . Memory (MB): peak = 1243.121 ; gain = 0.000
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2660.855 ; gain = 0.000 ; free physical = 21456 ; free virtual = 67475
-INFO: [Netlist 29-17] Analyzing 10 Unisim elements for replacement
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.003 . Memory (MB): peak = 1246.629 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 9 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2660.855 ; gain = 0.000 ; free physical = 21398 ; free virtual = 67417
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1254.414 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Synth Design complete, checksum: dd4ea3de
+Synth Design complete, checksum: 1bd4d9fc
 INFO: [Common 17-83] Releasing license: Synthesis
-41 Infos, 86 Warnings, 0 Critical Warnings and 0 Errors encountered.
+43 Infos, 65 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:18 ; elapsed = 00:00:15 . Memory (MB): peak = 2660.855 ; gain = 64.031 ; free physical = 21598 ; free virtual = 67616
-INFO: [Common 17-1381] The checkpoint '/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.runs/synth_1/au_top_0.dcp' has been generated.
+synth_design: Time (s): cpu = 00:00:35 ; elapsed = 00:00:37 . Memory (MB): peak = 1254.414 ; gain = 11.293
+INFO: [Common 17-1381] The checkpoint 'C:/SUTD/50.002/FPGA1D/ALU/work/vivado/test_project/test_project.runs/synth_1/au_top_0.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file au_top_0_utilization_synth.rpt -pb au_top_0_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Wed Mar  9 06:04:06 2022...
+INFO: [Common 17-206] Exiting Vivado at Wed Mar  9 23:11:53 2022...

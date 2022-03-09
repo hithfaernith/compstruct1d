@@ -18,10 +18,10 @@ module au_top (
     // clock. This ensures the entire FPGA comes out of reset at the same time.
     reset_conditioner reset_cond;
     
-    .rst(rst){
+    .rst(rst) {
       counter segment_counter(#SIZE(2), #DIV(10));
       counter slowclock(#SIZE(1), #DIV(26));
-      counter medclock(#SIZE(1), #DIV(25));
+      counter medclock(#SIZE(1), #DIV(20));
     }
   }
   
@@ -44,6 +44,7 @@ module au_top (
   
   adder_b16 adder;
   multi_segment segment_display(.clk(clk), .rst(rst));
+  shifter bit_shifter(.clk(clk), .rst(rst));
   
   always {
     reset_cond.in = ~rst_n; // input raw inverted reset signal
@@ -51,13 +52,26 @@ module au_top (
     
     a_value = reg_a.out;
     adder.x = reg_a.out;
-    adder.y = 16h0001;
     adder.subtract = b1;
     write_a = adder.s;
     
-    io_led[0] = adder.s[7:0];
-    io_led[1] = adder.s[15:8];
-    segment_display.number = adder.s;
+    if (io_dip[2][0] == b1) {
+      adder.y = 16h0000; 
+    } else {
+      adder.y = 16h0001;
+    }
+    
+    // io_led[0] = adder.s[7:0];
+    // io_led[1] = adder.s[15:8];
+    io_led[0] = bit_shifter.out[7:0];
+    io_led[1] = bit_shifter.out[15:8];
+    io_led[2] = io_dip[2][7:0];
+    bit_shifter.number = adder.s[15:0];
+    bit_shifter.bits = io_dip[2][7:4];
+    bit_shifter.activate = b1;
+    bit_shifter.shift_type = io_dip[2][2:1];
+      
+    segment_display.number = bit_shifter.out;
     io_sel = 4b1111; // don't select any 7-segs by default
     io_seg = 8hFF; // blank the target 7-seg by default
     

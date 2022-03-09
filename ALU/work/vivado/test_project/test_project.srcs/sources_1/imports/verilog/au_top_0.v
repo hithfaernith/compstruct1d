@@ -49,9 +49,13 @@ module au_top_0 (
   
   reg [15:0] write_a;
   
-  reg write_enable;
-  
   reg [15:0] a_value;
+  
+  reg [15:0] write_b;
+  
+  reg [15:0] b_value;
+  
+  reg write_enable;
   
   wire [16-1:0] M_reg_a_out;
   dff_b16_5 reg_a (
@@ -60,6 +64,15 @@ module au_top_0 (
     .write_val(write_a),
     .write_enable(1'h1),
     .out(M_reg_a_out)
+  );
+  
+  wire [16-1:0] M_reg_b_out;
+  dff_b16_5 reg_b (
+    .clk(M_medclock_value),
+    .rst(rst),
+    .write_val(write_b),
+    .write_enable(1'h1),
+    .out(M_reg_b_out)
   );
   
   wire [16-1:0] M_adder_s;
@@ -96,17 +109,41 @@ module au_top_0 (
     .seg_out4(M_segment_display_seg_out4)
   );
   
+  wire [16-1:0] M_bit_shifter_out;
+  reg [16-1:0] M_bit_shifter_number;
+  reg [4-1:0] M_bit_shifter_bits;
+  reg [1-1:0] M_bit_shifter_activate;
+  reg [2-1:0] M_bit_shifter_shift_type;
+  shifter_8 bit_shifter (
+    .clk(clk),
+    .rst(rst),
+    .number(M_bit_shifter_number),
+    .bits(M_bit_shifter_bits),
+    .activate(M_bit_shifter_activate),
+    .shift_type(M_bit_shifter_shift_type),
+    .out(M_bit_shifter_out)
+  );
+  
   always @* begin
     M_reset_cond_in = ~rst_n;
     rst = M_reset_cond_out;
     a_value = M_reg_a_out;
     M_adder_x = M_reg_a_out;
-    M_adder_y = 16'h0001;
     M_adder_subtract = 1'h1;
     write_a = M_adder_s;
-    io_led[0+7-:8] = M_adder_s[0+7-:8];
-    io_led[8+7-:8] = M_adder_s[8+7-:8];
-    M_segment_display_number = M_adder_s;
+    if (io_dip[16+0+0-:1] == 1'h1) begin
+      M_adder_y = 16'h0000;
+    end else begin
+      M_adder_y = 16'h0001;
+    end
+    io_led[0+7-:8] = M_bit_shifter_out[0+7-:8];
+    io_led[8+7-:8] = M_bit_shifter_out[8+7-:8];
+    io_led[16+7-:8] = io_dip[16+0+7-:8];
+    M_bit_shifter_number = M_adder_s;
+    M_bit_shifter_bits = io_dip[16+4+3-:4];
+    M_bit_shifter_activate = 1'h1;
+    M_bit_shifter_shift_type = io_dip[16+1+1-:2];
+    M_segment_display_number = M_bit_shifter_out;
     io_sel = 4'hf;
     io_seg = 8'hff;
     
