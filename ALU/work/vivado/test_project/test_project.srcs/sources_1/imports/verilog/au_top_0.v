@@ -64,7 +64,7 @@ module au_top_0 (
   
   wire [16-1:0] M_reg_a_out;
   reg [16-1:0] M_reg_a_write_val;
-  dff_b16_6 reg_a (
+  register_6 reg_a (
     .clk(M_medclock_value),
     .rst(rst),
     .write_enable(1'h1),
@@ -74,7 +74,7 @@ module au_top_0 (
   
   wire [16-1:0] M_reg_b_out;
   reg [16-1:0] M_reg_b_write_val;
-  dff_b16_6 reg_b (
+  register_6 reg_b (
     .clk(M_medclock_value),
     .rst(rst),
     .write_enable(1'h1),
@@ -82,9 +82,9 @@ module au_top_0 (
     .out(M_reg_b_out)
   );
   
-  wire [16-1:0] M_alufn_out;
-  reg [16-1:0] M_alufn_write_val;
-  dff_b16_6 alufn (
+  wire [6-1:0] M_alufn_out;
+  reg [6-1:0] M_alufn_write_val;
+  register_7 alufn (
     .clk(M_medclock_value),
     .rst(rst),
     .write_enable(1'h1),
@@ -97,7 +97,7 @@ module au_top_0 (
   wire [8-1:0] M_segment_display_seg_out3;
   wire [8-1:0] M_segment_display_seg_out4;
   reg [16-1:0] M_segment_display_number;
-  multi_segment_7 segment_display (
+  multi_segment_8 segment_display (
     .clk(clk),
     .rst(rst),
     .number(M_segment_display_number),
@@ -115,7 +115,7 @@ module au_top_0 (
   reg [16-1:0] M_adder_unit_x;
   reg [16-1:0] M_adder_unit_y;
   reg [1-1:0] M_adder_unit_subtract;
-  adder_b16_8 adder_unit (
+  adder_b16_9 adder_unit (
     .x(M_adder_unit_x),
     .y(M_adder_unit_y),
     .subtract(M_adder_unit_subtract),

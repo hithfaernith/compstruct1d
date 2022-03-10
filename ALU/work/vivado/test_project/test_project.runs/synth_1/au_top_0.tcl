@@ -84,17 +84,18 @@ set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_verilog -library xil_defaultlib {
-  C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/adder_b16_8.v
+  C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/adder_b16_9.v
   C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/button_conditioner_2.v
   C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_3.v
   C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_4.v
   C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_5.v
-  C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/dff_b16_6.v
-  C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/full_adder_11.v
-  C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/multi_segment_7.v
-  C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/pipeline_9.v
+  C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/full_adder_12.v
+  C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/multi_segment_8.v
+  C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/pipeline_10.v
+  C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/register_6.v
+  C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/register_7.v
   C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/reset_conditioner_1.v
-  C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/segment_decoder_10.v
+  C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/segment_decoder_11.v
   C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/au_top_0.v
 }
 OPTRACE "Adding files" END { }

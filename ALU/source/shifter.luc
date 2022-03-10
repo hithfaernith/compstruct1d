@@ -11,8 +11,6 @@ module shifter (
   
   always {
     out = number;
-    
-
       if (shift_type == LEFT_SHIFT) {
         out = number << bits;
       } else if (shift_type == RIGHT_SHIFT) {

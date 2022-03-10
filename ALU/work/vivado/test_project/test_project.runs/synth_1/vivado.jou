@@ -2,8 +2,8 @@
 # Vivado v2021.2.1 (64-bit)
 # SW Build 3414424 on Sun Dec 19 10:57:22 MST 2021
 # IP Build 3405791 on Sun Dec 19 15:54:35 MST 2021
-# Start of session at: Thu Mar 10 14:56:05 2022
-# Process ID: 15640
+# Start of session at: Thu Mar 10 16:09:31 2022
+# Process ID: 16876
 # Current directory: C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.runs/synth_1
 # Command line: vivado.exe -log au_top_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source au_top_0.tcl
 # Log file: C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.runs/synth_1/au_top_0.vds

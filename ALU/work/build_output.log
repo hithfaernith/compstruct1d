@@ -4,8 +4,9 @@ Warnings in file C:\Users\jitth\Desktop\compstruct1d\ALU\source\segment_test.luc
 Warnings in file C:\Users\jitth\Desktop\compstruct1d\ALU\source\fsm.luc:
     Line 1, Column 7 : The module name "fsk" doesn't match the file name "fsm"
 Warnings in file C:\Users\jitth\Desktop\compstruct1d\ALU\source\au_top.luc:
-    Line 33, Column 2 : "b_value" was never used
+    Line 84, Column 26 : The signal "adder_unit.s" is wider than "alufn.write_val" and the most significant bits will be dropped
     Line 25, Column 6 : "slowclock" was never used
+    Line 33, Column 2 : "b_value" was never used
 Warnings in file C:\Users\jitth\Desktop\compstruct1d\ALU\source\segment_decoder.luc:
     Line 3, Column 4 : "rst" was never used
     Line 2, Column 4 : "clk" was never used
@@ -24,7 +25,7 @@ source {C:\Users\jitth\Desktop\compstruct1d\ALU\work\project.tcl}
 # if {[file exists "$projDir/$projName"]} { file delete -force "$projDir/$projName" }
 # create_project $projName "$projDir/$projName" -part $device
 # set_property design_mode RTL [get_filesets sources_1]
-# set verilogSources [list "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/au_top_0.v" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/reset_conditioner_1.v" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/button_conditioner_2.v" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/counter_3.v" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/counter_4.v" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/counter_5.v" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/dff_b16_6.v" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/multi_segment_7.v" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/adder_b16_8.v" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/pipeline_9.v" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/segment_decoder_10.v" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/full_adder_11.v" ]
+# set verilogSources [list "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/au_top_0.v" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/reset_conditioner_1.v" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/button_conditioner_2.v" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/counter_3.v" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/counter_4.v" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/counter_5.v" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/register_6.v" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/register_7.v" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/multi_segment_8.v" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/adder_b16_9.v" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/pipeline_10.v" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/segment_decoder_11.v" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/verilog/full_adder_12.v" ]
 # import_files -fileset [get_filesets sources_1] -force -norecurse $verilogSources
 # set xdcSources [list "C:/Users/jitth/Desktop/compstruct1d/ALU/work/constraint/alchitry.xdc" "C:/Users/jitth/Desktop/compstruct1d/ALU/work/constraint/io.xdc" "C:/Program\ Files/Alchitry/Alchitry\ Labs/library/components/au.xdc" ]
 # read_xdc $xdcSources
@@ -32,10 +33,10 @@ source {C:\Users\jitth\Desktop\compstruct1d\ALU\work\project.tcl}
 # update_compile_order -fileset sources_1
 # launch_runs -runs synth_1 -jobs 12
 WARNING: [Vivado 12-7122] Auto Incremental Compile:: No reference checkpoint was found in run synth_1. Auto-incremental flow will not be run, the standard flow will be run instead.
-[Thu Mar 10 14:56:02 2022] Launched synth_1...
+[Thu Mar 10 16:09:29 2022] Launched synth_1...
 Run output will be captured here: C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.runs/synth_1/runme.log
 # wait_on_run synth_1
-[Thu Mar 10 14:56:02 2022] Waiting for synth_1 to finish...
+[Thu Mar 10 16:09:29 2022] Waiting for synth_1 to finish...
 
 
 *** Running vivado
@@ -56,12 +57,12 @@ INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t
 INFO: [Device 21-403] Loading part xc7a35tftg256-1
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 13936
+INFO: [Synth 8-7075] Helper process launched with PID 8180
 ERROR: [Common 17-70] Application Exception: Failed to launch run 'impl_1' due to failures in the following run(s):
+ERROR: [Synth 8-1749] cannot have packed dimensions of type integer [C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/au_top_0.v:61]
 synth_1
 These failed run(s) need to be reset prior to launching 'impl_1' again.
 
-ERROR: [Synth 8-1749] cannot have packed dimensions of type integer [C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/au_top_0.v:61]
 ERROR: [Synth 8-1749] cannot have packed dimensions of type integer [C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/au_top_0.v:63]
 INFO: [Synth 8-2350] module au_top_0 ignored due to previous errors [C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/au_top_0.v:7]
 Failed to read verilog 'C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/au_top_0.v'
@@ -69,12 +70,12 @@ INFO: [Common 17-83] Releasing license: Synthesis
 7 Infos, 0 Warnings, 0 Critical Warnings and 3 Errors encountered.
 synth_design failed
 ERROR: [Common 17-69] Command failed: Synthesis failed - please see the console or run log file for details
-INFO: [Common 17-206] Exiting Vivado at Thu Mar 10 14:56:14 2022...
-[Thu Mar 10 14:56:17 2022] synth_1 finished
+INFO: [Common 17-206] Exiting Vivado at Thu Mar 10 16:09:41 2022...
+[Thu Mar 10 16:09:44 2022] synth_1 finished
 WARNING: [Vivado 12-8222] Failed run(s) : 'synth_1'
-wait_on_runs: Time (s): cpu = 00:00:00 ; elapsed = 00:00:15 . Memory (MB): peak = 1260.246 ; gain = 0.000
+wait_on_runs: Time (s): cpu = 00:00:00 ; elapsed = 00:00:15 . Memory (MB): peak = 1260.727 ; gain = 0.000
 # launch_runs impl_1 -to_step write_bitstream -jobs 12
-INFO: [Common 17-206] Exiting Vivado at Thu Mar 10 14:56:17 2022...
+INFO: [Common 17-206] Exiting Vivado at Thu Mar 10 16:09:44 2022...
 Vivado exited.
 
 Bin file (C:\Users\jitth\Desktop\compstruct1d\ALU\work\vivado\test_project\test_project.runs\impl_1\au_top_0.bin) could not be found! The build probably failed.

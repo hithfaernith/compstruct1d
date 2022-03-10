@@ -2,8 +2,8 @@
 # Vivado v2021.2.1 (64-bit)
 # SW Build 3414424 on Sun Dec 19 10:57:22 MST 2021
 # IP Build 3405791 on Sun Dec 19 15:54:35 MST 2021
-# Start of session at: Thu Mar 10 14:56:05 2022
-# Process ID: 15640
+# Start of session at: Thu Mar 10 16:09:31 2022
+# Process ID: 16876
 # Current directory: C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.runs/synth_1
 # Command line: vivado.exe -log au_top_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source au_top_0.tcl
 # Log file: C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.runs/synth_1/au_top_0.vds
@@ -18,7 +18,7 @@ INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t
 INFO: [Device 21-403] Loading part xc7a35tftg256-1
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 13936
+INFO: [Synth 8-7075] Helper process launched with PID 8180
 ERROR: [Synth 8-1749] cannot have packed dimensions of type integer [C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/au_top_0.v:61]
 ERROR: [Synth 8-1749] cannot have packed dimensions of type integer [C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/au_top_0.v:63]
 INFO: [Synth 8-2350] module au_top_0 ignored due to previous errors [C:/Users/jitth/Desktop/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/au_top_0.v:7]
@@ -27,4 +27,4 @@ INFO: [Common 17-83] Releasing license: Synthesis
 7 Infos, 0 Warnings, 0 Critical Warnings and 3 Errors encountered.
 synth_design failed
 ERROR: [Common 17-69] Command failed: Synthesis failed - please see the console or run log file for details
-INFO: [Common 17-206] Exiting Vivado at Thu Mar 10 14:56:14 2022...
+INFO: [Common 17-206] Exiting Vivado at Thu Mar 10 16:09:41 2022...
