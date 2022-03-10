@@ -1,6 +1,4 @@
 module compare_unit (
-    input clk,  // clock
-    input rst,  // reset
     input z,
     input v,
     input n,

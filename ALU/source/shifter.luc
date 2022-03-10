@@ -1,9 +1,6 @@
 module shifter (
-    input clk,  // clock
-    input rst,  // reset
     input number[16],
     input bits[4],
-    input activate,
     input shift_type[2],
     output out[16]
   ) {
@@ -11,66 +8,19 @@ module shifter (
   const LEFT_SHIFT = 2b10;
   const RIGHT_SHIFT = 2b01;
   const RIGHT_ARITH_SHIFT = 2b11;
-  var bit_mask, right_shifted;
   
   always {
-    case (bits) {
-      4hF:
-      	  bit_mask = 16hFFFE;
-      4hE:
-      	  bit_mask = 16hFFFC;
-      4hD:
-      	  bit_mask = 16hFFF8;
-      4hC:
-      	  bit_mask = 16hFFF0;
-      4hB:
-      	  bit_mask = 16hFFE0;
-      4hA:
-      	  bit_mask = 16hFFC0;
-      4h9:
-      	  bit_mask = 16hFF80;
-      4h8:
-      	  bit_mask = 16hFF00;
-      4h7:
-      	  bit_mask = 16hFE00;
-      4h6:
-      	  bit_mask = 16hFC00;
-      4h5:
-      	  bit_mask = 16hF800;
-      4h4:
-      	  bit_mask = 16hF000;
-      4h3:
-      	  bit_mask = 16hE000;
-      4h2:
-      	  bit_mask = 16hC000;
-      4h1:
-        bit_mask = 16h8000;
-      default:
-        // if we reach here it means the bits to shift by is 0
-        // consider the two cases where the bit bit_mask:
-        // MSB = 1: 
-        bit_mask = 16hFFFF;
-    }
-    
     out = number;
     
-    if (activate) {
+
       if (shift_type == LEFT_SHIFT) {
         out = number << bits;
       } else if (shift_type == RIGHT_SHIFT) {
         out = number >> bits;
       } else if (shift_type == RIGHT_ARITH_SHIFT) {
-        right_shifted = number >> bits;
-        if (number[15] == b1) {
-          // if MSB is 1, pad leftmost bits with 1
-          // if MSB is 1, pad leftmost 1's with | operator
-          out = right_shifted & bit_mask;
-        } else {
-          // if MSB is 0, pad leftmost bits with 0
-          // if MSB is 0, pad leftmost 0's with & operator
-          out = right_shifted | ~bit_mask;
-        }
+        out = $signed(number) >>> bits;
+
       }
     }
   }
-}
+

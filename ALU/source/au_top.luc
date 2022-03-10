@@ -17,6 +17,8 @@ module au_top (
     // The reset conditioner is used to synchronize the reset signal to the FPGA
     // clock. This ensures the entire FPGA comes out of reset at the same time.
     reset_conditioner reset_cond;
+    button_conditioner btn_cond;
+    // edge_detector edge (#RISE(1), #FALL(0));
     
     .rst(rst) {
       counter segment_counter(#SIZE(2), #DIV(10));
@@ -27,51 +29,62 @@ module au_top (
   
   // seq_plus_vary seqplusvary(.clk(slowclock.value), .rst(rst));
   // segment_test segment_tester(.clk(slowclock.value), .rst(rst));
-  sig write_a[16];
   sig a_value[16];
-  sig write_b[16];
-  sig b_value[16];
-  sig write_enable;
+  sig b_value[16];  
   
-  dff_b16 reg_a(
-    .clk(medclock.value), .rst(rst), .write_val(write_a), 
-    .write_enable(b1)
+  var display_number[16];
+  var display_select[2];
+  
+  register reg_a(
+    #SIZE(16), .clk(medclock.value), .rst(rst), .write_enable(b1)
   );
-  dff_b16 reg_b(
-    .clk(medclock.value), .rst(rst), .write_val(write_b), 
-    .write_enable(b1)
+  register reg_b(
+    #SIZE(16), .clk(medclock.value), .rst(rst), .write_enable(b1)
+  );
+  register alufn(
+    #SIZE(6), .clk(medclock.value), .rst(rst), .write_enable(b1)
   );
   
-  adder_b16 adder;
   multi_segment segment_display(.clk(clk), .rst(rst));
-  shifter bit_shifter(.clk(clk), .rst(rst));
+  adder_b16 adder_unit;
   
   always {
+    btn_cond.in = io_button[4];
     reset_cond.in = ~rst_n; // input raw inverted reset signal
-    rst = reset_cond.out;   // conditioned reset
-    
+    rst = reset_cond.out | btn_cond.out;   // conditioned reset
+    // next values of reg_a, reg_b, and alufn are current values by default
+    reg_a.write_val = reg_a.out;
+    reg_b.write_val = reg_b.out;
+    alufn.write_val = alufn.out;
+
     a_value = reg_a.out;
-    adder.x = reg_a.out;
-    adder.subtract = b1;
-    write_a = adder.s;
+    
+    // assign 3 arrays of 8 bits of zeros to io_leds
+    // i.e. turn off all the leds by default
+    io_led = 3x{{8h0000}};
+    display_number = 16h0000;
+    display_select = io_dip[2][7:6];
+    adder_unit.x = display_number;
+    adder_unit.y = 16h0000;
+    adder_unit.subtract = b1;
     
     if (io_dip[2][0] == b1) {
-      adder.y = 16h0000; 
-    } else {
-      adder.y = 16h0001;
+      adder_unit.y = 16h0001;
     }
     
-    // io_led[0] = adder.s[7:0];
-    // io_led[1] = adder.s[15:8];
-    io_led[0] = bit_shifter.out[7:0];
-    io_led[1] = bit_shifter.out[15:8];
-    io_led[2] = io_dip[2][7:0];
-    bit_shifter.number = adder.s[15:0];
-    bit_shifter.bits = io_dip[2][7:4];
-    bit_shifter.activate = b1;
-    bit_shifter.shift_type = io_dip[2][2:1];
-      
-    segment_display.number = bit_shifter.out;
+    case (display_select) {
+      2b00: 
+        display_number = reg_a.out;
+        reg_a.write_val = adder_unit.s;
+      2b01: 
+        display_number = reg_b.out;
+        reg_b.write_val = adder_unit.s;
+      2b10: 
+        display_number = alufn.out;
+        alufn.write_val = adder_unit.s;
+    }
+        
+    segment_display.number = display_number;
     io_sel = 4b1111; // don't select any 7-segs by default
     io_seg = 8hFF; // blank the target 7-seg by default
     

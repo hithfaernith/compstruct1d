@@ -1,10 +1,8 @@
 module boolean_unit (
-    input clk,  // clock
-    input rst,  // reset
     input a[16],
     input b[16],
     input alufn[6],
-    output out
+    output out[16]
   ) {
 
   always {
@@ -12,8 +10,8 @@ module boolean_unit (
     case (alufn[3:0]) {
       4b1000: out = a & b; // operation AND
       4b1110: out = a | b; // operation OR
-      4b1000: out = a ^ b; // operation XOR
-      4b1000: out = a; // operation "A"
+      4b0110: out = a ^ b; // operation XOR
+      4b1010: out = a; // operation "A"
     }
   }
 }
