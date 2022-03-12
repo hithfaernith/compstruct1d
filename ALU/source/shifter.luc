@@ -4,21 +4,81 @@ module shifter (
     input shift_type[2],
     output out[16]
   ) {
+  
+  const LEFT_SHIFT = 2b00;
+  const RIGHT_SHIFT = 2b01;
+  const LEFT_ARITH_SHIFT = 2b10;
+  const RIGHT_ARITH_SHIFT = 2b11;
+  
+  const FILL_WITH_ONES = 16hFFFF;
 
+  /*
   const LEFT_SHIFT = 2b10;
   const RIGHT_SHIFT = 2b01;
   const RIGHT_ARITH_SHIFT = 2b11;
+  */
   
   always {
     out = number;
-      if (shift_type == LEFT_SHIFT) {
+    case (shift_type) {
+      LEFT_SHIFT:
         out = number << bits;
-      } else if (shift_type == RIGHT_SHIFT) {
+      RIGHT_SHIFT:
         out = number >> bits;
-      } else if (shift_type == RIGHT_ARITH_SHIFT) {
-        out = $signed(number) >>> bits;
-
+      LEFT_ARITH_SHIFT:
+        out = number <<< bits;
+      RIGHT_ARITH_SHIFT:
+        out = number >>> bits;
+        
+        /**
+         * their '>>>' operator doesn't seem to work properly
+         * (seems to just act as a logical right shift) so
+         * let's just do this the old-fashioned way
+         */
+        if (number[15])
+          case (bits) {
+            1: out[15:14] = FILL_WITH_ONES;
+            2: out[15:13] = FILL_WITH_ONES;
+            3: out[15:12] = FILL_WITH_ONES;
+            4: out[15:11] = FILL_WITH_ONES;
+            5: out[15:10] = FILL_WITH_ONES;
+            6: out[15:9] = FILL_WITH_ONES;
+            7: out[15:8] = FILL_WITH_ONES;
+            8: out[15:7] = FILL_WITH_ONES;
+            9: out[15:6] = FILL_WITH_ONES;
+            10: out[15:5] = FILL_WITH_ONES;
+            11: out[15:4] = FILL_WITH_ONES;
+            12: out[15:3] = FILL_WITH_ONES;
+            13: out[15:2] = FILL_WITH_ONES;
+            14: out[15:1] = FILL_WITH_ONES;
+            15: out[15:0] = FILL_WITH_ONES;
+          }
       }
     }
   }
+
+
+        /**
+         * their '>>>' operator doesnt seem to work as expected,
+         * so we do this the old-fashioned way. '= 16hFFFF' for
+         * every case might be more efficient depending on the
+         * compiler's optimizations but it involes truncation so
+         * ehh nvm
+         */
+/*
+            1: out[15:14] = 2b11;
+            2: out[15:13] = 3b111;
+            3: out[15:12] = 4b1111;
+            4: out[15:11] = 5b11111;
+            5: out[15:10] = 6b111111;
+            6: out[15:9] = 7b1111111;
+            7: out[15:8] = 8b11111111;
+            8: out[15:7] = 9b111111111;
+            9: out[15:6] = 10b1111111111;
+            10: out[15:5] = 11b11111111111;
+            11: out[15:4] = 12b111111111111;
+            12: out[15:3] = 13b1111111111111;
+            13: out[15:2] = 14b11111111111111;
+            14: out[15:1] = 15b111111111111111;
+            15: out[15:0] = 16b1111111111111111;*/
 

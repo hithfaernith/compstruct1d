@@ -26,14 +26,16 @@ module adder_b16 (
     // overflow (v) happens when x and y have the same MSB
     // but the output MSB is different
     v = (
-      (x[15] & y[15] & ~fulladder.s[15]) |
-      (~x[15] & ~y[15] & fulladder.s[15])
+      (x[15] & (y[15] ^ subtract) & ~fulladder.s[15]) |
+      (~x[15] & ~(y[15] ^ subtract) & fulladder.s[15])
     );
+    
+    // (~S31 . A31 . (ALUFN0 xor B31)) + (~(ALUFN0 xor B31) . ~A31 . S31)
   
     z = b0;
     // z is 1 when output (s) is 0 
-    case (fulladder.s) {
-      16h0000: z = b1;
+    if (fulladder.s == 16h0000) {
+      z = b1;
     }
   }
 }

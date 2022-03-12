@@ -1,0 +1,14 @@
+module passthrough_switch (
+    input passthrough,
+    input in,
+    output out
+  ) {
+
+  always {
+    if (passthrough) {
+      out = in;
+    } else {
+      out = 0;
+    }  
+  }
+}

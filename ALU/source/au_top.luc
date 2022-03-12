@@ -12,6 +12,74 @@ module au_top (
   ) {
   
   sig rst;                  // reset signal
+  sig manual_input[16];
+  
+  .clk(clk) {
+    // The reset conditioner is used to synchronize the reset signal to the FPGA
+    // clock. This ensures the entire FPGA comes out of reset at the same time.
+    reset_conditioner reset_cond;
+    button_conditioner btn_cond;
+    
+    button_conditioner corrupt_button(.in(io_button[1]));
+    button_conditioner manual_reset_button(.in(io_button[2]));
+    button_conditioner manual_step_button(.in(io_button[3]));
+    
+    .rst(rst) {
+      counter segment_counter(#SIZE(2), #DIV(10));
+      counter slowclock(#SIZE(1), #DIV(26));
+      counter medclock(#SIZE(1), #DIV(20));
+      
+      blinker blink(#MAX_VALUE(25000000));
+      
+      manual_alu malu(.in(manual_input), .confirm(manual_step_button.out));
+    }
+  }
+  
+  // seq_plus_vary seqplusvary(.clk(slowclock.value), .rst(rst));
+  // segment_test segment_tester(.clk(slowclock.value), .rst(rst));
+  tester test(.clk(slowclock.value), .rst(rst), .corrupt(corrupt_button.out), .man_reset(manual_reset_button.out));
+  
+  always {
+    btn_cond.in = io_button[4];
+    reset_cond.in = ~rst_n; // input raw inverted reset signal
+    rst = reset_cond.out | btn_cond.out;   // conditioned reset_cond
+    
+    led = malu.state_display;
+    
+    manual_input[7:0] = io_dip[0];
+    manual_input[15:8] = io_dip[1];
+    
+    //io_led[0] = test.alu_display[7:0];
+    //io_led[1] = test.alu_display[15:8];
+    io_led[0] = malu.out[7:0];
+    io_led[1] = malu.out[15:8];
+    io_led[2] = test.out;
+    
+    
+    
+    io_seg = 0;
+    io_sel = 0;
+    
+    usb_tx = usb_rx;        // loop serial port
+    
+  }
+}
+
+/*
+module au_top (
+    input clk,              // 100MHz clock
+    input rst_n,            // reset button (active low)
+    output led[8],         // 8 user controllable LEDs
+    input usb_rx,           // USB->Serial input
+    output usb_tx,          // USB->Serial output
+    output io_led [3][8],   // LEDs on IO Shield
+    output io_seg [8],      // 7-segment LEDs on IO Shield
+    output io_sel [4],      // Digit select on IO Shield
+    input io_button [5],    // 5 buttons on IO Shield
+    input io_dip [3][8]     // DIP switches on IO Shield
+  ) {
+  
+  sig rst;                  // reset signal
   
   .clk(clk) {
     // The reset conditioner is used to synchronize the reset signal to the FPGA
@@ -111,3 +179,4 @@ module au_top (
     // io_sel = 4b1110; // select first digit
   }
 }
+*/
