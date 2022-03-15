@@ -15,30 +15,23 @@ module tester (
   
   .clk(clk) {
     .rst(rst) {
-      dff prev_a[16];
-      dff prev_b[16];
-      dff prev_alufn[6];
-      dff prev_alu_out[16];
+      dff current_a[16];
+      dff current_b[16];
+      dff current_alufn[6];
       
-      dff saved_ans[16];
-      dff saved_state[8];
+      dff current_ans[16];
       
-      counter slowclock(#SIZE(1), #DIV(26));
+      toggle_clock tcl(.pause(pause));
+      
     }
   }
+  sig a[16], b[16], alufn[6], final_alu_out[16], ans[16];
   
-  sig a[16], b[16], alufn[6];
+  alu_full alu(.a(current_a.q), .b(current_b.q), .alufn(current_alufn.q));
   
-  alu_full alu(.a(a), .b(b), .alufn(alufn));
-  
-  sig final_alu_out[16], ans[16];
-  
-  
-  
-  const MAX_NEGATIVE = 8b10000000;
   const SUCCESS_SIGNAL = 8hAA;
   
-  .clk(slowclock.value) {
+  .clk(tcl.value) {
     .rst(rst) {
       fsm state = {
         ADD,
@@ -68,16 +61,12 @@ module tester (
         COMPARE_LTE_WHEN_EQ,
         COMPARE_LTE_WHEN_LT,
         COMPARE_LTE_WHEN_GT,
-        SUCCESS,
-        PAUSE_AND_ENABLE_MANUAL_INPUT
+        SUCCESS
       };
     }
   }
   
   always {
-  
-    final_alu_out = 0;
-    
     case(state.q){
       state.ADD:
         a = 1;
@@ -240,30 +229,6 @@ module tester (
         b = 1;
         alufn = 6b110111;
         ans = 0;
-        
-      state.PAUSE_AND_ENABLE_MANUAL_INPUT:
-        a = prev_a.q;
-        b = prev_b.q;
-        alufn = prev_alufn.q;
-        
-        ans = saved_ans.q;
-        
-        final_alu_out = alu.out;
-        
-        if (write_enable) {
-          case (select) {
-            2b00:
-              prev_a.d = man_input;
-            2b01:
-              prev_b.d = man_input;
-            2b10:
-              prev_alufn.d = man_input[5:0];
-            2b11:
-              final_alu_out = prev_alu_out.q ^ man_input;
-          }
-        }
-        
-        
                 
       default:
         a = 0;
@@ -272,78 +237,60 @@ module tester (
         ans = 16hFAAF;
     }
     
-    
-    
-    if (state.q != state.PAUSE_AND_ENABLE_MANUAL_INPUT) {
-      saved_state.d = state.q;
-      saved_ans.d = ans;
-      
-      final_alu_out = alu.out;
-      
-      prev_a.d = a;
-      prev_b.d = b;
-      prev_alufn.d = alufn;
-      prev_alu_out.d = alu.out;
+    if (~pause) {
+      current_ans.d = ans;
+      current_a.d = a;
+      current_b.d = b;
+      current_alufn.d = alufn;
     }
     
-    if (state.q == state.SUCCESS | state.q == state.PAUSE_AND_ENABLE_MANUAL_INPUT)
+    if (state.q == state.SUCCESS)
       state.d = state.q;
-    else {
-      if (state.q > state.PAUSE_AND_ENABLE_MANUAL_INPUT)
-        state.d = 0;
-      else
-        state.d = state.q + 1;
+    else
+      state.d = state.q + 1;
+    
+    final_alu_out = alu.out;
+    if (write_enable) {
+      case (select) {
+        2b00:
+          current_a.d = man_input;
+        2b01:
+          current_b.d = man_input;
+        2b10:
+          current_alufn.d = man_input[5:0];
+        2b11:
+          final_alu_out = alu.out ^ man_input;
+      }
     }
-      
     
-    
-    
-    
-      
-    if (final_alu_out == ans) {
-      out = state.q;
+
+    if (final_alu_out == current_ans.q) {
       error_is_happening = 0;
     } else {
-      out = MAX_NEGATIVE + state.q;
       error_is_happening = 1;
     }
       
+    
+    
     if (state.q == state.SUCCESS)
       out = SUCCESS_SIGNAL;
-      
-    if (state.q == state.PAUSE_AND_ENABLE_MANUAL_INPUT)
-      out = saved_state.q;
-
+    else
+      out = state.q;
     
     if (man_reset)
       state.d = 0;
       
-    if (pause)
-      state.d = state.PAUSE_AND_ENABLE_MANUAL_INPUT;
-      
     display = 0;
-    if (state.q != state.PAUSE_AND_ENABLE_MANUAL_INPUT) {
-      case (select) {
-        2b00:
-          display = a;
-        2b01:
-          display = b;
-        2b10:
-          display = alufn;
-        2b11:
-          display = final_alu_out;
-      }
-    } else {
-      case (select) {
-        2b00:
-          display = prev_a.q;
-        2b01:
-          display = prev_b.q;
-        2b10:
-          display = prev_alufn.q;
-        2b11:
-          display = final_alu_out;
-        }
+    case (select) {
+      2b00:
+        display = current_a.q;
+      2b01:
+        display = current_b.q;
+      2b10:
+        display = current_alufn.q;
+      2b11:
+        display = final_alu_out;
     }
+
   }
 }

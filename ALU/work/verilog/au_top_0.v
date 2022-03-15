@@ -55,6 +55,12 @@ module au_top_0 (
     .in(io_button[3+0-:1]),
     .out(M_manual_step_button_out)
   );
+  wire [1-1:0] M_pause_switch_out;
+  button_conditioner_2 pause_switch (
+    .clk(clk),
+    .in(io_dip[16+2+0-:1]),
+    .out(M_pause_switch_out)
+  );
   wire [2-1:0] M_segment_counter_value;
   counter_3 segment_counter (
     .clk(clk),
@@ -100,7 +106,7 @@ module au_top_0 (
     .man_reset(M_manual_reset_button_out),
     .select(io_dip[16+0+1-:2]),
     .man_input(minput),
-    .pause(io_dip[16+2+0-:1]),
+    .pause(M_pause_switch_out),
     .write_enable(io_dip[16+3+0-:1]),
     .out(M_test_out),
     .display(M_test_display),

@@ -13,6 +13,7 @@
     <component>reset_conditioner.luc</component>
     <src>adder_b16.luc</src>
     <src>seq_plus_vary.luc</src>
+    <src>toggle_clock.luc</src>
     <component>button_conditioner.luc</component>
     <src>adder_b16_tester.luc</src>
     <src>segment_decoder.luc</src>

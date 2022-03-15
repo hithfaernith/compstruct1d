@@ -25,6 +25,8 @@ module au_top (
     button_conditioner manual_reset_button(.in(io_button[2]));
     button_conditioner manual_step_button(.in(io_button[3]));
     
+    button_conditioner pause_switch(.in(io_dip[2][2]));
+    
     .rst(rst) {
       counter segment_counter(#SIZE(2), #DIV(10));
 
@@ -44,7 +46,7 @@ module au_top (
     
     .select(io_dip[2][1:0]),
     .man_input(minput),
-    .pause(io_dip[2][2]),
+    .pause(pause_switch.out),
     .write_enable(io_dip[2][3])
   );
   
