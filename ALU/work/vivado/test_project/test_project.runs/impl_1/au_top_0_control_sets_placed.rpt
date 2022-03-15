@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date         : Sun Mar 13 05:07:58 2022
+| Date         : Tue Mar 15 14:11:11 2022
 | Host         : LAPTOP-OHVOUTMM running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file au_top_0_control_sets_placed.rpt
 | Design       : au_top_0
@@ -27,7 +27,7 @@ Table of Contents
 |    Minimum number of control sets                        |    11 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |    35 |
+| Unused register locations in slices containing registers |    32 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -42,8 +42,8 @@ Table of Contents
 | Total control sets |    11 |
 | >= 0 to < 4        |     0 |
 | >= 4 to < 6        |     2 |
-| >= 6 to < 8        |     1 |
-| >= 8 to < 10       |     1 |
+| >= 6 to < 8        |     2 |
+| >= 8 to < 10       |     0 |
 | >= 10 to < 12      |     0 |
 | >= 12 to < 14      |     0 |
 | >= 14 to < 16      |     0 |
@@ -58,32 +58,32 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |               9 |            8 |
+| No           | No                    | No                     |              12 |            7 |
 | No           | No                    | Yes                    |               0 |            0 |
-| No           | Yes                   | No                     |              33 |            9 |
-| Yes          | No                    | No                     |               5 |            2 |
+| No           | Yes                   | No                     |              45 |           13 |
+| Yes          | No                    | No                     |               0 |            0 |
 | Yes          | No                    | Yes                    |               0 |            0 |
-| Yes          | Yes                   | No                     |             118 |           39 |
+| Yes          | Yes                   | No                     |             135 |           67 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
 4. Detailed Control Set Information
 -----------------------------------
 
-+------------------------------+-------------------------------------------+--------------------------------------------+------------------+----------------+--------------+
-|         Clock Signal         |               Enable Signal               |              Set/Reset Signal              | Slice Load Count | Bel Load Count | Bels / Slice |
-+------------------------------+-------------------------------------------+--------------------------------------------+------------------+----------------+--------------+
-|  clk_IBUF_BUFG               |                                           | reset_cond/M_reset_cond_in                 |                1 |              4 |         4.00 |
-|  slowclock/M_ctr_q_reg[26]_0 | test/M_state_q[4]_i_1_n_0                 |                                            |                2 |              5 |         2.50 |
-|  clk_IBUF_BUFG               | malu/M_alufn_reg_d                        | reset_cond/rst                             |                3 |              6 |         2.00 |
-|  clk_IBUF_BUFG               |                                           |                                            |                8 |              9 |         1.12 |
-|  clk_IBUF_BUFG               | malu/M_b_reg_d                            | reset_cond/rst                             |                8 |             16 |         2.00 |
-|  clk_IBUF_BUFG               | malu/alu/mul/E[0]                         | reset_cond/rst                             |                8 |             16 |         2.00 |
-|  clk_IBUF_BUFG               | btn_cond/sel                              | btn_cond/sync/clear                        |                5 |             20 |         4.00 |
-|  clk_IBUF_BUFG               | corrupt_button/M_ctr_q[0]_i_2__0_n_0      | corrupt_button/sync/M_pipe_q_reg[1]_0      |                5 |             20 |         4.00 |
-|  clk_IBUF_BUFG               | manual_reset_button/M_ctr_q[0]_i_2__3_n_0 | manual_reset_button/sync/M_pipe_q_reg[1]_0 |                5 |             20 |         4.00 |
-|  clk_IBUF_BUFG               | manual_step_button/M_ctr_q[0]_i_2_n_0     | manual_step_button/sync/M_pipe_q_reg[1]_0  |                5 |             20 |         4.00 |
-|  clk_IBUF_BUFG               |                                           | reset_cond/rst                             |                8 |             29 |         3.62 |
-+------------------------------+-------------------------------------------+--------------------------------------------+------------------+----------------+--------------+
++----------------------+-------------------------------------------+--------------------------------------------+------------------+----------------+--------------+
+|     Clock Signal     |               Enable Signal               |              Set/Reset Signal              | Slice Load Count | Bel Load Count | Bels / Slice |
++----------------------+-------------------------------------------+--------------------------------------------+------------------+----------------+--------------+
+|  clk_IBUF_BUFG       |                                           | reset_cond/M_reset_cond_in                 |                2 |              4 |         2.00 |
+|  test/slowclock/S[0] |                                           |                                            |                1 |              5 |         5.00 |
+|  clk_IBUF_BUFG       | test/M_prev_alufn_q[5]_i_1_n_0            | reset_cond/rst                             |                3 |              6 |         2.00 |
+|  clk_IBUF_BUFG       |                                           |                                            |                6 |              7 |         1.17 |
+|  clk_IBUF_BUFG       | test/M_prev_b_q[15]_i_1_n_0               | reset_cond/rst                             |               12 |             16 |         1.33 |
+|  clk_IBUF_BUFG       | test/M_prev_a_q[15]_i_1_n_0               | reset_cond/rst                             |               12 |             16 |         1.33 |
+|  clk_IBUF_BUFG       | btn_cond/M_ctr_q[0]_i_2__1_n_0            | btn_cond/sync/M_pipe_q_reg[1]_0            |                5 |             20 |         4.00 |
+|  clk_IBUF_BUFG       | manual_reset_button/M_ctr_q[0]_i_2__2_n_0 | manual_reset_button/sync/M_pipe_q_reg[1]_0 |                5 |             20 |         4.00 |
+|  clk_IBUF_BUFG       | manual_step_button/sel                    | manual_step_button/sync/clear              |                5 |             20 |         4.00 |
+|  clk_IBUF_BUFG       | test/alu/div/M_state_q_reg[3]_0           | reset_cond/rst                             |               25 |             37 |         1.48 |
+|  clk_IBUF_BUFG       |                                           | reset_cond/rst                             |               11 |             41 |         3.73 |
++----------------------+-------------------------------------------+--------------------------------------------+------------------+----------------+--------------+
 
 

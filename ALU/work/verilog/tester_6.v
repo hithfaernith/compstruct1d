@@ -4,28 +4,52 @@
    This is a temporary file and any changes made to it will be destroyed.
 */
 
-module tester_8 (
+module tester_6 (
     input clk,
     input rst,
     input man_reset,
-    input corrupt,
+    input [1:0] select,
+    input [15:0] man_input,
+    input write_enable,
+    input pause,
     output reg [7:0] out,
-    output reg [15:0] alu_display
+    output reg [15:0] display,
+    output reg error_is_happening
   );
   
   
+  
+  reg [15:0] M_prev_a_d, M_prev_a_q = 1'h0;
+  reg [15:0] M_prev_b_d, M_prev_b_q = 1'h0;
+  reg [5:0] M_prev_alufn_d, M_prev_alufn_q = 1'h0;
+  reg [15:0] M_prev_alu_out_d, M_prev_alu_out_q = 1'h0;
+  reg [15:0] M_saved_ans_d, M_saved_ans_q = 1'h0;
+  reg [7:0] M_saved_state_d, M_saved_state_q = 1'h0;
+  wire [1-1:0] M_slowclock_value;
+  counter_11 slowclock (
+    .clk(clk),
+    .rst(rst),
+    .value(M_slowclock_value)
+  );
   
   reg [15:0] a;
   reg [15:0] b;
   reg [5:0] alufn;
   
+  wire [16-1:0] M_alu_out;
+  alu_full_9 alu (
+    .a(a),
+    .b(b),
+    .alufn(alufn),
+    .out(M_alu_out)
+  );
+  
+  reg [15:0] final_alu_out;
+  reg [15:0] ans;
+  
   localparam MAX_NEGATIVE = 8'h80;
   
   localparam SUCCESS_SIGNAL = 8'haa;
-  
-  localparam ERROR_SIGNAL = 8'hff;
-  
-  localparam ALWAYS_WRONG = 14'h3039;
   
   localparam ADD_state = 5'd0;
   localparam ADD_OVERFLOW_state = 5'd1;
@@ -55,28 +79,20 @@ module tester_8 (
   localparam COMPARE_LTE_WHEN_LT_state = 5'd25;
   localparam COMPARE_LTE_WHEN_GT_state = 5'd26;
   localparam SUCCESS_state = 5'd27;
-  localparam ERROR_state = 5'd28;
+  localparam PAUSE_AND_ENABLE_MANUAL_INPUT_state = 5'd28;
   
   reg [4:0] M_state_d, M_state_q = ADD_state;
   
-  wire [16-1:0] M_alu_out;
-  alu_full_11 alu (
-    .a(a),
-    .b(b),
-    .alufn(alufn),
-    .out(M_alu_out)
-  );
-  
-  reg [15:0] alu_out;
-  reg [15:0] ans;
-  
   always @* begin
     M_state_d = M_state_q;
+    M_prev_a_d = M_prev_a_q;
+    M_prev_alufn_d = M_prev_alufn_q;
+    M_saved_state_d = M_saved_state_q;
+    M_prev_b_d = M_prev_b_q;
+    M_prev_alu_out_d = M_prev_alu_out_q;
+    M_saved_ans_d = M_saved_ans_q;
     
-    a = 1'h0;
-    b = 1'h0;
-    alufn = 1'h0;
-    out = 1'h0;
+    final_alu_out = 1'h0;
     
     case (M_state_q)
       ADD_state: begin
@@ -241,41 +257,130 @@ module tester_8 (
         alufn = 6'h37;
         ans = 1'h0;
       end
+      PAUSE_AND_ENABLE_MANUAL_INPUT_state: begin
+        a = M_prev_a_q;
+        b = M_prev_b_q;
+        alufn = M_prev_alufn_q;
+        ans = M_saved_ans_q;
+        final_alu_out = M_alu_out;
+        if (write_enable) begin
+          
+          case (select)
+            2'h0: begin
+              M_prev_a_d = man_input;
+            end
+            2'h1: begin
+              M_prev_b_d = man_input;
+            end
+            2'h2: begin
+              M_prev_alufn_d = man_input[0+5-:6];
+            end
+            2'h3: begin
+              final_alu_out = M_prev_alu_out_q ^ man_input;
+            end
+          endcase
+        end
+      end
       default: begin
+        a = 1'h0;
+        b = 1'h0;
+        alufn = 1'h0;
         ans = 16'hfaaf;
       end
     endcase
-    if (corrupt) begin
-      alu_out = 14'h3039;
-    end else begin
-      alu_out = M_alu_out;
+    if (M_state_q != PAUSE_AND_ENABLE_MANUAL_INPUT_state) begin
+      M_saved_state_d = M_state_q;
+      M_saved_ans_d = ans;
+      final_alu_out = M_alu_out;
+      M_prev_a_d = a;
+      M_prev_b_d = b;
+      M_prev_alufn_d = alufn;
+      M_prev_alu_out_d = M_alu_out;
     end
-    if (M_state_q == SUCCESS_state | M_state_q == ERROR_state) begin
+    if (M_state_q == SUCCESS_state | M_state_q == PAUSE_AND_ENABLE_MANUAL_INPUT_state) begin
       M_state_d = M_state_q;
     end else begin
-      M_state_d = M_state_q + 1'h1;
+      if (M_state_q > PAUSE_AND_ENABLE_MANUAL_INPUT_state) begin
+        M_state_d = 1'h0;
+      end else begin
+        M_state_d = M_state_q + 1'h1;
+      end
     end
-    if (alu_out == ans) begin
+    if (final_alu_out == ans) begin
       out = M_state_q;
+      error_is_happening = 1'h0;
     end else begin
       out = 8'h80 + M_state_q;
-      if (M_state_q != SUCCESS_state) begin
-        M_state_d = ERROR_state;
-      end
+      error_is_happening = 1'h1;
     end
     if (M_state_q == SUCCESS_state) begin
       out = 8'haa;
     end
-    if (M_state_q == ERROR_state) begin
-      out = 8'hff;
+    if (M_state_q == PAUSE_AND_ENABLE_MANUAL_INPUT_state) begin
+      out = M_saved_state_q;
     end
     if (man_reset) begin
       M_state_d = 1'h0;
     end
-    alu_display = alu_out;
+    if (pause) begin
+      M_state_d = PAUSE_AND_ENABLE_MANUAL_INPUT_state;
+    end
+    display = 1'h0;
+    if (M_state_q != PAUSE_AND_ENABLE_MANUAL_INPUT_state) begin
+      
+      case (select)
+        2'h0: begin
+          display = a;
+        end
+        2'h1: begin
+          display = b;
+        end
+        2'h2: begin
+          display = alufn;
+        end
+        2'h3: begin
+          display = final_alu_out;
+        end
+      endcase
+    end else begin
+      
+      case (select)
+        2'h0: begin
+          display = M_prev_a_q;
+        end
+        2'h1: begin
+          display = M_prev_b_q;
+        end
+        2'h2: begin
+          display = M_prev_alufn_q;
+        end
+        2'h3: begin
+          display = final_alu_out;
+        end
+      endcase
+    end
   end
   
   always @(posedge clk) begin
+    if (rst == 1'b1) begin
+      M_prev_a_q <= 1'h0;
+      M_prev_b_q <= 1'h0;
+      M_prev_alufn_q <= 1'h0;
+      M_prev_alu_out_q <= 1'h0;
+      M_saved_ans_q <= 1'h0;
+      M_saved_state_q <= 1'h0;
+    end else begin
+      M_prev_a_q <= M_prev_a_d;
+      M_prev_b_q <= M_prev_b_d;
+      M_prev_alufn_q <= M_prev_alufn_d;
+      M_prev_alu_out_q <= M_prev_alu_out_d;
+      M_saved_ans_q <= M_saved_ans_d;
+      M_saved_state_q <= M_saved_state_d;
+    end
+  end
+  
+  
+  always @(posedge M_slowclock_value) begin
     if (rst == 1'b1) begin
       M_state_q <= 1'h0;
     end else begin

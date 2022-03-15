@@ -2,19 +2,43 @@ module tester (
     input clk,  // clock
     input rst,  // reset
     input man_reset,
-    input corrupt,
+    
+    input select[2],
+    input man_input[16],
+    input write_enable,
+    input pause,
+    
     output out[8],
-    output alu_display[16]
+    output display[16],
+    output error_is_happening
   ) {
+  
+  .clk(clk) {
+    .rst(rst) {
+      dff prev_a[16];
+      dff prev_b[16];
+      dff prev_alufn[6];
+      dff prev_alu_out[16];
+      
+      dff saved_ans[16];
+      dff saved_state[8];
+      
+      counter slowclock(#SIZE(1), #DIV(26));
+    }
+  }
   
   sig a[16], b[16], alufn[6];
   
+  alu_full alu(.a(a), .b(b), .alufn(alufn));
+  
+  sig final_alu_out[16], ans[16];
+  
+  
+  
   const MAX_NEGATIVE = 8b10000000;
   const SUCCESS_SIGNAL = 8hAA;
-  const ERROR_SIGNAL = 8hFF;
-  const ALWAYS_WRONG = 12345;
   
-  .clk(clk) {
+  .clk(slowclock.value) {
     .rst(rst) {
       fsm state = {
         ADD,
@@ -45,21 +69,14 @@ module tester (
         COMPARE_LTE_WHEN_LT,
         COMPARE_LTE_WHEN_GT,
         SUCCESS,
-        ERROR
+        PAUSE_AND_ENABLE_MANUAL_INPUT
       };
     }
   }
   
-  alu_full alu(.a(a), .b(b), .alufn(alufn));
-  
-  sig alu_out[16], ans[16];
-  
   always {
-    
-    a = 0;
-    b = 0;
-    alufn = 0;
-    out = 0;
+  
+    final_alu_out = 0;
     
     case(state.q){
       state.ADD:
@@ -84,7 +101,7 @@ module tester (
         a = -32768;
         b = 1;
         alufn = 6b000001;
-        ans = 32767;        
+        ans = 32767;
       
       state.MULTIPLY:
         a = 1;
@@ -224,39 +241,109 @@ module tester (
         alufn = 6b110111;
         ans = 0;
         
+      state.PAUSE_AND_ENABLE_MANUAL_INPUT:
+        a = prev_a.q;
+        b = prev_b.q;
+        alufn = prev_alufn.q;
+        
+        ans = saved_ans.q;
+        
+        final_alu_out = alu.out;
+        
+        if (write_enable) {
+          case (select) {
+            2b00:
+              prev_a.d = man_input;
+            2b01:
+              prev_b.d = man_input;
+            2b10:
+              prev_alufn.d = man_input[5:0];
+            2b11:
+              final_alu_out = prev_alu_out.q ^ man_input;
+          }
+        }
+        
+        
+                
       default:
+        a = 0;
+        b = 0;
+        alufn = 0;
         ans = 16hFAAF;
     }
     
-    if (corrupt)
-      alu_out = ALWAYS_WRONG;
-    else
-      alu_out = alu.out;
     
-    if (state.q == state.SUCCESS | state.q == state.ERROR)
-      state.d = state.q;
-    else
-      state.d = state.q + 1;
+    
+    if (state.q != state.PAUSE_AND_ENABLE_MANUAL_INPUT) {
+      saved_state.d = state.q;
+      saved_ans.d = ans;
       
-    if (alu_out == ans)
-      out = state.q;
+      final_alu_out = alu.out;
+      
+      prev_a.d = a;
+      prev_b.d = b;
+      prev_alufn.d = alufn;
+      prev_alu_out.d = alu.out;
+    }
+    
+    if (state.q == state.SUCCESS | state.q == state.PAUSE_AND_ENABLE_MANUAL_INPUT)
+      state.d = state.q;
     else {
+      if (state.q > state.PAUSE_AND_ENABLE_MANUAL_INPUT)
+        state.d = 0;
+      else
+        state.d = state.q + 1;
+    }
+      
+    
+    
+    
+    
+      
+    if (final_alu_out == ans) {
+      out = state.q;
+      error_is_happening = 0;
+    } else {
       out = MAX_NEGATIVE + state.q;
-      if (state.q != state.SUCCESS)
-        state.d = state.ERROR;
+      error_is_happening = 1;
     }
       
     if (state.q == state.SUCCESS)
       out = SUCCESS_SIGNAL;
-    
-    if (state.q == state.ERROR)
-      out = ERROR_SIGNAL;
+      
+    if (state.q == state.PAUSE_AND_ENABLE_MANUAL_INPUT)
+      out = saved_state.q;
+
     
     if (man_reset)
       state.d = 0;
       
-    
-    
-    alu_display = alu_out;
+    if (pause)
+      state.d = state.PAUSE_AND_ENABLE_MANUAL_INPUT;
+      
+    display = 0;
+    if (state.q != state.PAUSE_AND_ENABLE_MANUAL_INPUT) {
+      case (select) {
+        2b00:
+          display = a;
+        2b01:
+          display = b;
+        2b10:
+          display = alufn;
+        2b11:
+          display = final_alu_out;
+      }
+    } else {
+      case (select) {
+        2b00:
+          display = prev_a.q;
+        2b01:
+          display = prev_b.q;
+        2b10:
+          display = prev_alufn.q;
+        2b11:
+          display = final_alu_out;
+        }
+    }
   }
 }

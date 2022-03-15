@@ -4,7 +4,7 @@
    This is a temporary file and any changes made to it will be destroyed.
 */
 
-module manual_alu_7 (
+module manual_alu_4 (
     input clk,
     input rst,
     input [15:0] in,
@@ -16,7 +16,7 @@ module manual_alu_7 (
   
   
   wire [1-1:0] M_edge_out;
-  edge_detector_10 L_edge (
+  edge_detector_8 L_edge (
     .clk(clk),
     .in(confirm),
     .out(M_edge_out)
@@ -32,7 +32,7 @@ module manual_alu_7 (
   reg [1:0] M_state_d, M_state_q = INPUT_A_state;
   
   wire [16-1:0] M_alu_out;
-  alu_full_11 alu (
+  alu_full_9 alu (
     .a(M_a_reg_q),
     .b(M_b_reg_q),
     .alufn(M_alufn_reg_q),

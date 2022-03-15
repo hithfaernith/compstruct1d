@@ -85,23 +85,23 @@ OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_verilog -library xil_defaultlib {
   C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/adder_b16_12.v
-  C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/alu_full_11.v
-  C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/blinker_6.v
+  C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/alu_full_9.v
   C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/boolean_unit_15.v
   C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/button_conditioner_2.v
   C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/compare_unit_17.v
+  C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_11.v
   C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_3.v
-  C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_4.v
-  C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/counter_5.v
   C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/divide_14.v
-  C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/edge_detector_10.v
+  C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/edge_detector_8.v
   C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/full_adder_18.v
-  C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/manual_alu_7.v
+  C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/manual_alu_4.v
+  C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/multi_segment_5.v
   C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/multiply_13.v
-  C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/pipeline_9.v
+  C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/pipeline_7.v
   C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/reset_conditioner_1.v
+  C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/segment_decoder_10.v
   C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/shifter_16.v
-  C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/tester_8.v
+  C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/tester_6.v
   C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.srcs/sources_1/imports/verilog/au_top_0.v
 }
 OPTRACE "Adding files" END { }

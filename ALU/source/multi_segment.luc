@@ -2,6 +2,7 @@ module multi_segment (
     input clk,  // clock
     input rst,  // reset
     input number[16],
+    input decimal[4],
     output seg_out1[8],
     output seg_out2[8],
     output seg_out3[8],
@@ -9,13 +10,13 @@ module multi_segment (
   ) {
   
   segment_decoder decoder1(
-    .clk(clk), .rst(rst), .segment_no(2b00), .decimal(b0), .clear(b0)
+    .clk(clk), .rst(rst), .segment_no(2b00), .decimal(decimal[0]), .clear(b0)
   ); segment_decoder decoder2(
-    .clk(clk), .rst(rst), .segment_no(2b00), .decimal(b0), .clear(b0)
+    .clk(clk), .rst(rst), .segment_no(2b00), .decimal(decimal[1]), .clear(b0)
   ); segment_decoder decoder3(
-    .clk(clk), .rst(rst), .segment_no(2b00), .decimal(b0), .clear(b0)
+    .clk(clk), .rst(rst), .segment_no(2b00), .decimal(decimal[2]), .clear(b0)
   ); segment_decoder decoder4(
-    .clk(clk), .rst(rst), .segment_no(2b00), .decimal(b0), .clear(b0)
+    .clk(clk), .rst(rst), .segment_no(2b00), .decimal(decimal[3]), .clear(b0)
   );
 
   always {
