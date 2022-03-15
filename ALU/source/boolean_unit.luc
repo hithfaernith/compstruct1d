@@ -5,13 +5,33 @@ module boolean_unit (
     output out[16]
   ) {
 
+  sig inputs[2], func[4];
+  var i;
+  
   always {
     out = 0;
-    case (alufn[3:0]) {
-      4b1000: out = a & b; // operation AND
-      4b1110: out = a | b; // operation OR
-      4b0110: out = a ^ b; // operation XOR
-      4b1010: out = a; // operation "A"
+    
+    // We use the lower 4 bits of alufn as a lookup table
+    // for the output of the binary function. We select
+    // from it with a and b, which we can think of as
+    // either separate inputs or combined as a two-bit index
+    // from 0 to 3. For example, with alufn[3:0] being 1000,
+    // we get:
+    //
+    // a | b | func
+    // 1 | 1 | 1
+    // 1 | 0 | 0
+    // 0 | 1 | 0
+    // 0 | 0 | 0
+    //
+    // Which is an AND gate.
+    func = alufn[3:0];
+    
+    // We do this for all the bits in out
+    for (i=0; i<16; i++) {
+      inputs[1] = a[i];
+      inputs[0] = b[i];
+      out[i] = func[inputs];
     }
   }
 }

@@ -4,7 +4,7 @@
    This is a temporary file and any changes made to it will be destroyed.
 */
 
-module boolean_unit_15 (
+module boolean_unit_14 (
     input [15:0] a,
     input [15:0] b,
     input [5:0] alufn,
@@ -13,22 +13,18 @@ module boolean_unit_15 (
   
   
   
+  reg [1:0] inputs;
+  reg [3:0] func;
+  
+  integer i;
+  
   always @* begin
     out = 1'h0;
-    
-    case (alufn[0+3-:4])
-      4'h8: begin
-        out = a & b;
-      end
-      4'he: begin
-        out = a | b;
-      end
-      4'h6: begin
-        out = a ^ b;
-      end
-      4'ha: begin
-        out = a;
-      end
-    endcase
+    func = alufn[0+3-:4];
+    for (i = 1'h0; i < 5'h10; i = i + 1) begin
+      inputs[1+0-:1] = a[(i)*1+0-:1];
+      inputs[0+0-:1] = b[(i)*1+0-:1];
+      out[(i)*1+0-:1] = func[(inputs)*1+0-:1];
+    end
   end
 endmodule

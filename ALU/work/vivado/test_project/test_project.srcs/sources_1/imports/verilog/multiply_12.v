@@ -4,7 +4,7 @@
    This is a temporary file and any changes made to it will be destroyed.
 */
 
-module divide_14 (
+module multiply_12 (
     input [15:0] x,
     input [15:0] y,
     output reg [15:0] out
@@ -13,6 +13,6 @@ module divide_14 (
   
   
   always @* begin
-    out = x / y;
+    out = x * y;
   end
 endmodule

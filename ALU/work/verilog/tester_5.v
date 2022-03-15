@@ -4,7 +4,7 @@
    This is a temporary file and any changes made to it will be destroyed.
 */
 
-module tester_6 (
+module tester_5 (
     input clk,
     input rst,
     input man_reset,
@@ -14,7 +14,10 @@ module tester_6 (
     input pause,
     output reg [7:0] out,
     output reg [15:0] display,
-    output reg error_is_happening
+    output reg error_is_happening,
+    output reg z,
+    output reg v,
+    output reg n
   );
   
   
@@ -22,9 +25,8 @@ module tester_6 (
   reg [15:0] M_current_a_d, M_current_a_q = 1'h0;
   reg [15:0] M_current_b_d, M_current_b_q = 1'h0;
   reg [5:0] M_current_alufn_d, M_current_alufn_q = 1'h0;
-  reg [15:0] M_current_ans_d, M_current_ans_q = 1'h0;
   wire [1-1:0] M_tcl_value;
-  toggle_clock_11 tcl (
+  toggle_clock_8 tcl (
     .clk(clk),
     .rst(rst),
     .pause(pause),
@@ -38,11 +40,17 @@ module tester_6 (
   reg [15:0] ans;
   
   wire [16-1:0] M_alu_out;
+  wire [1-1:0] M_alu_z;
+  wire [1-1:0] M_alu_v;
+  wire [1-1:0] M_alu_n;
   alu_full_9 alu (
     .a(M_current_a_q),
     .b(M_current_b_q),
     .alufn(M_current_alufn_q),
-    .out(M_alu_out)
+    .out(M_alu_out),
+    .z(M_alu_z),
+    .v(M_alu_v),
+    .n(M_alu_n)
   );
   
   localparam SUCCESS_SIGNAL = 8'haa;
@@ -57,31 +65,34 @@ module tester_6 (
   localparam DIVIDE_WHOLE_state = 5'd7;
   localparam DIVIDE_FRACTIONAL_state = 5'd8;
   localparam DIVIDE_BY_ZERO_state = 5'd9;
-  localparam AND_state = 5'd10;
-  localparam OR_state = 5'd11;
-  localparam XOR_state = 5'd12;
-  localparam A_state = 5'd13;
-  localparam LEFT_SHIFT_state = 5'd14;
-  localparam RIGHT_SHIFT_state = 5'd15;
-  localparam LEFT_ARITH_SHIFT_state = 5'd16;
-  localparam RIGHT_ARITH_SHIFT_state = 5'd17;
-  localparam COMPARE_EQ_WHEN_EQ_state = 5'd18;
-  localparam COMPARE_EQ_WHEN_LT_state = 5'd19;
-  localparam COMPARE_EQ_WHEN_GT_state = 5'd20;
-  localparam COMPARE_LT_WHEN_EQ_state = 5'd21;
-  localparam COMPARE_LT_WHEN_LT_state = 5'd22;
-  localparam COMPARE_LT_WHEN_GT_state = 5'd23;
-  localparam COMPARE_LTE_WHEN_EQ_state = 5'd24;
-  localparam COMPARE_LTE_WHEN_LT_state = 5'd25;
-  localparam COMPARE_LTE_WHEN_GT_state = 5'd26;
-  localparam SUCCESS_state = 5'd27;
+  localparam REVERSE_state = 5'd10;
+  localparam REVERSE_ALL_state = 5'd11;
+  localparam AND_state = 5'd12;
+  localparam OR_state = 5'd13;
+  localparam XOR_state = 5'd14;
+  localparam A_state = 5'd15;
+  localparam LEFT_SHIFT_state = 5'd16;
+  localparam RIGHT_SHIFT_state = 5'd17;
+  localparam LEFT_ARITH_SHIFT_state = 5'd18;
+  localparam RIGHT_ARITH_SHIFT_state = 5'd19;
+  localparam LEFT_ROTATE_state = 5'd20;
+  localparam RIGHT_ROTATE_state = 5'd21;
+  localparam COMPARE_EQ_WHEN_EQ_state = 5'd22;
+  localparam COMPARE_EQ_WHEN_LT_state = 5'd23;
+  localparam COMPARE_EQ_WHEN_GT_state = 5'd24;
+  localparam COMPARE_LT_WHEN_EQ_state = 5'd25;
+  localparam COMPARE_LT_WHEN_LT_state = 5'd26;
+  localparam COMPARE_LT_WHEN_GT_state = 5'd27;
+  localparam COMPARE_LTE_WHEN_EQ_state = 5'd28;
+  localparam COMPARE_LTE_WHEN_LT_state = 5'd29;
+  localparam COMPARE_LTE_WHEN_GT_state = 5'd30;
+  localparam SUCCESS_state = 5'd31;
   
   reg [4:0] M_state_d, M_state_q = ADD_state;
   
   always @* begin
     M_state_d = M_state_q;
     M_current_a_d = M_current_a_q;
-    M_current_ans_d = M_current_ans_q;
     M_current_b_d = M_current_b_q;
     M_current_alufn_d = M_current_alufn_q;
     
@@ -147,6 +158,18 @@ module tester_6 (
         alufn = 6'h03;
         ans = $signed(2'h3);
       end
+      REVERSE_state: begin
+        a = 16'hff00;
+        b = 16'h0002;
+        alufn = 6'h08;
+        ans = 16'hdf04;
+      end
+      REVERSE_ALL_state: begin
+        a = 16'habcd;
+        b = 1'h0;
+        alufn = 6'h09;
+        ans = 16'hb3d5;
+      end
       AND_state: begin
         a = 16'hff00;
         b = 16'haaaa;
@@ -168,7 +191,7 @@ module tester_6 (
       A_state: begin
         a = 16'hff00;
         b = 16'haaaa;
-        alufn = 6'h1a;
+        alufn = 6'h1c;
         ans = 16'hff00;
       end
       LEFT_SHIFT_state: begin
@@ -194,6 +217,18 @@ module tester_6 (
         b = 16'h0002;
         alufn = 6'h23;
         ans = 16'hfcf3;
+      end
+      LEFT_ROTATE_state: begin
+        a = 16'h5400;
+        b = 16'h0004;
+        alufn = 6'h24;
+        ans = 16'h4005;
+      end
+      RIGHT_ROTATE_state: begin
+        a = 16'h002a;
+        b = 16'h0004;
+        alufn = 6'h25;
+        ans = 16'ha002;
       end
       COMPARE_EQ_WHEN_EQ_state: begin
         a = 1'h1;
@@ -257,7 +292,6 @@ module tester_6 (
       end
     endcase
     if (~pause) begin
-      M_current_ans_d = ans;
       M_current_a_d = a;
       M_current_b_d = b;
       M_current_alufn_d = alufn;
@@ -272,20 +306,20 @@ module tester_6 (
       
       case (select)
         2'h0: begin
-          M_current_a_d = man_input;
+          final_alu_out = M_alu_out ^ man_input;
         end
         2'h1: begin
           M_current_b_d = man_input;
         end
         2'h2: begin
-          M_current_alufn_d = man_input[0+5-:6];
+          M_current_a_d = man_input;
         end
         2'h3: begin
-          final_alu_out = M_alu_out ^ man_input;
+          M_current_alufn_d = man_input[0+5-:6];
         end
       endcase
     end
-    if (final_alu_out == M_current_ans_q) begin
+    if (final_alu_out == ans) begin
       error_is_happening = 1'h0;
     end else begin
       error_is_happening = 1'h1;
@@ -302,40 +336,41 @@ module tester_6 (
     
     case (select)
       2'h0: begin
-        display = M_current_a_q;
+        display = final_alu_out;
       end
       2'h1: begin
         display = M_current_b_q;
       end
       2'h2: begin
-        display = M_current_alufn_q;
+        display = M_current_a_q;
       end
       2'h3: begin
-        display = final_alu_out;
+        display = M_current_alufn_q;
       end
     endcase
+    z = M_alu_z;
+    v = M_alu_v;
+    n = M_alu_n;
   end
-  
-  always @(posedge M_tcl_value) begin
-    if (rst == 1'b1) begin
-      M_state_q <= 1'h0;
-    end else begin
-      M_state_q <= M_state_d;
-    end
-  end
-  
   
   always @(posedge clk) begin
     if (rst == 1'b1) begin
       M_current_a_q <= 1'h0;
       M_current_b_q <= 1'h0;
       M_current_alufn_q <= 1'h0;
-      M_current_ans_q <= 1'h0;
     end else begin
       M_current_a_q <= M_current_a_d;
       M_current_b_q <= M_current_b_d;
       M_current_alufn_q <= M_current_alufn_d;
-      M_current_ans_q <= M_current_ans_d;
+    end
+  end
+  
+  
+  always @(posedge M_tcl_value) begin
+    if (rst == 1'b1) begin
+      M_state_q <= 1'h0;
+    end else begin
+      M_state_q <= M_state_d;
     end
   end
   

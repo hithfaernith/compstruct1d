@@ -1,0 +1,28 @@
+module reverse (
+    input number[16],
+    input select[3],
+    input reverse_all,
+    output out[16]
+  ) {
+  var i, j;
+  
+  // Here reversing refers to swapping bits about the middle of the
+  // 16-bit word. We can either choose to reverse all 16 bits, or any single one.
+  always {
+    if (reverse_all) {
+      for (i=0; i<16; i++) {
+        j = 15 - i;
+        out[i] = number[j]; // reverse the entire bit array into the output
+      }
+    } else {
+      out = number; // copy entire number to output
+      for (i=0; i<8; i++) {
+        if (select == i) { // look for and reverse the single bit
+          j = 15 - i;
+          out[j] = number[i];
+          out[i] = number[j];
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+module power (
+    input base[16],
+    input exponent[16],
+    output out
+  ) {
+
+  always {
+    out = $pow(base, exponent);
+  }
+}

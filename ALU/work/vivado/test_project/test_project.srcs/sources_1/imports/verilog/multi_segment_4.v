@@ -4,7 +4,7 @@
    This is a temporary file and any changes made to it will be destroyed.
 */
 
-module multi_segment_5 (
+module multi_segment_4 (
     input clk,
     input rst,
     input [15:0] number,
@@ -20,7 +20,7 @@ module multi_segment_5 (
   wire [4-1:0] M_decoder1_io_sel;
   wire [8-1:0] M_decoder1_io_out;
   reg [4-1:0] M_decoder1_segment_digit;
-  segment_decoder_10 decoder1 (
+  segment_decoder_7 decoder1 (
     .clk(clk),
     .rst(rst),
     .segment_no(2'h0),
@@ -34,7 +34,7 @@ module multi_segment_5 (
   wire [4-1:0] M_decoder2_io_sel;
   wire [8-1:0] M_decoder2_io_out;
   reg [4-1:0] M_decoder2_segment_digit;
-  segment_decoder_10 decoder2 (
+  segment_decoder_7 decoder2 (
     .clk(clk),
     .rst(rst),
     .segment_no(2'h0),
@@ -48,7 +48,7 @@ module multi_segment_5 (
   wire [4-1:0] M_decoder3_io_sel;
   wire [8-1:0] M_decoder3_io_out;
   reg [4-1:0] M_decoder3_segment_digit;
-  segment_decoder_10 decoder3 (
+  segment_decoder_7 decoder3 (
     .clk(clk),
     .rst(rst),
     .segment_no(2'h0),
@@ -62,7 +62,7 @@ module multi_segment_5 (
   wire [4-1:0] M_decoder4_io_sel;
   wire [8-1:0] M_decoder4_io_out;
   reg [4-1:0] M_decoder4_segment_digit;
-  segment_decoder_10 decoder4 (
+  segment_decoder_7 decoder4 (
     .clk(clk),
     .rst(rst),
     .segment_no(2'h0),

@@ -4,15 +4,18 @@
    This is a temporary file and any changes made to it will be destroyed.
 */
 
-module multiply_13 (
-    input [15:0] x,
-    input [15:0] y,
-    output reg [15:0] out
+module full_adder_18 (
+    input x,
+    input y,
+    input cin,
+    output reg s,
+    output reg cout
   );
   
   
   
   always @* begin
-    out = x * y;
+    s = x ^ y ^ cin;
+    cout = x & y | cin & (x ^ y);
   end
 endmodule

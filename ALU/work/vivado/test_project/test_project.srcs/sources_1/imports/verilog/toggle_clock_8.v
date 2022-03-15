@@ -4,7 +4,7 @@
    This is a temporary file and any changes made to it will be destroyed.
 */
 
-module toggle_clock_11 (
+module toggle_clock_8 (
     input clk,
     input rst,
     input pause,
@@ -14,7 +14,7 @@ module toggle_clock_11 (
   
   
   wire [1-1:0] M_slowclock_value;
-  counter_18 slowclock (
+  counter_10 slowclock (
     .clk(clk),
     .rst(rst),
     .value(M_slowclock_value)

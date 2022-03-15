@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date         : Tue Mar 15 17:42:27 2022
+| Date         : Tue Mar 15 22:24:38 2022
 | Host         : LAPTOP-OHVOUTMM running 64-bit major release  (build 9200)
 | Command      : report_drc -file au_top_0_drc_routed.rpt -pb au_top_0_drc_routed.pb -rpx au_top_0_drc_routed.rpx
 | Design       : au_top_0
@@ -48,12 +48,12 @@ Related violations: <none>
 
 PDRC-153#1 Warning
 Gated clock check  
-Net test/tcl/slowclock/M_ctr_q_reg[26]_0 is a gated clock net sourced by a combinational pin test/tcl/slowclock/M_state_q[4]_i_3/O, cell test/tcl/slowclock/M_state_q[4]_i_3. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Net pause_switch/M_ctr_q_reg[26] is a gated clock net sourced by a combinational pin pause_switch/M_state_q[4]_i_3/O, cell pause_switch/M_state_q[4]_i_3. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
 Related violations: <none>
 
 PLHOLDVIO-2#1 Warning
 Non-Optimal connections which could lead to hold violations  
-A LUT test/tcl/slowclock/M_state_q[4]_i_3 is driving clock pin of 5 cells. This could lead to large hold time violations. Involved cells are:
+A LUT pause_switch/M_state_q[4]_i_3 is driving clock pin of 5 cells. This could lead to large hold time violations. Involved cells are:
 test/M_state_q_reg[0], test/M_state_q_reg[1], test/M_state_q_reg[2],
 test/M_state_q_reg[3], test/M_state_q_reg[4]
 Related violations: <none>

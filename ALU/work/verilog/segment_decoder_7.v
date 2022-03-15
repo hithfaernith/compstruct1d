@@ -4,7 +4,7 @@
    This is a temporary file and any changes made to it will be destroyed.
 */
 
-module segment_decoder_10 (
+module segment_decoder_7 (
     input clk,
     input rst,
     input [1:0] segment_no,

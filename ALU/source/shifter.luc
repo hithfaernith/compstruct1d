@@ -1,22 +1,17 @@
 module shifter (
     input number[16],
     input bits[4],
-    input shift_type[2],
+    input shift_type[3],
     output out[16]
   ) {
   
-  const LEFT_SHIFT = 2b00;
-  const RIGHT_SHIFT = 2b01;
-  const LEFT_ARITH_SHIFT = 2b10;
-  const RIGHT_ARITH_SHIFT = 2b11;
+  const LEFT_SHIFT = 3b000;
+  const RIGHT_SHIFT = 3b001;
+  const LEFT_ARITH_SHIFT = 3b010;
+  const RIGHT_ARITH_SHIFT = 3b011;
   
-  const FILL_WITH_ONES = 16hFFFF;
-
-  /*
-  const LEFT_SHIFT = 2b10;
-  const RIGHT_SHIFT = 2b01;
-  const RIGHT_ARITH_SHIFT = 2b11;
-  */
+  const LEFT_ROTATE = 3b100;
+  const RIGHT_ROTATE = 3b101;
   
   always {
     out = number;
@@ -26,33 +21,13 @@ module shifter (
       RIGHT_SHIFT:
         out = number >> bits;
       LEFT_ARITH_SHIFT:
-        out = number <<< bits;
+        out = $signed(number) <<< bits;
       RIGHT_ARITH_SHIFT:
-        out = number >>> bits;
-        
-        /**
-         * their '>>>' operator doesn't seem to work properly
-         * (seems to just act as a logical right shift) so
-         * let's just do this the old-fashioned way
-         */
-        if (number[15])
-          case (bits) {
-            1: out[15:14] = FILL_WITH_ONES;
-            2: out[15:13] = FILL_WITH_ONES;
-            3: out[15:12] = FILL_WITH_ONES;
-            4: out[15:11] = FILL_WITH_ONES;
-            5: out[15:10] = FILL_WITH_ONES;
-            6: out[15:9] = FILL_WITH_ONES;
-            7: out[15:8] = FILL_WITH_ONES;
-            8: out[15:7] = FILL_WITH_ONES;
-            9: out[15:6] = FILL_WITH_ONES;
-            10: out[15:5] = FILL_WITH_ONES;
-            11: out[15:4] = FILL_WITH_ONES;
-            12: out[15:3] = FILL_WITH_ONES;
-            13: out[15:2] = FILL_WITH_ONES;
-            14: out[15:1] = FILL_WITH_ONES;
-            15: out[15:0] = FILL_WITH_ONES;
-          }
+        out = $signed(number) >>> bits;
+      LEFT_ROTATE:
+        out = (number << bits)|(number >> (16 - bits));
+      RIGHT_ROTATE:
+        out = (number >> bits)|(number << (16 - bits));
       }
     }
   }

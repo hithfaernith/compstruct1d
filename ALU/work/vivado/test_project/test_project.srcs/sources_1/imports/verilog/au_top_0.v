@@ -21,8 +21,6 @@ module au_top_0 (
   
   reg rst;
   
-  reg [15:0] manual_input;
-  
   wire [1-1:0] M_reset_cond_out;
   reg [1-1:0] M_reset_cond_in;
   reset_conditioner_1 reset_cond (
@@ -37,23 +35,11 @@ module au_top_0 (
     .in(M_btn_cond_in),
     .out(M_btn_cond_out)
   );
-  wire [1-1:0] M_corrupt_button_out;
-  button_conditioner_2 corrupt_button (
-    .clk(clk),
-    .in(io_button[1+0-:1]),
-    .out(M_corrupt_button_out)
-  );
   wire [1-1:0] M_manual_reset_button_out;
   button_conditioner_2 manual_reset_button (
     .clk(clk),
     .in(io_button[2+0-:1]),
     .out(M_manual_reset_button_out)
-  );
-  wire [1-1:0] M_manual_step_button_out;
-  button_conditioner_2 manual_step_button (
-    .clk(clk),
-    .in(io_button[3+0-:1]),
-    .out(M_manual_step_button_out)
   );
   wire [1-1:0] M_pause_switch_out;
   button_conditioner_2 pause_switch (
@@ -61,21 +47,17 @@ module au_top_0 (
     .in(io_dip[16+2+0-:1]),
     .out(M_pause_switch_out)
   );
+  wire [1-1:0] M_pause_button_out;
+  button_conditioner_2 pause_button (
+    .clk(clk),
+    .in(io_button[1+0-:1]),
+    .out(M_pause_button_out)
+  );
   wire [2-1:0] M_segment_counter_value;
   counter_3 segment_counter (
     .clk(clk),
     .rst(rst),
     .value(M_segment_counter_value)
-  );
-  wire [2-1:0] M_malu_state_display;
-  wire [16-1:0] M_malu_out;
-  manual_alu_4 malu (
-    .clk(clk),
-    .rst(rst),
-    .in(manual_input),
-    .confirm(M_manual_step_button_out),
-    .state_display(M_malu_state_display),
-    .out(M_malu_out)
   );
   
   wire [8-1:0] M_segment_display_seg_out1;
@@ -84,7 +66,7 @@ module au_top_0 (
   wire [8-1:0] M_segment_display_seg_out4;
   reg [16-1:0] M_segment_display_number;
   reg [4-1:0] M_segment_display_decimal;
-  multi_segment_5 segment_display (
+  multi_segment_4 segment_display (
     .clk(clk),
     .rst(rst),
     .number(M_segment_display_number),
@@ -97,34 +79,44 @@ module au_top_0 (
   
   reg [15:0] minput;
   
+  reg pause;
+  
   wire [8-1:0] M_test_out;
   wire [16-1:0] M_test_display;
   wire [1-1:0] M_test_error_is_happening;
-  tester_6 test (
+  wire [1-1:0] M_test_z;
+  wire [1-1:0] M_test_v;
+  wire [1-1:0] M_test_n;
+  tester_5 test (
     .clk(clk),
     .rst(rst),
     .man_reset(M_manual_reset_button_out),
     .select(io_dip[16+0+1-:2]),
     .man_input(minput),
-    .pause(M_pause_switch_out),
+    .pause(pause),
     .write_enable(io_dip[16+3+0-:1]),
     .out(M_test_out),
     .display(M_test_display),
-    .error_is_happening(M_test_error_is_happening)
+    .error_is_happening(M_test_error_is_happening),
+    .z(M_test_z),
+    .v(M_test_v),
+    .n(M_test_n)
   );
   
   always @* begin
+    pause = M_pause_button_out | M_pause_switch_out;
     M_btn_cond_in = io_button[4+0-:1];
     M_reset_cond_in = ~rst_n;
     rst = M_reset_cond_out | M_btn_cond_out;
-    led = M_malu_state_display;
+    led[0+0-:1] = M_test_z;
+    led[1+0-:1] = M_test_v;
+    led[2+0-:1] = M_test_n;
+    led[3+4-:5] = 1'h0;
     minput[0+7-:8] = io_dip[0+7-:8];
     minput[8+7-:8] = io_dip[8+7-:8];
     io_led[0+7-:8] = M_test_display[0+7-:8];
     io_led[8+7-:8] = M_test_display[8+7-:8];
     io_led[16+7-:8] = M_test_out;
-    io_seg = 1'h0;
-    io_sel = 1'h0;
     usb_tx = usb_rx;
     M_segment_display_number = M_test_display;
     io_sel = 4'hf;

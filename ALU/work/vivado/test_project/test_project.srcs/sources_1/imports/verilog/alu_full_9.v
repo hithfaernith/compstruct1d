@@ -8,7 +8,10 @@ module alu_full_9 (
     input [15:0] a,
     input [15:0] b,
     input [5:0] alufn,
-    output reg [15:0] out
+    output reg [15:0] out,
+    output reg z,
+    output reg v,
+    output reg n
   );
   
   
@@ -18,7 +21,7 @@ module alu_full_9 (
   wire [1-1:0] M_add_z;
   wire [1-1:0] M_add_n;
   wire [1-1:0] M_add_v;
-  adder_b16_12 add (
+  adder_b16_11 add (
     .subtract(alufn[0+0-:1]),
     .x(a),
     .y(b),
@@ -30,21 +33,21 @@ module alu_full_9 (
   );
   
   wire [16-1:0] M_mul_out;
-  multiply_13 mul (
+  multiply_12 mul (
     .x(a),
     .y(b),
     .out(M_mul_out)
   );
   
   wire [16-1:0] M_div_out;
-  divide_14 div (
+  divide_13 div (
     .x(a),
     .y(b),
     .out(M_div_out)
   );
   
   wire [16-1:0] M_bol_out;
-  boolean_unit_15 bol (
+  boolean_unit_14 bol (
     .a(a),
     .b(b),
     .alufn(alufn),
@@ -52,20 +55,28 @@ module alu_full_9 (
   );
   
   wire [16-1:0] M_shf_out;
-  shifter_16 shf (
+  shifter_15 shf (
     .number(a),
     .bits(b[0+3-:4]),
-    .shift_type(alufn[0+1-:2]),
+    .shift_type(alufn[0+2-:3]),
     .out(M_shf_out)
   );
   
   wire [1-1:0] M_com_out;
-  compare_unit_17 com (
+  compare_unit_16 com (
     .z(M_add_z),
     .v(M_add_v),
     .n(M_add_n),
     .alufn(alufn),
     .out(M_com_out)
+  );
+  
+  wire [16-1:0] M_rev_out;
+  reverse_17 rev (
+    .number(a),
+    .reverse_all(alufn[0+0-:1]),
+    .select(b[0+2-:3]),
+    .out(M_rev_out)
   );
   
   always @* begin
@@ -78,21 +89,28 @@ module alu_full_9 (
         if (alufn == 6'h03) begin
           out = M_div_out;
         end else begin
-          if (alufn[4+1-:2] == 2'h1) begin
-            out = M_bol_out;
+          if (alufn[3+2-:3] == 3'h1) begin
+            out = M_rev_out;
           end else begin
-            if (alufn[4+1-:2] == 2'h2) begin
-              out = M_shf_out;
+            if (alufn[4+1-:2] == 2'h1) begin
+              out = M_bol_out;
             end else begin
-              if (alufn[4+1-:2] == 2'h3) begin
-                out = M_com_out;
+              if (alufn[4+1-:2] == 2'h2) begin
+                out = M_shf_out;
               end else begin
-                out = 1'h0;
+                if (alufn[4+1-:2] == 2'h3) begin
+                  out = M_com_out;
+                end else begin
+                  out = 1'h0;
+                end
               end
             end
           end
         end
       end
     end
+    z = M_add_z;
+    v = M_add_v;
+    n = M_add_n;
   end
 endmodule

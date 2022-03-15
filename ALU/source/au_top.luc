@@ -12,7 +12,6 @@ module au_top (
   ) {
   
   sig rst;                  // reset signal
-  sig manual_input[16];
   
   
   .clk(clk) {
@@ -21,32 +20,31 @@ module au_top (
     reset_conditioner reset_cond;
     button_conditioner btn_cond;
     
-    button_conditioner corrupt_button(.in(io_button[1]));
-    button_conditioner manual_reset_button(.in(io_button[2]));
-    button_conditioner manual_step_button(.in(io_button[3]));
+    button_conditioner restart_tests_button(.in(io_button[2]));
     
+    // For convenience, pausing can either be done by holding down a button,
+    // or toggling a dip switch. The signals of the button and the switch
+    // are ORed together later on.
     button_conditioner pause_switch(.in(io_dip[2][2]));
+    button_conditioner pause_button(.in(io_button[1]));
     
     .rst(rst) {
       counter segment_counter(#SIZE(2), #DIV(10));
-
-      manual_alu malu(.in(manual_input), .confirm(manual_step_button.out));
     }
   }
   
   multi_segment segment_display(.clk(clk), .rst(rst));
-  sig minput[16];
+  sig manual_data_input[16];
+  sig pause;
   
-  // seq_plus_vary seqplusvary(.clk(slowclock.value), .rst(rst));
-  // segment_test segment_tester(.clk(slowclock.value), .rst(rst));
   tester test(
     .clk(clk),
     .rst(rst),
-    .man_reset(manual_reset_button.out),
+    .restart_tests(restart_tests_button.out),
     
-    .select(io_dip[2][1:0]),
-    .man_input(minput),
-    .pause(pause_switch.out),
+    .select_data(io_dip[2][1:0]),
+    .manual_data_input(manual_data_input),
+    .pause(pause),
     .write_enable(io_dip[2][3])
   );
   
@@ -55,28 +53,30 @@ module au_top (
     reset_cond.in = ~rst_n; // input raw inverted reset signal
     rst = reset_cond.out | btn_cond.out;   // conditioned reset_cond
     
-    led = malu.state_display;
+    // We only use the first 3 bits to display adder flags
+    led[0] = test.z;
+    led[1] = test.v;
+    led[2] = test.n;
+    led[7:3] = 0;
     
-    minput[7:0] = io_dip[0];
-    minput[15:8] = io_dip[1];
+    pause = pause_button.out | pause_switch.out;
     
-    //io_led[0] = test.alu_display[7:0];
-    //io_led[1] = test.alu_display[15:8];
-    io_led[0] = test.display[7:0];
-    io_led[1] = test.display[15:8];
-    io_led[2] = test.out;
+    // total of 16 dip switches for manual input, one per bit
+    manual_data_input[7:0] = io_dip[0];
+    manual_data_input[15:8] = io_dip[1];
     
-    io_seg = 0;
-    io_sel = 0;
+    io_led[0] = test.data_display[7:0];
+    io_led[1] = test.data_display[15:8];
+    io_led[2] = test.state_display;
     
-    usb_tx = usb_rx;        // loop serial port
-    
-    segment_display.number = test.display;
+    segment_display.number = test.data_display;
     io_sel = 4b1111; // don't select any 7-segs by default
     io_seg = 8hFF; // blank the target 7-seg by default
     
+    // our indicator that an error is happening is activating
+    // all the decimal points on the 7-segment display
     if (test.error_is_happening) {
-      segment_display.decimal = 4b1111; 
+      segment_display.decimal = 4b1111;
     } else {
       segment_display.decimal = 4b0000;
     }
@@ -95,121 +95,7 @@ module au_top (
         io_sel = 4b0111;
         io_seg = segment_display.seg_out4;
     }
-  }
-}
-
-/*
-module au_top (
-    input clk,              // 100MHz clock
-    input rst_n,            // reset button (active low)
-    output led[8],         // 8 user controllable LEDs
-    input usb_rx,           // USB->Serial input
-    output usb_tx,          // USB->Serial output
-    output io_led [3][8],   // LEDs on IO Shield
-    output io_seg [8],      // 7-segment LEDs on IO Shield
-    output io_sel [4],      // Digit select on IO Shield
-    input io_button [5],    // 5 buttons on IO Shield
-    input io_dip [3][8]     // DIP switches on IO Shield
-  ) {
-  
-  sig rst;                  // reset signal
-  
-  .clk(clk) {
-    // The reset conditioner is used to synchronize the reset signal to the FPGA
-    // clock. This ensures the entire FPGA comes out of reset at the same time.
-    reset_conditioner reset_cond;
-    button_conditioner btn_cond;
-    // edge_detector edge (#RISE(1), #FALL(0));
-    
-    .rst(rst) {
-      counter segment_counter(#SIZE(2), #DIV(10));
-      counter slowclock(#SIZE(1), #DIV(26));
-      counter medclock(#SIZE(1), #DIV(20));
-    }
-  }
-  
-  // seq_plus_vary seqplusvary(.clk(slowclock.value), .rst(rst));
-  // segment_test segment_tester(.clk(slowclock.value), .rst(rst));
-  sig a_value[16];
-  sig b_value[16];  
-  
-  var display_number[16];
-  var display_select[2];
-  
-  register reg_a(
-    #SIZE(16), .clk(medclock.value), .rst(rst), .write_enable(b1)
-  );
-  register reg_b(
-    #SIZE(16), .clk(medclock.value), .rst(rst), .write_enable(b1)
-  );
-  register alufn(
-    #SIZE(6), .clk(medclock.value), .rst(rst), .write_enable(b1)
-  );
-  
-  multi_segment segment_display(.clk(clk), .rst(rst));
-  adder_b16 adder_unit;
-  
-  always {
-    btn_cond.in = io_button[4];
-    reset_cond.in = ~rst_n; // input raw inverted reset signal
-    rst = reset_cond.out | btn_cond.out;   // conditioned reset
-    // next values of reg_a, reg_b, and alufn are current values by default
-    reg_a.write_val = reg_a.out;
-    reg_b.write_val = reg_b.out;
-    alufn.write_val = alufn.out;
-
-    a_value = reg_a.out;
-    
-    // assign 3 arrays of 8 bits of zeros to io_leds
-    // i.e. turn off all the leds by default
-    io_led = 3x{{8h0000}};
-    display_number = 16h0000;
-    display_select = io_dip[2][7:6];
-    adder_unit.x = display_number;
-    adder_unit.y = 16h0000;
-    adder_unit.subtract = b1;
-    
-    if (io_dip[2][0] == b1) {
-      adder_unit.y = 16h0001;
-    }
-    
-    case (display_select) {
-      2b00: 
-        display_number = reg_a.out;
-        reg_a.write_val = adder_unit.s;
-      2b01: 
-        display_number = reg_b.out;
-        reg_b.write_val = adder_unit.s;
-      2b10: 
-        display_number = alufn.out;
-        alufn.write_val = adder_unit.s;
-    }
-        
-    segment_display.number = display_number;
-    io_sel = 4b1111; // don't select any 7-segs by default
-    io_seg = 8hFF; // blank the target 7-seg by default
-    
-    case (segment_counter.value) {
-      2b00:
-        io_sel = 4b1110;
-        io_seg = segment_display.seg_out1;
-      2b01:
-        io_sel = 4b1101;
-        io_seg = segment_display.seg_out2;
-      2b10:
-        io_sel = 4b1011;
-        io_seg = segment_display.seg_out3;
-      2b11:
-        io_sel = 4b0111;
-        io_seg = segment_display.seg_out4;
-    }
     
     usb_tx = usb_rx;        // loop serial port
-    led = 8hAA;             // turn LEDs off
-    
-    // io_led = 3x{{8h00}};    // turn LEDs off
-    // io_seg = 8b10100100;
-    // io_sel = 4b1110; // select first digit
   }
 }
-*/

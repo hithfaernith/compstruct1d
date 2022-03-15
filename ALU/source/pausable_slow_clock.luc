@@ -1,4 +1,4 @@
-module toggle_clock (
+module pausable_slow_clock (
     input clk,  // clock
     input rst,  // reset
     input pause,
