@@ -37,6 +37,9 @@ class BinNumber(object):
     def invert_index(self, index):
         return self.num_bits - index - 1
 
+    def __len__(self):
+        return len(self.bits)
+
     def __getitem__(self, index):
         assert index >= 0
         return self.bits[self.invert_index(index)]
