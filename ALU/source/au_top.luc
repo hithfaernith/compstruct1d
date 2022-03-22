@@ -13,53 +13,73 @@ module au_top (
   
   sig rst;                  // reset signal
   
+  
   .clk(clk) {
     // The reset conditioner is used to synchronize the reset signal to the FPGA
     // clock. This ensures the entire FPGA comes out of reset at the same time.
     reset_conditioner reset_cond;
+    button_conditioner btn_cond;
     
-    .rst(rst){
+    button_conditioner restart_tests_button(.in(io_button[2]));
+    
+    // For convenience, pausing can either be done by holding down a button,
+    // or toggling a dip switch. The signals of the button and the switch
+    // are ORed together later on.
+    button_conditioner pause_switch(.in(io_dip[2][2]));
+    button_conditioner pause_button(.in(io_button[1]));
+    
+    .rst(rst) {
       counter segment_counter(#SIZE(2), #DIV(10));
-      counter slowclock(#SIZE(1), #DIV(26));
-      counter medclock(#SIZE(1), #DIV(25));
     }
   }
   
-  // seq_plus_vary seqplusvary(.clk(slowclock.value), .rst(rst));
-  // segment_test segment_tester(.clk(slowclock.value), .rst(rst));
-  sig write_a[16];
-  sig a_value[16];
-  sig write_b[16];
-  sig b_value[16];
-  sig write_enable;
-  
-  dff_b16 reg_a(
-    .clk(medclock.value), .rst(rst), .write_val(write_a), 
-    .write_enable(b1)
-  );
-  dff_b16 reg_b(
-    .clk(medclock.value), .rst(rst), .write_val(write_b), 
-    .write_enable(b1)
-  );
-  
-  adder_b16 adder;
   multi_segment segment_display(.clk(clk), .rst(rst));
+  sig manual_data_input[16];
+  sig pause;
+  
+  tester test(
+    .clk(clk),
+    .rst(rst),
+    .restart_tests(restart_tests_button.out),
+    
+    .select_data(io_dip[2][1:0]),
+    .manual_data_input(manual_data_input),
+    .pause(pause),
+    .write_enable(io_dip[2][3])
+  );
   
   always {
+    btn_cond.in = io_button[4];
     reset_cond.in = ~rst_n; // input raw inverted reset signal
-    rst = reset_cond.out;   // conditioned reset
+    rst = reset_cond.out | btn_cond.out;   // conditioned reset_cond
     
-    a_value = reg_a.out;
-    adder.x = reg_a.out;
-    adder.y = 16h0001;
-    adder.subtract = b1;
-    write_a = adder.s;
+    // We only use the first 3 bits to display adder flags
+    led[0] = test.z;
+    led[1] = test.v;
+    led[2] = test.n;
+    led[7:3] = 0;
     
-    io_led[0] = adder.s[7:0];
-    io_led[1] = adder.s[15:8];
-    segment_display.number = adder.s;
+    pause = pause_button.out | pause_switch.out;
+    
+    // total of 16 dip switches for manual input, one per bit
+    manual_data_input[7:0] = io_dip[0];
+    manual_data_input[15:8] = io_dip[1];
+    
+    io_led[0] = test.data_display[7:0];
+    io_led[1] = test.data_display[15:8];
+    io_led[2] = test.state_display;
+    
+    segment_display.number = test.data_display;
     io_sel = 4b1111; // don't select any 7-segs by default
     io_seg = 8hFF; // blank the target 7-seg by default
+    
+    // our indicator that an error is happening is activating
+    // all the decimal points on the 7-segment display
+    if (test.error_is_happening) {
+      segment_display.decimal = 4b1111;
+    } else {
+      segment_display.decimal = 4b0000;
+    }
     
     case (segment_counter.value) {
       2b00:
@@ -77,10 +97,5 @@ module au_top (
     }
     
     usb_tx = usb_rx;        // loop serial port
-    led = 8hAA;             // turn LEDs off
-    
-    // io_led = 3x{{8h00}};    // turn LEDs off
-    // io_seg = 8b10100100;
-    // io_sel = 4b1110; // select first digit
   }
 }

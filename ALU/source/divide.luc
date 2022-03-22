@@ -1,0 +1,11 @@
+module divide (
+    input x[16],
+    input y[16],
+    output out[16]
+  ) {
+
+  always {
+    // Board handles divide by zero errors natively by outputting -1
+    out = x/y;
+  }
+}

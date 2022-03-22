@@ -1,0 +1,21 @@
+module register #(
+    SIZE = 16 : SIZE > 0 // size of the register
+  )(
+    input clk,  // clock
+    input rst,  // reset
+    input write_val[SIZE],
+    input write_enable,
+    output out[SIZE]
+  ) {
+    dff register[SIZE](#INIT(0), .clk(clk), .rst(rst)); 
+  
+  always {
+    // output of registers is module output
+    out = register.q;
+    
+    // write to registers if write_enable == true
+    if (write_enable == b1) {
+      register.d = write_val;
+    }
+  }
+}

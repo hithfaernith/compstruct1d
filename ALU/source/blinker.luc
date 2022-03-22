@@ -1,0 +1,25 @@
+module blinker #(
+    MAX_VALUE = 50000000 : MAX_VALUE > 0
+  )(
+    input clk,  // clock
+    input rst,  // reset
+    output out
+  ) {
+
+  .clk(clk) {
+    .rst(rst) {
+      dff ctr[$clog2(MAX_VALUE)];
+      dff led;
+    }
+  }
+
+  always {
+    ctr.d = ctr.q + 1;
+    if (ctr.q == MAX_VALUE-1) {
+      ctr.d = 0;
+      led.d = ~led.q;
+    }
+
+    out = led.q;
+  }
+}

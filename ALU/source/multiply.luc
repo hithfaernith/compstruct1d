@@ -1,0 +1,10 @@
+module multiply (
+    input x[16],
+    input y[16],
+    output out[16]
+  ) {
+
+  always {
+    out = x*y;
+  }
+}
