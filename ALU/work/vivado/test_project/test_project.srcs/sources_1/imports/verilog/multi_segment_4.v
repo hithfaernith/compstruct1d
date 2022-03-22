@@ -4,10 +4,11 @@
    This is a temporary file and any changes made to it will be destroyed.
 */
 
-module multi_segment_7 (
+module multi_segment_4 (
     input clk,
     input rst,
     input [15:0] number,
+    input [3:0] decimal,
     output reg [7:0] seg_out1,
     output reg [7:0] seg_out2,
     output reg [7:0] seg_out3,
@@ -19,11 +20,11 @@ module multi_segment_7 (
   wire [4-1:0] M_decoder1_io_sel;
   wire [8-1:0] M_decoder1_io_out;
   reg [4-1:0] M_decoder1_segment_digit;
-  segment_decoder_9 decoder1 (
+  segment_decoder_7 decoder1 (
     .clk(clk),
     .rst(rst),
     .segment_no(2'h0),
-    .decimal(1'h0),
+    .decimal(decimal[0+0-:1]),
     .clear(1'h0),
     .segment_digit(M_decoder1_segment_digit),
     .io_sel(M_decoder1_io_sel),
@@ -33,11 +34,11 @@ module multi_segment_7 (
   wire [4-1:0] M_decoder2_io_sel;
   wire [8-1:0] M_decoder2_io_out;
   reg [4-1:0] M_decoder2_segment_digit;
-  segment_decoder_9 decoder2 (
+  segment_decoder_7 decoder2 (
     .clk(clk),
     .rst(rst),
     .segment_no(2'h0),
-    .decimal(1'h0),
+    .decimal(decimal[1+0-:1]),
     .clear(1'h0),
     .segment_digit(M_decoder2_segment_digit),
     .io_sel(M_decoder2_io_sel),
@@ -47,11 +48,11 @@ module multi_segment_7 (
   wire [4-1:0] M_decoder3_io_sel;
   wire [8-1:0] M_decoder3_io_out;
   reg [4-1:0] M_decoder3_segment_digit;
-  segment_decoder_9 decoder3 (
+  segment_decoder_7 decoder3 (
     .clk(clk),
     .rst(rst),
     .segment_no(2'h0),
-    .decimal(1'h0),
+    .decimal(decimal[2+0-:1]),
     .clear(1'h0),
     .segment_digit(M_decoder3_segment_digit),
     .io_sel(M_decoder3_io_sel),
@@ -61,11 +62,11 @@ module multi_segment_7 (
   wire [4-1:0] M_decoder4_io_sel;
   wire [8-1:0] M_decoder4_io_out;
   reg [4-1:0] M_decoder4_segment_digit;
-  segment_decoder_9 decoder4 (
+  segment_decoder_7 decoder4 (
     .clk(clk),
     .rst(rst),
     .segment_no(2'h0),
-    .decimal(1'h0),
+    .decimal(decimal[3+0-:1]),
     .clear(1'h0),
     .segment_digit(M_decoder4_segment_digit),
     .io_sel(M_decoder4_io_sel),

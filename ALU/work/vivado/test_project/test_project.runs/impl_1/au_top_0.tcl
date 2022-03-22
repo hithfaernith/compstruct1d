@@ -17,7 +17,7 @@ proc create_report { reportName command } {
   }
 }
 namespace eval ::optrace {
-  variable script "/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.runs/impl_1/au_top_0.tcl"
+  variable script "C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.runs/impl_1/au_top_0.tcl"
   variable category "vivado_impl"
 }
 
@@ -129,21 +129,21 @@ OPTRACE "create in-memory project" START { }
   set_param project.singleFileAddWarning.threshold 0
 OPTRACE "create in-memory project" END { }
 OPTRACE "set parameters" START { }
-  set_property webtalk.parent_dir /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.cache/wt [current_project]
-  set_property parent.project_path /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.xpr [current_project]
-  set_property ip_output_repo /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.cache/ip [current_project]
+  set_property webtalk.parent_dir C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.cache/wt [current_project]
+  set_property parent.project_path C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.xpr [current_project]
+  set_property ip_output_repo C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.cache/ip [current_project]
   set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "set parameters" END { }
 OPTRACE "add files" START { }
-  add_files -quiet /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado/test_project/test_project.runs/synth_1/au_top_0.dcp
+  add_files -quiet C:/sutd/CompStruct/compstruct1d/ALU/work/vivado/test_project/test_project.runs/synth_1/au_top_0.dcp
 OPTRACE "read constraints: implementation" START { }
-  read_xdc /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/constraint/io.xdc
-  read_xdc /home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/constraint/alchitry.xdc
-  read_xdc /home/milselarch/SUTD/50-002/FPGA/alcrity/library/components/au.xdc
+  read_xdc C:/sutd/CompStruct/compstruct1d/ALU/work/constraint/alchitry.xdc
+  read_xdc C:/sutd/CompStruct/compstruct1d/ALU/work/constraint/io.xdc
+  read_xdc {{C:/Program Files/Alchitry/Alchitry Labs/library/components/au.xdc}}
 OPTRACE "read constraints: implementation" END { }
 OPTRACE "add files" END { }
 OPTRACE "link_design" START { }
-  link_design -top au_top_0 -part xc7a35tftg256-1 
+  link_design -top au_top_0 -part xc7a35tftg256-1
 OPTRACE "link_design" END { }
 OPTRACE "gray box cells" START { }
 OPTRACE "gray box cells" END { }
@@ -275,7 +275,7 @@ OPTRACE "route_design reports" START { REPORT }
   create_report "impl_1_route_report_methodology_0" "report_methodology -file au_top_0_methodology_drc_routed.rpt -pb au_top_0_methodology_drc_routed.pb -rpx au_top_0_methodology_drc_routed.rpx"
   create_report "impl_1_route_report_power_0" "report_power -file au_top_0_power_routed.rpt -pb au_top_0_power_summary_routed.pb -rpx au_top_0_power_routed.rpx"
   create_report "impl_1_route_report_route_status_0" "report_route_status -file au_top_0_route_status.rpt -pb au_top_0_route_status.pb"
-  create_report "impl_1_route_report_timing_summary_0" "report_timing_summary -max_paths 10 -report_unconstrained -file au_top_0_timing_summary_routed.rpt -pb au_top_0_timing_summary_routed.pb -rpx au_top_0_timing_summary_routed.rpx -warn_on_violation "
+  create_report "impl_1_route_report_timing_summary_0" "report_timing_summary -max_paths 10 -file au_top_0_timing_summary_routed.rpt -pb au_top_0_timing_summary_routed.pb -rpx au_top_0_timing_summary_routed.rpx -warn_on_violation "
   create_report "impl_1_route_report_incremental_reuse_0" "report_incremental_reuse -file au_top_0_incremental_reuse_routed.rpt"
   create_report "impl_1_route_report_clock_utilization_0" "report_clock_utilization -file au_top_0_clock_utilization_routed.rpt"
   create_report "impl_1_route_report_bus_skew_0" "report_bus_skew -warn_on_violation -file au_top_0_bus_skew_routed.rpt -pb au_top_0_bus_skew_routed.pb -rpx au_top_0_bus_skew_routed.rpx"

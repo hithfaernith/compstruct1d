@@ -4,7 +4,7 @@
    This is a temporary file and any changes made to it will be destroyed.
 */
 
-module adder_b16_6 (
+module adder_b16_11 (
     input [15:0] x,
     input [15:0] y,
     input subtract,
@@ -26,7 +26,7 @@ module adder_b16_6 (
   genvar GEN_fulladder0;
   generate
   for (GEN_fulladder0=0;GEN_fulladder0<5'h10;GEN_fulladder0=GEN_fulladder0+1) begin: fulladder_gen_0
-    full_adder_8 fulladder (
+    full_adder_18 fulladder (
       .x(M_fulladder_x[GEN_fulladder0*(1)+(1)-1-:(1)]),
       .y(M_fulladder_y[GEN_fulladder0*(1)+(1)-1-:(1)]),
       .cin(M_fulladder_cin[GEN_fulladder0*(1)+(1)-1-:(1)]),
@@ -50,13 +50,10 @@ module adder_b16_6 (
     s = M_fulladder_s;
     cout = M_fulladder_cout[15+0-:1];
     n = M_fulladder_s[15+0-:1];
-    v = ((x[15+0-:1] & y[15+0-:1] & ~M_fulladder_s[15+0-:1]) | (~x[15+0-:1] & ~y[15+0-:1] & M_fulladder_s[15+0-:1]));
+    v = ((x[15+0-:1] & (y[15+0-:1] ^ subtract) & ~M_fulladder_s[15+0-:1]) | (~x[15+0-:1] & ~(y[15+0-:1] ^ subtract) & M_fulladder_s[15+0-:1]));
     z = 1'h0;
-    
-    case (M_fulladder_s)
-      16'h0000: begin
-        z = 1'h1;
-      end
-    endcase
+    if (M_fulladder_s == 16'h0000) begin
+      z = 1'h1;
+    end
   end
 endmodule

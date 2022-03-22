@@ -1,13 +1,13 @@
-set projDir "/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/vivado"
+set projDir "C:/sutd/CompStruct/compstruct1d/ALU/work/vivado"
 set projName "test_project"
 set topName top
 set device xc7a35tftg256-1
 if {[file exists "$projDir/$projName"]} { file delete -force "$projDir/$projName" }
 create_project $projName "$projDir/$projName" -part $device
 set_property design_mode RTL [get_filesets sources_1]
-set verilogSources [list "/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/verilog/au_top_0.v" "/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/verilog/reset_conditioner_1.v" "/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/verilog/counter_2.v" "/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/verilog/counter_3.v" "/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/verilog/counter_4.v" "/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/verilog/dff_b16_5.v" "/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/verilog/adder_b16_6.v" "/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/verilog/multi_segment_7.v" "/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/verilog/full_adder_8.v" "/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/verilog/segment_decoder_9.v" ]
+set verilogSources [list "C:/sutd/CompStruct/compstruct1d/ALU/work/verilog/au_top_0.v" "C:/sutd/CompStruct/compstruct1d/ALU/work/verilog/reset_conditioner_1.v" "C:/sutd/CompStruct/compstruct1d/ALU/work/verilog/button_conditioner_2.v" "C:/sutd/CompStruct/compstruct1d/ALU/work/verilog/counter_3.v" "C:/sutd/CompStruct/compstruct1d/ALU/work/verilog/multi_segment_4.v" "C:/sutd/CompStruct/compstruct1d/ALU/work/verilog/tester_5.v" "C:/sutd/CompStruct/compstruct1d/ALU/work/verilog/pipeline_6.v" "C:/sutd/CompStruct/compstruct1d/ALU/work/verilog/segment_decoder_7.v" "C:/sutd/CompStruct/compstruct1d/ALU/work/verilog/toggle_clock_8.v" "C:/sutd/CompStruct/compstruct1d/ALU/work/verilog/alu_full_9.v" "C:/sutd/CompStruct/compstruct1d/ALU/work/verilog/counter_10.v" "C:/sutd/CompStruct/compstruct1d/ALU/work/verilog/adder_b16_11.v" "C:/sutd/CompStruct/compstruct1d/ALU/work/verilog/multiply_12.v" "C:/sutd/CompStruct/compstruct1d/ALU/work/verilog/divide_13.v" "C:/sutd/CompStruct/compstruct1d/ALU/work/verilog/boolean_unit_14.v" "C:/sutd/CompStruct/compstruct1d/ALU/work/verilog/shifter_15.v" "C:/sutd/CompStruct/compstruct1d/ALU/work/verilog/compare_unit_16.v" "C:/sutd/CompStruct/compstruct1d/ALU/work/verilog/reverse_17.v" "C:/sutd/CompStruct/compstruct1d/ALU/work/verilog/full_adder_18.v" ]
 import_files -fileset [get_filesets sources_1] -force -norecurse $verilogSources
-set xdcSources [list "/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/constraint/io.xdc" "/home/milselarch/SUTD/50-002/FPGA/1D/ALU/work/constraint/alchitry.xdc" "/home/milselarch/SUTD/50-002/FPGA/alcrity/library/components/au.xdc" ]
+set xdcSources [list "C:/sutd/CompStruct/compstruct1d/ALU/work/constraint/alchitry.xdc" "C:/sutd/CompStruct/compstruct1d/ALU/work/constraint/io.xdc" "C:/Program\ Files/Alchitry/Alchitry\ Labs/library/components/au.xdc" ]
 read_xdc $xdcSources
 set_property STEPS.WRITE_BITSTREAM.ARGS.BIN_FILE true [get_runs impl_1]
 update_compile_order -fileset sources_1

@@ -1,8 +1,8 @@
-Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------
-| Tool Version : Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
-| Date         : Wed Mar  9 06:04:28 2022
-| Host         : jormungandr running 64-bit Ubuntu 20.04.3 LTS
+| Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
+| Date         : Tue Mar 15 22:24:20 2022
+| Host         : LAPTOP-OHVOUTMM running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file au_top_0_control_sets_placed.rpt
 | Design       : au_top_0
 | Device       : xc7a35t
@@ -23,11 +23,11 @@ Table of Contents
 +----------------------------------------------------------+-------+
 |                          Status                          | Count |
 +----------------------------------------------------------+-------+
-| Total control sets                                       |     3 |
-|    Minimum number of control sets                        |     3 |
+| Total control sets                                       |    11 |
+|    Minimum number of control sets                        |    11 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |     6 |
+| Unused register locations in slices containing registers |    26 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -39,15 +39,15 @@ Table of Contents
 +--------------------+-------+
 |       Fanout       | Count |
 +--------------------+-------+
-| Total control sets |     3 |
+| Total control sets |    11 |
 | >= 0 to < 4        |     0 |
-| >= 4 to < 6        |     1 |
-| >= 6 to < 8        |     0 |
-| >= 8 to < 10       |     0 |
+| >= 4 to < 6        |     2 |
+| >= 6 to < 8        |     1 |
+| >= 8 to < 10       |     1 |
 | >= 10 to < 12      |     0 |
 | >= 12 to < 14      |     0 |
 | >= 14 to < 16      |     0 |
-| >= 16              |     2 |
+| >= 16              |     7 |
 +--------------------+-------+
 * Control sets can be remapped at either synth_design or opt_design
 
@@ -58,24 +58,32 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |               0 |            0 |
+| No           | No                    | No                     |               8 |            4 |
 | No           | No                    | Yes                    |               0 |            0 |
-| No           | Yes                   | No                     |              58 |           18 |
+| No           | Yes                   | No                     |              48 |           13 |
 | Yes          | No                    | No                     |               0 |            0 |
 | Yes          | No                    | Yes                    |               0 |            0 |
-| Yes          | Yes                   | No                     |               0 |            0 |
+| Yes          | Yes                   | No                     |             118 |           38 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
 4. Detailed Control Set Information
 -----------------------------------
 
-+-----------------------------+---------------+----------------------------+------------------+----------------+--------------+
-|         Clock Signal        | Enable Signal |      Set/Reset Signal      | Slice Load Count | Bel Load Count | Bels / Slice |
-+-----------------------------+---------------+----------------------------+------------------+----------------+--------------+
-|  clk_IBUF_BUFG              |               | reset_cond/M_reset_cond_in |                1 |              4 |         4.00 |
-|  medclock/M_ctr_q_reg[25]_0 |               | reset_cond/Q[0]            |                7 |             16 |         2.29 |
-|  clk_IBUF_BUFG              |               | reset_cond/Q[0]            |               10 |             38 |         3.80 |
-+-----------------------------+---------------+----------------------------+------------------+----------------+--------------+
++-------------------------------+-------------------------------------------+--------------------------------------------+------------------+----------------+--------------+
+|          Clock Signal         |               Enable Signal               |              Set/Reset Signal              | Slice Load Count | Bel Load Count | Bels / Slice |
++-------------------------------+-------------------------------------------+--------------------------------------------+------------------+----------------+--------------+
+|  clk_IBUF_BUFG                |                                           | reset_cond/M_reset_cond_in                 |                1 |              4 |         4.00 |
+|  pause_switch/M_ctr_q_reg[26] |                                           | reset_cond/SR[0]                           |                2 |              5 |         2.50 |
+|  clk_IBUF_BUFG                | pause_switch/E[0]                         | reset_cond/rst                             |                3 |              6 |         2.00 |
+|  clk_IBUF_BUFG                |                                           |                                            |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG                | pause_switch/M_ctr_q_reg[11]_1[0]         | reset_cond/rst                             |                8 |             16 |         2.00 |
+|  clk_IBUF_BUFG                | pause_switch/M_ctr_q_reg[11]_0[0]         | reset_cond/rst                             |                7 |             16 |         2.29 |
+|  clk_IBUF_BUFG                | btn_cond/sel                              | btn_cond/sync/clear                        |                5 |             20 |         4.00 |
+|  clk_IBUF_BUFG                | manual_reset_button/M_ctr_q[0]_i_2__1_n_0 | manual_reset_button/sync/M_pipe_q_reg[1]_0 |                5 |             20 |         4.00 |
+|  clk_IBUF_BUFG                | pause_button/M_ctr_q[0]_i_2_n_0           | pause_button/sync/M_pipe_q_reg[1]_0        |                5 |             20 |         4.00 |
+|  clk_IBUF_BUFG                | pause_switch/M_ctr_q[0]_i_2__0_n_0        | pause_switch/sync/M_pipe_q_reg[1]_0        |                5 |             20 |         4.00 |
+|  clk_IBUF_BUFG                |                                           | reset_cond/rst                             |               10 |             39 |         3.90 |
++-------------------------------+-------------------------------------------+--------------------------------------------+------------------+----------------+--------------+
 
 
