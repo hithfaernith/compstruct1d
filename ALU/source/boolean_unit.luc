@@ -42,8 +42,8 @@ module boolean_unit (
     
     // We do this for all the bits in out
     for (i=0; i<16; i++) {
-      inputs[1] = a[i];
-      inputs[0] = b[i];
+      inputs[1] = b[i];
+      inputs[0] = a[i];
       out[i] = func[inputs];
     }
   }
