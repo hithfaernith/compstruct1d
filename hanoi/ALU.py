@@ -76,7 +76,7 @@ class ALU(object):
     def boolean_unit(
         cls, a: UBitNumber, b: UBitNumber, alufn: UBitNumber
     ):
-        print('BOOL UNIT')
+        # print('BOOL UNIT')
         cls.verify(a, b, alufn)
         length = len(a)
         output = UBitNumber(0, num_bits=length, editable=True)
@@ -85,7 +85,7 @@ class ALU(object):
         for k in range(len(output)):
             lookup_index = a[k] + 2 * b[k]
             output[k] = func[lookup_index]
-            print('FUNC', k, func, lookup_index, func[lookup_index], a[k])
+            # print('FUNC', k, func, lookup_index, func[lookup_index], a[k])
 
         output.disable_edit()
         return output

@@ -33,9 +33,14 @@ class BinNumber(object):
 
     def enable_edit(self):
         self.editable = True
+        return self
 
     def disable_edit(self):
         self.editable = False
+        return self
+
+    def __int__(self):
+        return self.value
 
     def __setitem__(self, index, bit_value: int):
         assert self.editable
@@ -170,6 +175,20 @@ class BinNumber(object):
     def value(self):
         return self.to_decimal()
 
+    @property
+    def msb(self):
+        return self.bits[0]
+
+    def sign_extend(self, num_bits):
+        assert num_bits >= self.num_bits
+        padding = [self.msb] * (num_bits - self.num_bits)
+        new_bits = padding + self.bits
+
+        return self.__class__(
+            num=copy.copy(new_bits),
+            num_bits=num_bits, signed=self.signed
+        )
+
     def editable_copy(self):
         return self.copy(editable=True)
 
@@ -180,7 +199,7 @@ class BinNumber(object):
         return self.__class__(
             num=copy.copy(self.bits),
             num_bits=self.num_bits, signed=self.signed,
-            editable=self.editable
+            editable=editable
         )
 
     def __add__(self, other):
@@ -188,7 +207,7 @@ class BinNumber(object):
             other = other.value
 
         new_val = self.value + other
-        print('add val', self, self.value, other, new_val)
+        # print('add val', self, self.value, other, new_val)
         new_bin_no = self.__class__(
             num=new_val, num_bits=self.num_bits,
             signed=self.signed

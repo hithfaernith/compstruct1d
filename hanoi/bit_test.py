@@ -22,3 +22,11 @@ print(b, b << 3, b << 2)
 
 print(int(ALUFN.A), type(ALUFN.A), isinstance(ALUFN.A, IntEnum))
 print(ALU.run(6, 1, ALUFN.A))
+
+a = UBitNumber(0b10111001, num_bits=8)
+b = UBitNumber(23, num_bits=8)
+print(a, a.sign_extend(16), b, b.sign_extend(16))
+
+print(b)
+b += 1
+print(b)
