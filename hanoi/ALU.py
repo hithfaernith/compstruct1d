@@ -5,26 +5,42 @@ from BitNumber import *
 from BitNumber import UBitNumber
 
 
-class AluCodes(IntEnum):
-    B = 1
-    C = 2
+class ALUFN(IntEnum):
+    ADD = 0x00
+    SUB = 0x01
+    MUL = 0x02
+    AND = 0x18
+    OR = 0x1E
+    XOR = 0x16
+    A = 0x1A
+    SHL = 0x20
+    SHR = 0x21
+    SRA = 0x23
+    CMPEQ = 0x33
+    CMPLT = 0x35
+    CMPLE = 0x37
 
 
 class ALU(object):
     BUS_WIDTH = 16
+    ALUFN_WIDTH = 6
 
     @classmethod
     def verify(
         cls, a: UBitNumber, b: UBitNumber, alufn: UBitNumber
     ):
-        assert isinstance(a, UBitNumber)
-        assert isinstance(b, UBitNumber)
-        assert isinstance(alufn, UBitNumber)
+        try:
+            assert isinstance(a, UBitNumber)
+            assert isinstance(b, UBitNumber)
+            assert isinstance(alufn, UBitNumber)
 
-        assert not a.editable
-        assert not b.editable
-        assert a.num_bits == b.num_bits == cls.BUS_WIDTH
-        assert alufn.num_bits == 6
+            assert not a.editable
+            assert not b.editable
+            assert a.num_bits == b.num_bits == cls.BUS_WIDTH
+            assert alufn.num_bits == 6
+        except AssertionError as e:
+            print('VERIFY FAILED', a, b, alufn)
+            raise e
 
     @classmethod
     def shift_unit(
@@ -60,14 +76,16 @@ class ALU(object):
     def boolean_unit(
         cls, a: UBitNumber, b: UBitNumber, alufn: UBitNumber
     ):
+        print('BOOL UNIT')
         cls.verify(a, b, alufn)
         length = len(a)
         output = UBitNumber(0, num_bits=length, editable=True)
         func = alufn[3:0]
 
         for k in range(len(output)):
-            lookup_index = 2 * a[k] + b[k]
+            lookup_index = a[k] + 2 * b[k]
             output[k] = func[lookup_index]
+            print('FUNC', k, func, lookup_index, func[lookup_index], a[k])
 
         output.disable_edit()
         return output
@@ -94,6 +112,16 @@ class ALU(object):
 
     @classmethod
     def run(cls, a: UBitNumber, b: UBitNumber, alufn: UBitNumber):
+        if type(a) is int:
+            a = UBitNumber(a, num_bits=cls.BUS_WIDTH)
+        if type(b) is int:
+            b = UBitNumber(b, num_bits=cls.BUS_WIDTH)
+
+        if type(alufn) is int:
+            alufn = UBitNumber(alufn, num_bits=cls.ALUFN_WIDTH)
+        elif isinstance(alufn, IntEnum):
+            alufn = UBitNumber(int(alufn), num_bits=cls.ALUFN_WIDTH)
+
         cls.verify(a, b, alufn)
 
         if alufn[5:1] == 0:

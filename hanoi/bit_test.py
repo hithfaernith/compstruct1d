@@ -1,4 +1,6 @@
 from BitNumber import *
+from ALU import ALU, ALUFN
+from enum import IntEnum
 
 a = BitNumber(num=0b1101101011)
 print(a, a[5:0], a[5:0].value, a[5:1])
@@ -17,3 +19,6 @@ a = UBitNumber(16, num_bits=8)
 b = UBitNumber(3, num_bits=4)
 print('DIVIDE', a, b, a // b)
 print(b, b << 3, b << 2)
+
+print(int(ALUFN.A), type(ALUFN.A), isinstance(ALUFN.A, IntEnum))
+print(ALU.run(6, 1, ALUFN.A))

@@ -39,7 +39,7 @@ class BinNumber(object):
 
     def __setitem__(self, index, bit_value: int):
         assert self.editable
-        assert value in (0, 1)
+        assert bit_value in (0, 1)
         assert index >= 0
 
         bit_index = self.invert_index(index)
