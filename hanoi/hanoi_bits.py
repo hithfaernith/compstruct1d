@@ -5,36 +5,6 @@ from BinNumber import BinNumber
 from BST import BST, Node
 
 
-class BitNumber(BinNumber):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, signed=False, **kwargs)
-
-    def __repr__(self):
-        name = self.__class__.__name__
-        num = self.to_bin()
-        return (
-            f'{name}({num}, num_bits={self.num_bits})'
-        )
-
-    def msb_index(self):
-        for k in range(self.num_bits):
-            if self.bits[k] == 1:
-                return self.invert_index(k)
-
-        return None
-
-    def solo_msb(self):
-        # take out all bits except the MSB
-        # i.e. 0b01011 becomes 0b01000
-        msb_index = self.msb_index()
-        new_num = BitNumber(num=0, num_bits=self.num_bits)
-        if msb_index is None:
-            return new_num
-
-        new_num[msb_index] = 1
-        return new_num
-
-
 class HanoiWrapper(object):
     def __init__(self, hanoi):
         self.hanoi = hanoi

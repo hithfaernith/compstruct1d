@@ -5,10 +5,11 @@ import copy
 class BinNumber(object):
     def __init__(
         self, num, num_bits=32, hex_val=None,
-        signed=True
+        signed=True, editable=False
     ):
         self.num_bits = num_bits
         self.signed = signed
+        self.editable = editable
 
         if type(num) == list:
             self.bits = copy.deepcopy(num)
@@ -30,6 +31,88 @@ class BinNumber(object):
                 self.bits, False
             )
 
+    def enable_edit(self):
+        self.editable = True
+
+    def disable_edit(self):
+        self.editable = False
+
+    def __setitem__(self, index, bit_value: int):
+        assert self.editable
+        assert value in (0, 1)
+        assert index >= 0
+
+        bit_index = self.invert_index(index)
+        self.bits[bit_index] = bit_value
+
+    @staticmethod
+    def _sra(x, n, m):
+        # shift x of n bits right by m
+        if x & 2 ** (n - 1) != 0:  # MSB is 1, i.e. x is negative
+            filler = int('1' * m + '0' * (n - m), 2)
+            x = (x >> m) | filler  # fill in 0's with 1's
+            return x
+        else:
+            return x >> m
+
+    @staticmethod
+    def _sla(x, n, m):
+        # shift x of n bits left by m
+        if x & 2 ** (n - 1) != 0:  # MSB is 1, i.e. x is negative
+            filler = int('1' * m + '0' * (n - m), 2)
+            x = (x << m) | filler  # fill in 0's with 1's
+            return x
+        else:
+            return x << m
+
+    def shift_right_arith(self, bits):
+        if isinstance(bits, BinNumber):
+            bits = bits.value
+
+        value = self._sra(self.value, self.num_bits, bits)
+        return self.__class__(
+            num=value, num_bits=self.num_bits,
+            signed=self.signed
+        )
+
+    def shift_left_arith(self, bits):
+        if isinstance(bits, BinNumber):
+            bits = bits.value
+
+        value = self._sla(self.value, self.num_bits, bits)
+        return self.__class__(
+            num=value, num_bits=self.num_bits,
+            signed=self.signed
+        )
+
+    def to_signed(self):
+        bits = copy.deepcopy(self.bits)
+        return self.__class__(
+            num=bits, num_bits=self.num_bits,
+            signed=True
+        )
+
+    def to_unsigned(self):
+        bits = copy.deepcopy(self.bits)
+        return self.__class__(
+            num=bits, num_bits=self.num_bits,
+            signed=False
+        )
+
+    def __lshift__(self, bits):
+        new_val = self.value << bits
+        return self.__class__(
+            num=new_val, num_bits=self.num_bits,
+            signed=self.signed
+        )
+
+    def __rshift__(self, bits):
+        new_val = self.value >> bits
+        return self.__class__(
+            num=new_val, num_bits=self.num_bits,
+            signed=self.signed
+        )
+
     @classmethod
     def from_bits(cls, bits, num_bits=32):
         pass
@@ -41,12 +124,17 @@ class BinNumber(object):
         return len(self.bits)
 
     def __getitem__(self, index):
-        assert index >= 0
-        return self.bits[self.invert_index(index)]
-
-    def __setitem__(self, index, bit):
-        assert index >= 0
-        self.bits[self.invert_index(index)] = bit
+        if type(index) is int:
+            assert index >= 0
+            return self.bits[self.invert_index(index)]
+        else:
+            start_index = index.stop
+            end_index = index.start + 1
+            bits = self.bits[::-1][start_index:end_index][::-1]
+            return self.__class__(
+                num=bits, num_bits=len(bits),
+                signed=self.signed
+            )
 
     @property
     def is_negative(self):
@@ -82,6 +170,19 @@ class BinNumber(object):
     def value(self):
         return self.to_decimal()
 
+    def editable_copy(self):
+        return self.copy(editable=True)
+
+    def copy(self, editable=False):
+        for bit in self.bits:
+            assert bit in (0, 1)
+
+        return self.__class__(
+            num=copy.copy(self.bits),
+            num_bits=self.num_bits, signed=self.signed,
+            editable=self.editable
+        )
+
     def __add__(self, other):
         if isinstance(other, self.__class__):
             other = other.value
@@ -89,7 +190,8 @@ class BinNumber(object):
         new_val = self.value + other
         print('add val', self, self.value, other, new_val)
         new_bin_no = self.__class__(
-            num=new_val, num_bits=self.num_bits
+            num=new_val, num_bits=self.num_bits,
+            signed=self.signed
         )
 
         try:
@@ -107,7 +209,32 @@ class BinNumber(object):
         new_val = self.value - other
         print('new val', new_val)
         return self.__class__(
-            num=new_val, num_bits=self.num_bits
+            num=new_val, num_bits=self.num_bits,
+            signed=self.signed
+        )
+
+    def __mul__(self, other):
+        value = self.value * other.value
+        return self.__class__(
+            num=value, num_bits=self.num_bits,
+            signed=self.signed
+        )
+
+    def __truediv__(self, other):
+        return self // other
+
+    def __floordiv__(self, other):
+        value = self.value // other.value
+        return self.__class__(
+            num=value, num_bits=self.num_bits,
+            signed=self.signed
+        )
+
+    def __mod__(self, other):
+        value = self.value % other.value
+        return self.__class__(
+            num=value, num_bits=self.num_bits,
+            signed=self.signed
         )
 
     def __invert__(self):
@@ -119,7 +246,8 @@ class BinNumber(object):
         # print('new bits', bits)
         value = self.to_decimal(bits)
         inv_bin_no = self.__class__(
-            num=value, num_bits=self.num_bits
+            num=value, num_bits=self.num_bits,
+            signed=self.signed
         )
 
         print(f'inv_value', value, inv_bin_no)
@@ -134,7 +262,8 @@ class BinNumber(object):
             l_bits[k] &= r_bits[k]
 
         return self.__class__(
-            num=l_bits, num_bits=self.num_bits
+            num=l_bits, num_bits=self.num_bits,
+            signed=self.signed
         )
 
     def __or__(self, other):
@@ -146,7 +275,8 @@ class BinNumber(object):
             l_bits[k] |= r_bits[k]
 
         return self.__class__(
-            num=l_bits, num_bits=self.num_bits
+            num=l_bits, num_bits=self.num_bits,
+            signed=self.signed
         )
 
     def __xor__(self, other):
@@ -158,7 +288,8 @@ class BinNumber(object):
             l_bits[k] ^= r_bits[k]
 
         return self.__class__(
-            num=l_bits, num_bits=self.num_bits
+            num=l_bits, num_bits=self.num_bits,
+            signed=self.signed
         )
 
     def __neg__(self):
@@ -174,7 +305,10 @@ class BinNumber(object):
                 break
 
             digit = 1 if digit == '1' else 0
-            bits[-1-k] = digit
+            try:
+                bits[-1-k] = digit
+            except IndexError as e:
+                break
 
         if negative:
             assert bits[0] == 0
@@ -182,8 +316,14 @@ class BinNumber(object):
 
         return bits
 
+    def __bool__(self):
+        return self.value != 0
+
     def __eq__(self, other):
-        return self.value == other.value
+        if isinstance(other, BinNumber):
+            return self.value == other.value
+
+        return self.value == other
 
     def __lt__(self, other):
         return self.value < other.value
