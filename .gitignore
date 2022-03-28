@@ -4,4 +4,4 @@ ALU/work/
 *.tcl
 *.bin
 *.swp
-
+__pycache__

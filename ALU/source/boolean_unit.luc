@@ -18,19 +18,32 @@ module boolean_unit (
     // from 0 to 3. For example, with alufn[3:0] being 1000,
     // we get:
     //
-    // a | b | func
+    // b | a | func
     // 1 | 1 | 1
     // 1 | 0 | 0
     // 0 | 1 | 0
     // 0 | 0 | 0
     //
     // Which is an AND gate.
+    
+    /*
+    BUGFIX: swapped a and b (b is msb in lab3 spec)
+    "A" operation in ALU is 0x1A = 26 = 6b011010
+    which has a func of 1010
+    https://natalieagus.github.io/50002/assets/contentimage/lab3/9.png
+    -----------------------------
+    b | a | func "A"
+    1 | 1 | 1
+    1 | 0 | 0
+    0 | 1 | 1
+    0 | 0 | 0
+    */
     func = alufn[3:0];
     
     // We do this for all the bits in out
     for (i=0; i<16; i++) {
-      inputs[1] = a[i];
-      inputs[0] = b[i];
+      inputs[1] = b[i];
+      inputs[0] = a[i];
       out[i] = func[inputs];
     }
   }
