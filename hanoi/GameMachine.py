@@ -1,4 +1,4 @@
-from enum import IntEnum, auto
+from enum import Enum, IntEnum, auto
 from overrides import overrides
 
 from BitNumber import *
@@ -58,10 +58,18 @@ class GameMachine(object):
     def __init__(self, clock_div=17):
         self.clock_div = clock_div
         self.registers = self.reset_registers()
+        self.state = None
+
+    def reset_state(self):
+        self.state = None
 
     def reset_registers(self):
         self.registers = self.init_registers()
         return self.registers
+
+    @property
+    def player_pos(self):
+        return self.registers[REGS.PLAYER_POS]
 
     @property
     def enemy_no(self):
@@ -83,6 +91,14 @@ class GameMachine(object):
     def enemy_dir(self):
         return self.enemy_directions[int(self.enemy_no)]
 
+    @property
+    def tower_positions(self):
+        return self.registers[REGS.TOWER_POSITIONS]
+
+    @property
+    def tower(self):
+        return self.tower_positions[int(REGS.TOWER_NO)]
+
     def init_registers(self):
         return {
             REGS.PLAYER_POS: UBitNumber(0, num_bits=8),
@@ -93,15 +109,18 @@ class GameMachine(object):
                 k: UBitNumber(31 + k << 5, num_bits=8)
                 for k in range(self.NUM_ENEMIES)
             }, REGS.ENEMY_DIRECTIONS: {
-                k: UBitNumber(0b10, num_bits=2)
+                k: UBitNumber(0b00, num_bits=2)
                 for k in range(self.NUM_ENEMIES)
             }, REGS.TOWER_POSITIONS: {
-                0: UBitNumber(7 << 5, num_bits=16),
-                1: UBitNumber(15 << 5, num_bits=16),
-                2: UBitNumber(22 << 5, num_bits=16)
+                0: UBitNumber((3 << 5) + 7, num_bits=16),
+                1: UBitNumber((5 << 5) + 15, num_bits=16),
+                2: UBitNumber((4 << 5) + 22, num_bits=16)
             }
         }
 
-    def run(self):
-        raise NotImplementedError
+    def state_transition(self):
+        class States(IntEnum):
+            a = auto()
 
+        if self.state is None:
+            raise ValueError

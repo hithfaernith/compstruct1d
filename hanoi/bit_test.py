@@ -30,3 +30,7 @@ print(a, a.sign_extend(16), b, b.sign_extend(16))
 print(b)
 b += 1
 print(b)
+
+a = UBitNumber(0, num_bits=8).enable_edit()
+a[5:4] = 0b111
+print(a)

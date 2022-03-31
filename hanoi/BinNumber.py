@@ -42,14 +42,6 @@ class BinNumber(object):
     def __int__(self):
         return self.value
 
-    def __setitem__(self, index, bit_value: int):
-        assert self.editable
-        assert bit_value in (0, 1)
-        assert index >= 0
-
-        bit_index = self.invert_index(index)
-        self.bits[bit_index] = bit_value
-
     @staticmethod
     def _sra(x, n, m):
         # shift x of n bits right by m
@@ -79,6 +71,11 @@ class BinNumber(object):
             num=value, num_bits=self.num_bits,
             signed=self.signed
         )
+
+    def zero_all_bits(self):
+        assert self.editable
+        for k in range(len(self)):
+            self[k] = 0
 
     def shift_left_arith(self, bits):
         if isinstance(bits, BinNumber):
@@ -141,6 +138,33 @@ class BinNumber(object):
                 signed=self.signed
             )
 
+    def __setitem__(self, index, bit_value: int):
+        assert self.editable
+
+        if type(index) is int:
+            assert index >= 0
+            assert bit_value in (0, 1)
+            bit_index = self.invert_index(index)
+            self.bits[bit_index] = bit_value
+        else:
+            if isinstance(bit_value, BinNumber):
+                bit_value = bit_value.value
+                assert bit_value
+
+            start_index = index.stop
+            end_index = index.start + 1
+            num_assign_bits
+
+            assign_bits = self.fill_bits(
+                bit_value, num_bits=end_index-start_index,
+                negative=False
+            )
+
+            print(start_index, end_index)
+            for k in range(len(assign_bits) + 1):
+                print(k)
+                self.bits[start_index+k] = assign_bits[k]
+
     @property
     def is_negative(self):
         return self.bits[0] == 1
@@ -174,6 +198,10 @@ class BinNumber(object):
     @property
     def value(self):
         return self.to_decimal()
+
+    @property
+    def unsigned_value(self):
+        return self.to_decimal(signed=False)
 
     @property
     def msb(self):

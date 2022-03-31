@@ -111,7 +111,59 @@ class ALU(object):
         return output
 
     @classmethod
+    def PLAYER_CLIP_MOVE(cls, a: UBitNumber, b: UBitNumber):
+        # UP=0, DOWN=1, LEFT=2, RIGHT=3
+        player_position = a
+        new_position = UBitNumber(0, num_bits=16)
+        # var player_move = b should work
+        player_move = b.editable_copy()
+
+        UP = 0
+        DOWN = 1
+        LEFT = 2
+        RIGHT = 3
+
+        y = player_position[7:5]
+        x = player_position[4:0]
+
+        if x == 0:
+            # deny left [2] move
+            player_move[LEFT] = 0
+        elif x == 31:
+            # deny right [3] move
+            player_move[RIGHT] = 0
+
+        if y == 0:
+            # deny up [0] (visually down) move
+            player_move[UP] = 0
+        elif y == 31:
+            # deny down [0] (visually up) move
+            player_move[DOWN] = 0
+
+        if player_move[UP] == 1:
+            new_position
+
+    @classmethod
+    def math_unit(
+        cls, a: UBitNumber, b: UBitNumber, alufn: UBitNumber
+    ):
+        cls.verify(a, b, alufn)
+        assert alufn[5:4] == 0b00
+
+        if alufn[3:0] == 0b0000:
+            return a + b
+        elif alufn[5:0] == 0b0010:
+            return a * b
+        elif alufn[5:0] == 0b0011:
+            return a // b
+        elif alufn[5:0] == 0b1000:
+            return cls.PLAYER_CLIP_MOVE(a, b, alufn)
+
+        raise
+
+    @classmethod
     def run(cls, a: UBitNumber, b: UBitNumber, alufn: UBitNumber):
+        # TODO: remove reverse ALUFN from lucid code
         if type(a) is int:
             a = UBitNumber(a, num_bits=cls.BUS_WIDTH)
         if type(b) is int:
@@ -124,14 +176,8 @@ class ALU(object):
 
         cls.verify(a, b, alufn)
 
-        if alufn[5:1] == 0:
-            return a + b
-        elif alufn[5:0] == 0b000010:
-            return a * b
-        elif alufn[5:0] == 0b000011:
-            return a // b
-        elif alufn[5:3] == 0b001:
-            raise NotImplementedError('REVERSE NOT IMPLEMENTED')
+        if alufn[5:4] == 0b00:
+            return cls.math_unit(a, b, alufn)
         elif alufn[5:4] == 0b01:
             return cls.boolean_unit(a, b, alufn)
         elif alufn[5:4] == 0b10:
