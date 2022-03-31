@@ -5,3 +5,6 @@ ALU/work/
 *.bin
 *.swp
 __pycache__
+
+.idea
+.vscode

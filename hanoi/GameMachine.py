@@ -49,6 +49,10 @@ class GameMachine(object):
         return self.registers
 
     @property
+    def player_pos(self):
+        return self.registers[REGS.PLAYER_POS]
+
+    @property
     def enemy_no(self):
         return self.registers[REGS.ENEMY_NO]
 
