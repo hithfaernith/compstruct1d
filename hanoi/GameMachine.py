@@ -34,13 +34,28 @@ class STATES(IntEnum):
     START_STATE = auto()
 
 
+class StateTransition(object):
+    def __init__(
+        self, a_sel, b_sel, a_const, b_const,
+        alufn, we, wsel
+    ):
+        self.a_sel = a_sel
+        self.b_sel = b_sel
+        self.a_const = a_const
+        self.b_const = b_const
+        self.alufn = alufn
+
+        self.we = we
+        self.wsel = wsel
+
+
 class GameMachine(object):
     CLOCK_FREQ = 1e9
     NUM_ENEMIES = 8
     NUM_DISKS = 4
     NUM_TOWERS = 3
 
-    def __init__(self, clock_div=20):
+    def __init__(self, clock_div=17):
         self.clock_div = clock_div
         self.registers = self.reset_registers()
 
@@ -87,5 +102,6 @@ class GameMachine(object):
             }
         }
 
-
+    def run(self):
+        raise NotImplementedError
 

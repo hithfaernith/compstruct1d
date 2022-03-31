@@ -73,7 +73,8 @@ class Hanoi(object):
         name = self.__class__.__name__
         return f'{name}({self.towers})'
 
-    def move(self, hanoi, start, end):
+    @staticmethod
+    def move(hanoi, start, end):
         # make new hanoi towers from previous one after moving
         towers = copy.deepcopy(hanoi.towers)
         towers = list(towers)

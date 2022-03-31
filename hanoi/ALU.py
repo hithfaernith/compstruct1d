@@ -136,6 +136,8 @@ class ALU(object):
             return cls.boolean_unit(a, b, alufn)
         elif alufn[5:4] == 0b10:
             return cls.shift_unit(a, b, alufn)
+        elif alufn[5:4] == 0b11:
+            return cls.compare_unit(a, b, alufn)
         else:
             output = UBitNumber(0, num_bits=length)
             return output
