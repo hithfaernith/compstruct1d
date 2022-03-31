@@ -26,13 +26,17 @@ class REGS(IntEnum):
     # multiplexed registers
     ENEMY_DIR = auto()
     ENEMY_POS = auto()
+    ENEMY_MOVE_WAIT = auto()
     TOWER_POS = auto()
     TOWER = auto()
 
     ENEMY_POSITIONS = auto()
+    ENEMY_MOVE_WAITS = auto()
     ENEMY_DIRECTIONS = auto()
     TOWER_POSITIONS = auto()
     TOWER_STATES = auto()
+
+    LAST_FIRE_STAMP = auto()
 
 
 class StateTransition(object):
@@ -99,9 +103,24 @@ class GameMachine(object):
         return self.enemy_directions[int(self.enemy_no)]
 
     @enemy_dir.setter
-    def enemy_dir(self, value):
+    def enemy_dir(self, value: UBitNumber):
         assert isinstance(value, UBitNumber)
         self.enemy_directions[int(self.enemy_no)] = value[1:0]
+
+    @property
+    def enemy_move_waits(self):
+        return self.registers[REGS.ENEMY_MOVE_WAITS]
+
+    @property
+    def enemy_move_wait(self):
+        assert isinstance(value, UBitNumber)
+        return self.enemy_move_waits[int(self.enemy_no)]
+
+    @enemy_move_wait.setter
+    def enemy_move_wait(self, value: UBitNumber):
+        assert isinstance(value, UBitNumber)
+        assert value.num_bits == 16
+        self.enemy_move_waits[int(self.enemy_no)] = value
 
     @property
     def tower_positions(self):
@@ -153,20 +172,26 @@ class GameMachine(object):
             REGS.PLAYER_COUNTER: UBitNumber(0, num_bits=16),
             REGS.ENEMY_NO: UBitNumber(0, num_bits=16),
             REGS.TOWER_NO: UBitNumber(0, num_bits=16),
-            REGS.ACTIVE_DISK: UBitNumber(0b0100, num_bits=4),
+            # how long it's been since the last enemy was fired
+            REGS.LAST_FIRE_STAMP: UBitNumber(0, num_bits=16),
+            REGS.ACTIVE_DISK: UBitNumber(0b0000, num_bits=4),
             REGS.ENEMY_POSITIONS: {
                 # y coordinate is k, x coord is 31 (right)
                 k: UBitNumber(31 + (k << 5), num_bits=16)
                 for k in range(self.NUM_ENEMIES)
             }, REGS.ENEMY_DIRECTIONS: {
-                k: UBitNumber(0b01, num_bits=2)
+                k: UBitNumber(0b00, num_bits=2)
+                for k in range(self.NUM_ENEMIES)
+            }, REGS.ENEMY_MOVE_WAITS: {
+                # how long since the enemy last moved
+                k: UBitNumber(0b0, num_bits=16)
                 for k in range(self.NUM_ENEMIES)
             }, REGS.TOWER_POSITIONS: {
                 0: UBitNumber((4 << 5) + 7, num_bits=16),
                 1: UBitNumber((6 << 5) + 15, num_bits=16),
                 2: UBitNumber((5 << 5) + 22, num_bits=16)
             }, REGS.TOWER_STATES: {
-                0: UBitNumber(0b1001, num_bits=4),
+                0: UBitNumber(0b1111, num_bits=4),
                 1: UBitNumber(0, num_bits=4),
                 2: UBitNumber(0, num_bits=4)
             }
@@ -181,6 +206,8 @@ class GameMachine(object):
             return self.tower_pos
         elif register == REGS.TOWER:
             return self.tower_state
+        elif register == REGS.ENEMY_MOVE_WAIT:
+            return self.enemy_move_wait
 
         result = self.registers[register]
         assert isinstance(result, UBitNumber)
@@ -195,6 +222,8 @@ class GameMachine(object):
             self.tower_pos = value
         elif register == REGS.TOWER:
             self.tower_state = value
+        elif register == REGS.ENEMY_MOVE_WAIT:
+            self.enemy_move_wait = value
 
         assert isinstance(value, UBitNumber)
         assert isinstance(self.registers[register], UBitNumber)
@@ -246,7 +275,7 @@ class GameMachine(object):
 
     def state_transition(self, PMOVE: UBitNumber):
         """
-        simple(r) state transition diagram for
+        simple(r) state transition rules for
         just moving the player around the map
         """
         class STATES(IntEnum):
@@ -256,7 +285,7 @@ class GameMachine(object):
             CMP_PLAYER_WAIT = auto()
             PLAYER_MOVE = auto()
 
-        _PLAYER_WAIT = 40
+        _PLAYER_WAIT = 70
         state_init = False
 
         if self.state is None:
@@ -292,7 +321,7 @@ class GameMachine(object):
 
         elif self.state == STATES.CMP_PLAYER_WAIT:
             self.a_sel = REGS.PLAYER_COUNTER
-            self.b_sel = _PLAYER_WAIT
+            self.b_sel = _PLAYER_WAIT  # BCONST = 1
             self.alufn = ALUFN.CMPLT
 
             we, wsel = 0, 0

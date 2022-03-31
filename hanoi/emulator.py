@@ -8,6 +8,7 @@ from timeit import default_timer as timer
 
 from pygame.locals import *
 from GameMachine import GameMachine
+from HanoiMachine import HanoiMachine
 from BitNumber import *
 
 X_LEDS, Y_LEDS = 32, 8
@@ -21,6 +22,8 @@ class Colors(IntEnum):
     WHITE = 0xFFFFFF
     BLUE = 0x0000FF
     GREEN = 0x00FF00
+    DARK_GREEN = 0x013220
+    CELADON = 0xAFE1AF
     PURPLE = 0xDDA0DD
     INDIGO = 0x4B0082
     RED = 0xFF0000
@@ -29,14 +32,15 @@ class Colors(IntEnum):
     TOWER = BLUE
     ENEMY = RED
     DISK = INDIGO
+    ACTIVE_DISK = DARK_GREEN
 
 
 class Emulator(object):
-    CLOCK_FREQ = 1e9
+    CLOCK_FREQ = 100 * 1e6  # 100 MHz clock
 
-    def __init__(self, clock_div=20):
+    def __init__(self, clock_div=18):
         self.clock_div = clock_div
-        self.state = GameMachine()
+        self.state = HanoiMachine()
         self.screen = None
 
     def init_screen(self):
@@ -68,6 +72,8 @@ class Emulator(object):
             if disk_selection[k] == 1:
                 return MAX_DISKS - k
 
+        return 0
+
     def fill_leds(self):
         num_pixels = X_LEDS * Y_LEDS
         pixel_colors = [
@@ -84,7 +90,7 @@ class Emulator(object):
         for k in range(active_disk_length):
             try:
                 pixel_colors[player_y][player_x + k + 1] |= (
-                    Colors.DISK.value
+                    Colors.ACTIVE_DISK.value
                 )
             except IndexError as e:
                 break
@@ -163,11 +169,14 @@ class Emulator(object):
 
         start_time = timer()
         last_logic_lag = 0
-        PMOVE = UBitNumber(0, num_bits=4)
+        PMOVE = UBitNumber(0, num_bits=5)
         """
         io_button is simply the 5 push buttons. io_button[0] is up,
         io_button[1] is center, io_button[2] is down, io_button[3]
         is left, and io_button[4] is right.
+        
+        I've changed PMOVE[4:0] player input bit assignment to
+        [PICK/DROP][4] [RIGHT][3] [LEFT][2] [DOWN][1] [UP][0]
         """
 
         while running:
@@ -187,6 +196,8 @@ class Emulator(object):
                         PMOVE[2] = 1  # left
                     elif event.key == pygame.K_d:
                         PMOVE[3] = 1  # right
+                    elif event.key == pygame.K_SPACE:
+                        PMOVE[4] = 1  # space
 
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_w:
@@ -197,6 +208,8 @@ class Emulator(object):
                         PMOVE[2] = 0  # left
                     elif event.key == pygame.K_d:
                         PMOVE[3] = 0  # right
+                    elif event.key == pygame.K_SPACE:
+                        PMOVE[4] = 0  # space
 
             # Fill the background with gray
             self.screen.fill((100, 100, 100))
