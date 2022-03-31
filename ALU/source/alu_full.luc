@@ -17,8 +17,8 @@ module alu_full (
   shifter shf(.number(a), .bits(b[3:0]),.shift_type(alufn[2:0]));
   compare_unit com(.z(add.z),.v(add.v),.n(add.n),.alufn(alufn));
   reverse rev(.number(a), .reverse_all(alufn[0]), .select(b[2:0]));
-  
-  always {
+    
+  always {   
     if (alufn[5:1] == 5b00000) {
       out = add.s;
     } else if (alufn[5:0] == 6b000010){

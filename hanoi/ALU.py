@@ -20,6 +20,8 @@ class ALUFN(IntEnum):
     CMPLT = 0x35
     CMPLE = 0x37
 
+    PLAYER_CLIP_MOVE = 0x08
+
 
 class ALU(object):
     BUS_WIDTH = 16
@@ -111,11 +113,14 @@ class ALU(object):
         return output
 
     @classmethod
-    def PLAYER_CLIP_MOVE(cls, a: UBitNumber, b: UBitNumber):
+    def player_clip_move(cls, a: UBitNumber, b: UBitNumber):
         # UP=0, DOWN=1, LEFT=2, RIGHT=3
         player_position = a
-        new_position = UBitNumber(0, num_bits=16)
-        # var player_move = b should work
+        # var new_position[16]; always { new_position = a; }
+        new_position = UBitNumber(0, num_bits=16).enable_edit()
+        # default new_position is current position
+        new_position[7:0] = player_position
+        # var player_move[4]; always { player_move = b[3:0]; }
         player_move = b.editable_copy()
 
         UP = 0
@@ -133,15 +138,25 @@ class ALU(object):
             # deny right [3] move
             player_move[RIGHT] = 0
 
-        if y == 0:
-            # deny up [0] (visually down) move
+        if y == 7:
+            # deny up [0] move
             player_move[UP] = 0
-        elif y == 31:
-            # deny down [0] (visually up) move
+        elif y == 0:
+            # deny down [0] move
             player_move[DOWN] = 0
 
         if player_move[UP] == 1:
-            new_position
+            new_position[7:5] = player_position[7:5] + 1
+        elif player_move[DOWN]:
+            new_position[7:5] = player_position[7:5] - 1
+        elif player_move[LEFT]:
+            new_position[4:0] = player_position[4:0] - 1
+        elif player_move[RIGHT]:
+            new_position[4:0] = player_position[4:0] + 1
+
+        new_position.disable_edit()
+        new_position_16 = new_position.sign_extend(16)
+        return new_position_16
 
     @classmethod
     def math_unit(
@@ -157,9 +172,9 @@ class ALU(object):
         elif alufn[5:0] == 0b0011:
             return a // b
         elif alufn[5:0] == 0b1000:
-            return cls.PLAYER_CLIP_MOVE(a, b, alufn)
+            return cls.player_clip_move(a, b)
 
-        raise
+        raise ValueError(f'BAD ALUFN: {alufn}')
 
     @classmethod
     def run(cls, a: UBitNumber, b: UBitNumber, alufn: UBitNumber):

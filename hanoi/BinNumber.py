@@ -148,22 +148,22 @@ class BinNumber(object):
             self.bits[bit_index] = bit_value
         else:
             if isinstance(bit_value, BinNumber):
-                bit_value = bit_value.value
-                assert bit_value
+                bit_value = bit_value.unsigned_value
+                assert bit_value >= 0
 
-            start_index = index.stop
-            end_index = index.start + 1
-            num_assign_bits
+            end_index = index.start
+            start_index = index.stop - 1
+            num_assign_bits = end_index - start_index
 
             assign_bits = self.fill_bits(
-                bit_value, num_bits=end_index-start_index,
+                bit_value, num_bits=num_assign_bits,
                 negative=False
             )
 
-            print(start_index, end_index)
-            for k in range(len(assign_bits) + 1):
-                print(k)
-                self.bits[start_index+k] = assign_bits[k]
+            # print(start_index, end_index)
+            start = self.invert_index(end_index)
+            for k in range(num_assign_bits):
+                self.bits[start+k] = assign_bits[k]
 
     @property
     def is_negative(self):
@@ -254,7 +254,7 @@ class BinNumber(object):
             other = other.value
 
         new_val = self.value - other
-        print('new val', new_val)
+        # print('new val', new_val)
         return self.__class__(
             num=new_val, num_bits=self.num_bits,
             signed=self.signed
