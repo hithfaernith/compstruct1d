@@ -242,7 +242,10 @@ class BinNumber(object):
         )
 
         try:
-            assert new_bin_no.value == new_val
+            assert (
+                new_bin_no.value ==
+                (new_val % (2 ** self.num_bits))
+            )
         except AssertionError as e:
             print('VAL_MISMATCH', new_bin_no.value, new_val)
             raise e
@@ -254,6 +257,9 @@ class BinNumber(object):
             other = other.value
 
         new_val = self.value - other
+        if not self.signed:
+            new_val += 2 ** self.num_bits
+
         # print('new val', new_val)
         return self.__class__(
             num=new_val, num_bits=self.num_bits,

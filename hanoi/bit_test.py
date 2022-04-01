@@ -34,3 +34,6 @@ print(b)
 a = UBitNumber(0, num_bits=8).enable_edit()
 a[4:1] = 0b1011
 print(a, a + 1)
+
+a = UBitNumber(0, num_bits=8).enable_edit()
+print(a, a - 1)

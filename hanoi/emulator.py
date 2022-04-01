@@ -38,7 +38,7 @@ class Colors(IntEnum):
 class Emulator(object):
     CLOCK_FREQ = 100 * 1e6  # 100 MHz clock
 
-    def __init__(self, clock_div=18):
+    def __init__(self, clock_div=16):
         self.clock_div = clock_div
         self.state = HanoiMachine()
         self.screen = None

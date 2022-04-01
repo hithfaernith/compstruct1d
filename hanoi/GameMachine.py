@@ -1,3 +1,4 @@
+import textwrap
 from enum import Enum, IntEnum, auto
 
 from BitNumber import *
@@ -36,18 +37,26 @@ class REGS(IntEnum):
     TOWER_POSITIONS = auto()
     TOWER_STATES = auto()
 
-    LAST_FIRE_STAMP = auto()
+    LAST_FIRE_WAIT = auto()
 
 
 class StateTransition(object):
     def __init__(
-        self, we, wsel, next_state,
-        alu_output
+            self, we, wsel, next_state,
+            alu_output
     ):
         self.we = we
         self.wsel = wsel
         self.next_state = next_state
         self.alu_output = alu_output
+
+    def __repr__(self):
+        return self.__class__.__name__ + '(' + (
+            f'we={self.we}, wsel={self.wsel}, '
+            f'next_state={self.next_state}, '
+            f'alu_output={self.alu_output}'
+            f')'
+        )
 
 
 class GameMachine(object):
@@ -76,6 +85,13 @@ class GameMachine(object):
     @property
     def player_pos(self):
         return self.registers[REGS.PLAYER_POS]
+
+    @player_pos.setter
+    def player_pos(self, value: UBitNumber):
+        player_pos = self.registers[REGS.PLAYER_POS]
+        player_pos.enable_edit()
+        player_pos[7:0] = value
+        player_pos.disable_edit()
 
     @property
     def enemy_no(self):
@@ -113,7 +129,6 @@ class GameMachine(object):
 
     @property
     def enemy_move_wait(self):
-        assert isinstance(value, UBitNumber)
         return self.enemy_move_waits[int(self.enemy_no)]
 
     @enemy_move_wait.setter
@@ -173,11 +188,11 @@ class GameMachine(object):
             REGS.ENEMY_NO: UBitNumber(0, num_bits=16),
             REGS.TOWER_NO: UBitNumber(0, num_bits=16),
             # how long it's been since the last enemy was fired
-            REGS.LAST_FIRE_STAMP: UBitNumber(0, num_bits=16),
+            REGS.LAST_FIRE_WAIT: UBitNumber(0, num_bits=16),
             REGS.ACTIVE_DISK: UBitNumber(0b0000, num_bits=4),
             REGS.ENEMY_POSITIONS: {
                 # y coordinate is k, x coord is 31 (right)
-                k: UBitNumber(31 + (k << 5), num_bits=16)
+                k: UBitNumber(31 + (k << 5), num_bits=8)
                 for k in range(self.NUM_ENEMIES)
             }, REGS.ENEMY_DIRECTIONS: {
                 k: UBitNumber(0b00, num_bits=2)
@@ -218,35 +233,46 @@ class GameMachine(object):
             self.enemy_dir = value
         elif register == REGS.ENEMY_POS:
             self.enemy_pos = value
+        elif register == REGS.PLAYER_POS:
+            self.player_pos = value
         elif register == REGS.TOWER_POS:
             self.tower_pos = value
         elif register == REGS.TOWER:
             self.tower_state = value
         elif register == REGS.ENEMY_MOVE_WAIT:
             self.enemy_move_wait = value
-
-        assert isinstance(value, UBitNumber)
-        assert isinstance(self.registers[register], UBitNumber)
-        self.registers[register] = value
+        else:
+            assert isinstance(value, UBitNumber)
+            assert isinstance(self.registers[register], UBitNumber)
+            self.registers[register] = value
 
     def run_alu(self, a_sel, b_sel, alufn):
         a, b = a_sel, b_sel
 
         if isinstance(a, Enum):
             a = self.read(a_sel)
-        elif isinstance(b, Enum):
-            b = self.read(b_sel)
-
-        if type(a) is int:
+            assert isinstance(a, UBitNumber)
+        elif type(a) is int:
             a = UBitNumber(a, num_bits=16)
-        if type(b) is int:
+
+        if isinstance(b, Enum):
+            b = self.read(b_sel)
+            assert isinstance(b, UBitNumber)
+        elif type(b) is int:
             b = UBitNumber(b, num_bits=16)
 
         if isinstance(alufn, IntEnum):
             alufn = UBitNumber(int(alufn), num_bits=6)
 
-        assert isinstance(a, UBitNumber)
-        assert isinstance(b, UBitNumber)
+        try:
+            assert isinstance(a, UBitNumber)
+            assert isinstance(b, UBitNumber)
+        except AssertionError as e:
+            print(f'BAD A,B = {a,b}')
+            print(isinstance(a, Enum), isinstance(b, Enum))
+            print(isinstance(a, UBitNumber), isinstance(b, UBitNumber))
+            raise e
+
         a_sext = a.sign_extend(num_bits=16)
         b_sext = b.sign_extend(num_bits=16)
         result = ALU.run(a_sext, b_sext, alufn)
@@ -260,7 +286,11 @@ class GameMachine(object):
 
     def step(self, PMOVE):
         state_transition = self.state_transition(PMOVE)
-        self.apply_transition(state_transition)
+        try:
+            self.apply_transition(state_transition)
+        except Exception as e:
+            print('STATE TRANSITION', state_transition)
+            raise e
 
     def apply_transition(self, state_transition):
         if state_transition.we:
@@ -278,6 +308,7 @@ class GameMachine(object):
         simple(r) state transition rules for
         just moving the player around the map
         """
+
         class STATES(IntEnum):
             START = auto()
             PLAYER_INIT = auto()
