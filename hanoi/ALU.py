@@ -21,6 +21,7 @@ class ALUFN(IntEnum):
     CMPLE = 0x37
 
     PLAYER_CLIP_MOVE = 0x08
+    ENEMY_MOVE_LEFT = 0x09
 
 
 class ALU(object):
@@ -99,14 +100,16 @@ class ALU(object):
         cls.verify(a, b, alufn)
 
         length = len(a)
-        compare_code = alufn[2:1]
+        compare_code = alufn[2:0]
         output = UBitNumber(0, num_bits=length, editable=True)
 
-        if compare_code == 0b01:
+        # TODO: check changes against lucid
+        if compare_code == 0b011:
             output[0] = 1 if (a == b) else 0
-        elif compare_code == 0b10:
+            # print('CMPEQ', a, b)
+        elif compare_code == 0b101:
             output[0] = 1 if (a < b) else 0
-        elif compare_code == 0b11:
+        elif compare_code == 0b111:
             output[0] = 1 if (a <= b) else 0
 
         output.disable_edit()
@@ -159,6 +162,18 @@ class ALU(object):
         return new_position_16
 
     @classmethod
+    def enemy_move_left(
+        cls, a: UBitNumber, b: UBitNumber
+    ):
+        enemy_pos = a
+        move_amount = b
+        new_position = UBitNumber(0, num_bits=16).enable_edit()
+        new_position[7:5] = enemy_pos[7:5]
+        new_position[4:0] = enemy_pos - move_amount
+        new_position.disable_edit()
+        return new_position
+
+    @classmethod
     def math_unit(
         cls, a: UBitNumber, b: UBitNumber, alufn: UBitNumber
     ):
@@ -167,12 +182,16 @@ class ALU(object):
 
         if alufn[3:0] == 0b0000:
             return a + b
+        elif alufn[3:0] == 0b0001:
+            return a - b
         elif alufn[5:0] == 0b0010:
             return a * b
         elif alufn[5:0] == 0b0011:
             return a // b
         elif alufn[5:0] == 0b1000:
             return cls.player_clip_move(a, b)
+        elif alufn[5:0] == 0b1001:
+            return cls.enemy_move_left(a, b)
 
         raise ValueError(f'BAD ALUFN: {alufn}')
 
