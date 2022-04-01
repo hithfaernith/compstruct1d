@@ -1,4 +1,5 @@
-ALU/work/
+ALU/work/*
+ALU/work
 */test_project.runs/*
 *.bin
 *.tcl

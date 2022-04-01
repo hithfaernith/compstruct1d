@@ -1,0 +1,18 @@
+module old_compare_unit (
+    input z,
+    input v,
+    input n,
+    input alufn[6],
+    output out
+  ) {
+
+  always {
+    out = 0;
+    
+    case (alufn[2:1]) {
+      2b01: out = z; // comparism A = B
+      2b10: out = n ^ v; // comparism A < B
+      2b11: out = z + (n ^ v); // comparism A <= B
+    }
+  }
+}
