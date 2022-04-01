@@ -4,7 +4,6 @@ import time
 import pygame
 
 from enum import Enum, IntEnum
-from timeit import default_timer as timer
 
 from pygame.locals import *
 from GameMachine import GameMachine
@@ -167,7 +166,7 @@ class Emulator(object):
         running = True
         frames = 0
 
-        start_time = timer()
+        start_time = time.process_time()
         last_logic_lag = 0
         PMOVE = UBitNumber(0, num_bits=5)
         """
@@ -215,7 +214,7 @@ class Emulator(object):
             self.screen.fill((100, 100, 100))
             PMOVE.disable_edit()
 
-            timestamp = timer()
+            timestamp = time.process_time()
             time_passed = timestamp - start_time
             logic_time_elapsed = self.logic_time_elapsed()
             lag = time_passed - logic_time_elapsed
@@ -227,12 +226,18 @@ class Emulator(object):
             else:
                 last_logic_lag = 0
 
+            requires_update = False
             while time_passed > self.logic_time_elapsed():
                 self.state.step(PMOVE)
+                requires_update = True
 
-            self.state.clear_render_flag()
-            while not self.state.render_ready:
-                self.state.step(PMOVE)
+            if requires_update:
+                self.state.clear_render_flag()
+                while not self.state.render_ready:
+                    self.state.step(PMOVE)
+            else:
+                # time.sleep(0.005)
+                time.sleep(0.001)
 
             # print(PMOVE)
             # print(self.state.state, PMOVE)
@@ -244,7 +249,7 @@ class Emulator(object):
 
         # Done! Time to quit.
         pygame.quit()
-        end_time = timer()
+        end_time = time.process_time()
         duration = end_time - start_time
         fps = frames / duration
         fsm_transitions = self.state.cycles

@@ -53,9 +53,9 @@ class HanoiMachine(GameMachine):
             WIN_CHECK = auto()
             WIN = auto()
 
-        _PLAYER_WAIT = 6
+        _PLAYER_WAIT = 5
         _ENEMY_MOVE_DELAY = 2
-        _MIN_FIRE_DELAY = 70
+        _MIN_FIRE_DELAY = 40
         state_init = False
 
         if self.state is None:
