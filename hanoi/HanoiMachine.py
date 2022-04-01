@@ -39,7 +39,19 @@ class HanoiMachine(GameMachine):
 
             DEATH = auto()
 
+            RESET_TOWER_NO = auto()
+            INC_TOWER_NO = auto()
+            TOWER_NO_CMP = auto()
+            CHECK_TOWER_POS = auto()
+            IF_DROPPABLE = auto()
+            DROP_DISK = auto()
+            CLEAR_DISK_SEL = auto()
+            IF_PICKABLE = auto()
+            PICK_DISK = auto()
+            RM_TOWER_DISK = auto()
 
+            WIN_CHECK = auto()
+            WIN = auto()
 
         _PLAYER_WAIT = 6
         _ENEMY_MOVE_DELAY = 2
