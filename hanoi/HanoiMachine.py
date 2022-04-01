@@ -39,6 +39,8 @@ class HanoiMachine(GameMachine):
 
             DEATH = auto()
 
+
+
         _PLAYER_WAIT = 6
         _ENEMY_MOVE_DELAY = 2
         _MIN_FIRE_DELAY = 70
