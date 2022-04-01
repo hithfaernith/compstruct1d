@@ -181,8 +181,8 @@ class Emulator(object):
 
         while running:
             PMOVE.enable_edit()
-            # PMOVE.zero_all_bits()
 
+            # PMOVE.zero_all_bits()
             # Did the user click the window close button?
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -228,6 +228,10 @@ class Emulator(object):
                 last_logic_lag = 0
 
             while time_passed > self.logic_time_elapsed():
+                self.state.step(PMOVE)
+
+            self.state.clear_render_flag()
+            while not self.state.render_ready:
                 self.state.step(PMOVE)
 
             # print(PMOVE)

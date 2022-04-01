@@ -42,19 +42,21 @@ class REGS(IntEnum):
 
 class StateTransition(object):
     def __init__(
-            self, we, wsel, next_state,
-            alu_output
+        self, we, wsel, next_state,
+        alu_output, signal_render
     ):
         self.we = we
         self.wsel = wsel
         self.next_state = next_state
         self.alu_output = alu_output
+        self.signal_render = signal_render
 
     def __repr__(self):
         return self.__class__.__name__ + '(' + (
             f'we={self.we}, wsel={self.wsel}, '
             f'next_state={self.next_state}, '
-            f'alu_output={self.alu_output}'
+            f'alu_output={self.alu_output},'
+            f'signal_render={self.signal_render}'
             f')'
         )
 
@@ -68,6 +70,7 @@ class GameMachine(object):
         self.registers = self.reset_registers()
         self.state = None
         self.cycles = None
+        self.render_ready = False
 
         self.a_sel = None
         self.b_sel = None
@@ -75,8 +78,12 @@ class GameMachine(object):
 
     def reset_state(self):
         self.state = None
+        self.render_ready = False
         self.reset_registers()
         self.cycles = 0
+
+    def clear_render_flag(self):
+        self.render_ready = False
 
     def reset_registers(self):
         self.registers = self.init_registers()
@@ -301,6 +308,8 @@ class GameMachine(object):
 
         assert isinstance(state_transition.next_state, Enum)
         self.state = state_transition.next_state
+        # print(state_transition.signal_render)
+        self.render_ready |= state_transition.signal_render
         self.cycles += 1
 
     def state_transition(self, PMOVE: UBitNumber):
@@ -324,7 +333,7 @@ class GameMachine(object):
             self.state = STATES.START
 
         we, wsel = None, None
-        next_state = None
+        next_state, signal_render = None, True
 
         if self.state == STATES.START:
             self.a_sel = PMOVE  # ACONST = 0
@@ -381,5 +390,5 @@ class GameMachine(object):
         assert next_state in STATES
         return StateTransition(
             we=we, wsel=wsel, alu_output=self.alu_output,
-            next_state=next_state
+            next_state=next_state, signal_render=signal_render
         )

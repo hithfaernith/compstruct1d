@@ -49,15 +49,19 @@ class HanoiMachine(GameMachine):
             self.state = STATES.START
 
         we, wsel = None, None
-        next_state = None
+        next_state, signal_render = None, False
 
         if self.state == STATES.START:
             self.a_sel = PMOVE  # ACONST = 0
             self.b_sel = 0x0000  # BCONST = 1
             self.alufn = ALUFN.CMPEQ
+            signal_render = True
 
             we, wsel = 0, 0
-            next_state = STATES.PLAYER_INIT
+            if self.alu_output:
+                next_state = STATES.START
+            else:
+                next_state = STATES.PLAYER_INIT
 
         elif self.state == STATES.PLAYER_INIT:
             self.a_sel = 0x0000
@@ -74,6 +78,7 @@ class HanoiMachine(GameMachine):
 
             we, wsel = 1, REGS.PLAYER_COUNTER
             next_state = STATES.CMP_PLAYER_WAIT
+            signal_render = True
 
         elif self.state == STATES.CMP_PLAYER_WAIT:
             self.a_sel = REGS.PLAYER_COUNTER
@@ -262,6 +267,7 @@ class HanoiMachine(GameMachine):
 
             we, wsel = 0, 0
             next_state = STATES.DEATH
+            signal_render = True
 
         else:
             raise ValueError(f'INVALID STATE {self.state}')
@@ -273,5 +279,5 @@ class HanoiMachine(GameMachine):
         assert next_state in STATES
         return StateTransition(
             we=we, wsel=wsel, alu_output=self.alu_output,
-            next_state=next_state
+            next_state=next_state, signal_render=signal_render
         )
