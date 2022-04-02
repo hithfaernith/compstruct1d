@@ -168,7 +168,13 @@ class Emulator(object):
 
         start_time = time.process_time()
         last_logic_lag = 0
-        PMOVE = UBitNumber(0, num_bits=5)
+        spacebar_pressed = 0
+        game_won = False
+
+        PMOVE = UBitNumber(0, num_bits=4)
+        # 1 means pick, 0 means drop
+        PICK_OR_DROP = UBitNumber(0, num_bits=1)
+
         """
         io_button is simply the 5 push buttons. io_button[0] is up,
         io_button[1] is center, io_button[2] is down, io_button[3]
@@ -180,6 +186,7 @@ class Emulator(object):
 
         while running:
             PMOVE.enable_edit()
+            PICK_OR_DROP.enable_edit()
 
             # PMOVE.zero_all_bits()
             # Did the user click the window close button?
@@ -196,7 +203,11 @@ class Emulator(object):
                     elif event.key == pygame.K_d:
                         PMOVE[3] = 1  # right
                     elif event.key == pygame.K_SPACE:
-                        PMOVE[4] = 1  # space
+                        if not spacebar_pressed:
+                            # invert PICK/DROP on spacebar
+                            # rising clock edge (when you press it)
+                            spacebar_pressed = 1
+                            PICK_OR_DROP = ~PICK_OR_DROP
 
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_w:
@@ -208,11 +219,14 @@ class Emulator(object):
                     elif event.key == pygame.K_d:
                         PMOVE[3] = 0  # right
                     elif event.key == pygame.K_SPACE:
-                        PMOVE[4] = 0  # space
+                        spacebar_pressed = 0
+
+            # print(f'PICK/DROP {PICK_OR_DROP}')
 
             # Fill the background with gray
             self.screen.fill((100, 100, 100))
             PMOVE.disable_edit()
+            PICK_OR_DROP.disable_edit()
 
             timestamp = time.process_time()
             time_passed = timestamp - start_time
@@ -234,14 +248,17 @@ class Emulator(object):
             if requires_update:
                 self.state.clear_render_flag()
                 while not self.state.render_ready:
-                    self.state.step(PMOVE)
+                    self.state.step(PMOVE, PICK_OR_DROP)
             else:
                 # time.sleep(0.005)
                 time.sleep(0.001)
 
+            if (self.state.game_state == 0b10) and not game_won:
+                game_won = True
+                print('YOU_WIN')
+
             # print(PMOVE)
             # print(self.state.state, PMOVE)
-
             self.fill_leds()
             # Flip the display
             pygame.display.flip()

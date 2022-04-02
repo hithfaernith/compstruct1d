@@ -37,3 +37,7 @@ print(a, a + 1)
 
 a = UBitNumber(0, num_bits=8).enable_edit()
 print(a, a - 1)
+
+a = UBitNumber(0b100111010011, num_bits=16)
+print(a[1])
+print(a, ALU.run(a, a, ALUFN.SOLO_MSB))

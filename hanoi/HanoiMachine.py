@@ -6,7 +6,15 @@ from enum import Enum, IntEnum, auto
 
 
 class HanoiMachine(GameMachine):
-    def state_transition(self, PMOVE: UBitNumber):
+    def state_transition(
+        self, PMOVE: UBitNumber, PICK_OR_DROP: UBitNumber = None
+    ):
+        if PICK_OR_DROP is None:
+            PICK_OR_DROP = UBitNumber(0, num_bits=1)
+
+        assert PMOVE.num_bits == 4
+        assert PICK_OR_DROP.num_bits == 1
+
         """
         simple(r) state transition rules for
         just moving the player around the map
@@ -50,6 +58,7 @@ class HanoiMachine(GameMachine):
             PICK_DISK = auto()
             RM_TOWER_DISK = auto()
 
+            SET_LAST_TOWER = auto()
             WIN_CHECK = auto()
             WIN = auto()
 
@@ -72,7 +81,7 @@ class HanoiMachine(GameMachine):
             signal_render = True
 
             we, wsel = 0, 0
-            if self.alu_output:
+            if self.alu_output[0] == 1:
                 next_state = STATES.START
             else:
                 next_state = STATES.PLAYER_INIT
@@ -102,7 +111,7 @@ class HanoiMachine(GameMachine):
             we, wsel = 0, 0
             # I'm using a @property to instantaneously
             # propagate self.a_sel, self.b_sel to self.alu_output
-            if self.alu_output:
+            if self.alu_output[0] == 1:
                 next_state = STATES.INIT_ENEMY_NO
             else:
                 next_state = STATES.PLAYER_MOVE
@@ -137,15 +146,13 @@ class HanoiMachine(GameMachine):
             self.alufn = ALUFN.CMPLT
 
             we, wsel = 0, 0
-            b_sel = self.enemy_no
-            # print(f'IF ENEM NO', self.a_sel, b_sel, self.alu_output)
+            # print('IF ENEMY NO', self.a_sel, b_sel, self.alu_output)
 
-            if self.alu_output:
+            if self.alu_output[0] == 1:
                 # less than is true
                 next_state = STATES.IF_ENEMY_HIDDEN
             else:
-                # TODO: tie to tower update FSM
-                next_state = STATES.INC_PLAYER_POS
+                next_state = STATES.RESET_TOWER_NO
 
         elif self.state == STATES.IF_ENEMY_HIDDEN:
             self.a_sel = REGS.ENEMY_DIR
@@ -153,7 +160,7 @@ class HanoiMachine(GameMachine):
             self.alufn = ALUFN.CMPEQ
 
             we, wsel = 0, 0
-            if self.alu_output:
+            if self.alu_output[0] == 1:
                 next_state = STATES.LAST_FIRE_CHECK
             else:
                 next_state = STATES.ENEMY_WAIT_CHECK
@@ -176,7 +183,7 @@ class HanoiMachine(GameMachine):
             self.alufn = ALUFN.CMPLT
 
             we, wsel = 0, 0
-            if self.alu_output:
+            if self.alu_output[0] == 1:
                 # less than is true
                 next_state = STATES.INC_FIRE_WAIT
             else:
@@ -239,7 +246,7 @@ class HanoiMachine(GameMachine):
             self.alufn = ALUFN.AND
 
             we, wsel = 0, 0
-            if self.alu_output:
+            if self.alu_output != 0:
                 # if alu_output is not zero
                 next_state = STATES.ENEMY_MOVE_LEFT
             else:
@@ -269,18 +276,143 @@ class HanoiMachine(GameMachine):
             self.alufn = ALUFN.CMPEQ
 
             we, wsel = 0, 0
-            if self.alu_output:
+            if self.alu_output[0] == 1:
                 next_state = STATES.DEATH
             else:
                 next_state = STATES.INC_ENEMY_NO
 
         elif self.state == STATES.DEATH:
+            self.a_sel = 0b01
+            self.b_sel = 0
+            self.alufn = ALUFN.A
+
+            we, wsel = 1, REGS.GAME_STATE
+            next_state = STATES.DEATH
+            signal_render = True
+
+        elif self.state == STATES.RESET_TOWER_NO:
+            self.a_sel = 0xFFFF
+            self.b_sel = 0
+            self.alufn = ALUFN.A
+
+            we, wsel = 1, REGS.TOWER_NO
+            next_state = STATES.INC_TOWER_NO
+
+        elif self.state == STATES.INC_TOWER_NO:
+            self.a_sel = REGS.TOWER_NO
+            self.b_sel = 1
+            self.alufn = ALUFN.ADD
+
+            we, wsel = 1, REGS.TOWER_NO
+            next_state = STATES.TOWER_NO_CMP
+
+        elif self.state == STATES.TOWER_NO_CMP:
+            self.a_sel = REGS.TOWER_NO
+            self.b_sel = 2
+            self.alufn = ALUFN.CMPLE
+
+            we, wsel = 0, 0
+            if self.alu_output[0] == 1:
+                next_state = STATES.CHECK_TOWER_POS
+            else:
+                next_state = STATES.SET_LAST_TOWER
+
+        elif self.state == STATES.CHECK_TOWER_POS:
+            self.a_sel = REGS.TOWER_POS
+            self.b_sel = REGS.PLAYER_POS
+            self.alufn = ALUFN.CMPEQ
+
+            we, wsel = 0, 0
+
+            if self.alu_output[0] == 1:
+                # print(f'{self.tower_no} TEQ')
+                if PICK_OR_DROP[0] == 1:
+                    next_state = STATES.IF_PICKABLE
+                else:
+                    next_state = STATES.IF_DROPPABLE
+            else:
+                next_state = STATES.INC_TOWER_NO
+
+        elif self.state == STATES.IF_DROPPABLE:
+            self.a_sel = REGS.TOWER
+            self.b_sel = REGS.ACTIVE_DISK
+            self.alufn = ALUFN.CMPLT
+
+            we, wsel = 0, 0
+            if self.alu_output[0] == 1:
+                next_state = STATES.DROP_DISK
+            else:
+                next_state = STATES.INC_TOWER_NO
+
+        elif self.state == STATES.DROP_DISK:
+            self.a_sel = REGS.TOWER
+            self.b_sel = REGS.ACTIVE_DISK
+            self.alufn = ALUFN.OR
+
+            we, wsel = 1, REGS.TOWER
+            next_state = STATES.CLEAR_DISK_SEL
+
+        elif self.state == STATES.CLEAR_DISK_SEL:
             self.a_sel = 0
+            self.b_sel = 0
+            self.alufn = ALUFN.A
+
+            we, wsel = 1, REGS.ACTIVE_DISK
+            next_state = STATES.INC_TOWER_NO
+
+        elif self.state == STATES.IF_PICKABLE:
+            self.a_sel = REGS.ACTIVE_DISK
             self.b_sel = 0
             self.alufn = ALUFN.CMPEQ
 
             we, wsel = 0, 0
-            next_state = STATES.DEATH
+            if self.alu_output[0] == 1:
+                next_state = STATES.PICK_DISK
+            else:
+                next_state = STATES.INC_TOWER_NO
+
+        elif self.state == STATES.PICK_DISK:
+            self.a_sel = REGS.TOWER
+            self.b_sel = 0
+            self.alufn = ALUFN.SOLO_MSB
+
+            we, wsel = 1, REGS.ACTIVE_DISK
+            next_state = STATES.RM_TOWER_DISK
+
+        elif self.state == STATES.RM_TOWER_DISK:
+            self.a_sel = REGS.TOWER
+            self.b_sel = REGS.ACTIVE_DISK
+            self.alufn = ALUFN.XOR
+
+            we, wsel = 1, REGS.TOWER
+            next_state = STATES.INC_TOWER_NO
+
+        elif self.state == STATES.SET_LAST_TOWER:
+            self.a_sel = 2
+            self.b_sel = 0
+            self.alufn = ALUFN.A
+
+            we, wsel = 1, REGS.TOWER_NO
+            next_state = STATES.WIN_CHECK
+
+        elif self.state == STATES.WIN_CHECK:
+            self.a_sel = REGS.TOWER
+            self.b_sel = 0x000F
+            self.alufn = ALUFN.CMPEQ
+
+            we, wsel = 0, 0
+            if self.alu_output[0] == 0b1:
+                next_state = STATES.WIN
+            else:
+                next_state = STATES.INC_PLAYER_POS
+
+        elif self.state == STATES.WIN:
+            self.a_sel = 0b10  # win state value
+            self.b_sel = 0
+            self.alufn = ALUFN.A
+
+            we, wsel = 1, REGS.GAME_STATE
+            next_state = STATES.WIN
             signal_render = True
 
         else:

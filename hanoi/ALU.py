@@ -22,6 +22,7 @@ class ALUFN(IntEnum):
 
     PLAYER_CLIP_MOVE = 0x08
     ENEMY_MOVE_LEFT = 0x09
+    SOLO_MSB = 0x0A
 
 
 class ALU(object):
@@ -174,6 +175,45 @@ class ALU(object):
         return new_position
 
     @classmethod
+    def solo_msb(
+        cls, a: UBitNumber, b: UBitNumber
+    ):
+        if a[15] == 1:
+            return UBitNumber(1, num_bits=16) << 15
+        elif a[14] == 1:
+            return UBitNumber(1, num_bits=16) << 14
+        elif a[13] == 1:
+            return UBitNumber(1, num_bits=16) << 13
+        elif a[12] == 1:
+            return UBitNumber(1, num_bits=16) << 12
+        elif a[11] == 1:
+            return UBitNumber(1, num_bits=16) << 11
+        elif a[10] == 1:
+            return UBitNumber(1, num_bits=16) << 10
+        elif a[9] == 1:
+            return UBitNumber(1, num_bits=16) << 9
+        elif a[8] == 1:
+            return UBitNumber(1, num_bits=16) << 8
+        elif a[7] == 1:
+            return UBitNumber(1, num_bits=16) << 7
+        elif a[6] == 1:
+            return UBitNumber(1, num_bits=16) << 6
+        elif a[5] == 1:
+            return UBitNumber(1, num_bits=16) << 5
+        elif a[4] == 1:
+            return UBitNumber(1, num_bits=16) << 4
+        elif a[3] == 1:
+            return UBitNumber(1, num_bits=16) << 3
+        elif a[2] == 1:
+            return UBitNumber(1, num_bits=16) << 2
+        elif a[1] == 1:
+            return UBitNumber(1, num_bits=16) << 1
+        elif a[0] == 1:
+            return UBitNumber(1, num_bits=16) << 0
+        else:
+            return UBitNumber(0, num_bits=16)
+
+    @classmethod
     def math_unit(
         cls, a: UBitNumber, b: UBitNumber, alufn: UBitNumber
     ):
@@ -192,6 +232,8 @@ class ALU(object):
             return cls.player_clip_move(a, b)
         elif alufn[5:0] == 0b1001:
             return cls.enemy_move_left(a, b)
+        elif alufn[5:0] == 0b1010:
+            return cls.solo_msb(a, b)
 
         raise ValueError(f'BAD ALUFN: {alufn}')
 

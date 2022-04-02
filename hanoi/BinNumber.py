@@ -217,6 +217,16 @@ class BinNumber(object):
             num_bits=num_bits, signed=self.signed
         )
 
+    def unsigned_extend(self, num_bits):
+        assert num_bits >= self.num_bits
+        padding = [0] * (num_bits - self.num_bits)
+        new_bits = padding + self.bits
+
+        return self.__class__(
+            num=copy.copy(new_bits),
+            num_bits=num_bits, signed=self.signed
+        )
+
     def editable_copy(self):
         return self.copy(editable=True)
 

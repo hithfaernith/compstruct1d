@@ -38,6 +38,7 @@ class REGS(IntEnum):
     TOWER_STATES = auto()
 
     LAST_FIRE_WAIT = auto()
+    GAME_STATE = auto()
 
 
 class StateTransition(object):
@@ -99,6 +100,10 @@ class GameMachine(object):
         player_pos.enable_edit()
         player_pos[7:0] = value
         player_pos.disable_edit()
+
+    @property
+    def game_state(self):
+        return self.registers[REGS.GAME_STATE]
 
     @property
     def enemy_no(self):
@@ -168,21 +173,21 @@ class GameMachine(object):
 
     @property
     def tower_state(self):
-        return self.tower_states[self.tower_no]
+        return self.tower_states[int(self.tower_no)]
 
     @tower_state.setter
     def tower_state(self, value: UBitNumber):
         assert isinstance(value, UBitNumber)
-        self.tower_states[self.tower_no] = value[3:0]
+        self.tower_states[int(self.tower_no)] = value[3:0]
 
     @property
     def tower_pos(self):
-        return self.tower_positions[self.tower_no]
+        return self.tower_positions[int(self.tower_no)]
 
     @tower_pos.setter
     def tower_pos(self, value: UBitNumber):
         assert isinstance(value, UBitNumber)
-        self.tower_positions[self.tower_no] = value[7:0]
+        self.tower_positions[int(self.tower_no)] = value[7:0]
 
     @property
     def active_disk(self):
@@ -197,6 +202,8 @@ class GameMachine(object):
             # how long it's been since the last enemy was fired
             REGS.LAST_FIRE_WAIT: UBitNumber(0, num_bits=16),
             REGS.ACTIVE_DISK: UBitNumber(0b0000, num_bits=4),
+            # whether game is ongoing(00), lost(01) or won(10)
+            REGS.GAME_STATE: UBitNumber(0, num_bits=16),
             REGS.ENEMY_POSITIONS: {
                 # y coordinate is k, x coord is 31 (right)
                 k: UBitNumber(31 + (k << 5), num_bits=8)
@@ -209,9 +216,9 @@ class GameMachine(object):
                 k: UBitNumber(0b0, num_bits=16)
                 for k in range(self.NUM_ENEMIES)
             }, REGS.TOWER_POSITIONS: {
-                0: UBitNumber((4 << 5) + 7, num_bits=16),
-                1: UBitNumber((6 << 5) + 15, num_bits=16),
-                2: UBitNumber((5 << 5) + 22, num_bits=16)
+                0: UBitNumber((4 << 5) + 7, num_bits=8),
+                1: UBitNumber((6 << 5) + 15, num_bits=8),
+                2: UBitNumber((5 << 5) + 22, num_bits=8)
             }, REGS.TOWER_STATES: {
                 0: UBitNumber(0b1111, num_bits=4),
                 1: UBitNumber(0, num_bits=4),
@@ -280,8 +287,9 @@ class GameMachine(object):
             print(isinstance(a, UBitNumber), isinstance(b, UBitNumber))
             raise e
 
-        a_sext = a.sign_extend(num_bits=16)
-        b_sext = b.sign_extend(num_bits=16)
+        # TODO: ensure we do unsigned extend in lucid also
+        a_sext = a.unsigned_extend(num_bits=16)
+        b_sext = b.unsigned_extend(num_bits=16)
         result = ALU.run(a_sext, b_sext, alufn)
         return result
 
@@ -291,8 +299,8 @@ class GameMachine(object):
             self.a_sel, self.b_sel, self.alufn
         )
 
-    def step(self, PMOVE):
-        state_transition = self.state_transition(PMOVE)
+    def step(self, PMOVE, PICK_OR_DROP=None):
+        state_transition = self.state_transition(PMOVE, PICK_OR_DROP)
         try:
             self.apply_transition(state_transition)
         except Exception as e:
@@ -312,7 +320,9 @@ class GameMachine(object):
         self.render_ready |= state_transition.signal_render
         self.cycles += 1
 
-    def state_transition(self, PMOVE: UBitNumber):
+    def state_transition(
+        self, PMOVE: UBitNumber, PICK_OR_DROP: UBitNumber = None
+    ):
         """
         simple(r) state transition rules for
         just moving the player around the map
