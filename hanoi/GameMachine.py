@@ -251,6 +251,9 @@ class GameMachine(object):
         self.write_register(
             REGS.PLAYER_POS, UBitNumber(0, num_bits=16)
         )
+        self.write_register(
+            REGS.ACTIVE_DISK, UBitNumber(0, num_bits=4)
+        )
 
         for k in range(self.NUM_ENEMIES):
             self.registers[REGS.ENEMY_DIRECTIONS][k] = UBitNumber(
@@ -274,6 +277,9 @@ class GameMachine(object):
         # set disks that end tower should have to finish level
         self.write_register(REGS.LEVEL_DISKS, tower)
         self.registers[REGS.TOWER_STATES][0] = tower
+        # will be seen and replaced with STATES.START
+        # in state_transition
+        self.state = None
 
     def read(self, register):
         if register == REGS.ENEMY_DIR:
