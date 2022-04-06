@@ -37,20 +37,23 @@ class REGS(IntEnum):
     TOWER_POSITIONS = auto()
     TOWER_STATES = auto()
 
+    LEVEL_DISKS = auto()
     LAST_FIRE_WAIT = auto()
     GAME_STATE = auto()
+    GAME_LEVEL = auto()
 
 
 class StateTransition(object):
     def __init__(
         self, we, wsel, next_state,
-        alu_output, signal_render
+        alu_output, signal_render, soft_reset=False
     ):
         self.we = we
         self.wsel = wsel
         self.next_state = next_state
         self.alu_output = alu_output
         self.signal_render = signal_render
+        self.soft_reset = soft_reset
 
     def __repr__(self):
         return self.__class__.__name__ + '(' + (
@@ -77,11 +80,13 @@ class GameMachine(object):
         self.b_sel = None
         self.alufn = None
 
-    def reset_state(self):
+    def reset_state(self, reset_cycles=True):
         self.state = None
         self.render_ready = False
         self.reset_registers()
-        self.cycles = 0
+
+        if reset_cycles:
+            self.cycles = 0
 
     def clear_render_flag(self):
         self.render_ready = False
@@ -100,6 +105,10 @@ class GameMachine(object):
         player_pos.enable_edit()
         player_pos[7:0] = value
         player_pos.disable_edit()
+
+    @property
+    def level_disks(self):
+        return self.registers[REGS.LEVEL_DISKS]
 
     @property
     def game_state(self):
@@ -193,7 +202,13 @@ class GameMachine(object):
     def active_disk(self):
         return self.registers[REGS.ACTIVE_DISK]
 
+    @property
+    def game_level(self):
+        return self.registers[REGS.GAME_LEVEL]
+
     def init_registers(self):
+        # intiialize all used registers with their starting values
+
         return {
             REGS.PLAYER_POS: UBitNumber(0, num_bits=8),
             REGS.PLAYER_COUNTER: UBitNumber(0, num_bits=16),
@@ -203,7 +218,13 @@ class GameMachine(object):
             REGS.LAST_FIRE_WAIT: UBitNumber(0, num_bits=16),
             REGS.ACTIVE_DISK: UBitNumber(0b0000, num_bits=4),
             # whether game is ongoing(00), lost(01) or won(10)
-            REGS.GAME_STATE: UBitNumber(0, num_bits=16),
+            REGS.GAME_STATE: UBitNumber(0b00, num_bits=2),
+
+            # game level no. (0, 1, 2, 3)
+            REGS.GAME_LEVEL: UBitNumber(0b00, num_bits=2),
+            # disks on the first tower at the start if each level
+            REGS.LEVEL_DISKS: UBitNumber(0b1000, num_bits=4),
+
             REGS.ENEMY_POSITIONS: {
                 # y coordinate is k, x coord is 31 (right)
                 k: UBitNumber(31 + (k << 5), num_bits=8)
@@ -220,11 +241,39 @@ class GameMachine(object):
                 1: UBitNumber((6 << 5) + 15, num_bits=8),
                 2: UBitNumber((5 << 5) + 22, num_bits=8)
             }, REGS.TOWER_STATES: {
-                0: UBitNumber(0b1111, num_bits=4),
+                0: UBitNumber(0b1000, num_bits=4),
                 1: UBitNumber(0, num_bits=4),
                 2: UBitNumber(0, num_bits=4)
             }
         }
+
+    def soft_reset(self):
+        self.write_register(
+            REGS.PLAYER_POS, UBitNumber(0, num_bits=16)
+        )
+
+        for k in range(self.NUM_ENEMIES):
+            self.registers[REGS.ENEMY_DIRECTIONS][k] = UBitNumber(
+                0, num_bits=8
+            )
+        for k in range(3):
+            self.registers[REGS.TOWER_STATES][k] = UBitNumber(
+                0, num_bits=4
+            )
+
+        tower = UBitNumber(0b1000, num_bits=4)
+        if self.game_level == 0:
+            tower = UBitNumber(0b1000, num_bits=4)
+        elif self.game_level == 1:
+            tower = UBitNumber(0b1100, num_bits=4)
+        elif self.game_level == 2:
+            tower = UBitNumber(0b1110, num_bits=4)
+        elif self.game_level == 3:
+            tower = UBitNumber(0b1111, num_bits=4)
+
+        # set disks that end tower should have to finish level
+        self.write_register(REGS.LEVEL_DISKS, tower)
+        self.registers[REGS.TOWER_STATES][0] = tower
 
     def read(self, register):
         if register == REGS.ENEMY_DIR:
@@ -258,7 +307,19 @@ class GameMachine(object):
         else:
             assert isinstance(value, UBitNumber)
             assert isinstance(self.registers[register], UBitNumber)
-            self.registers[register] = value
+            reg_bits = self.registers[register].num_bits
+            value = value[reg_bits-1:0]
+
+            try:
+                assert reg_bits == value.num_bits
+            except AssertionError as e:
+                print(f'REG FAIL {register} {value} {value.num_bits} {reg_bits}')
+                print(REGS(register))
+                raise e
+
+            self.registers[register].enable_edit()
+            self.registers[register][reg_bits-1:0] = value
+            self.registers[register].disable_edit()
 
     def run_alu(self, a_sel, b_sel, alufn):
         a, b = a_sel, b_sel
@@ -313,6 +374,9 @@ class GameMachine(object):
                 register=state_transition.wsel,
                 value=state_transition.alu_output
             )
+
+        if state_transition.soft_reset:
+            self.soft_reset()
 
         assert isinstance(state_transition.next_state, Enum)
         self.state = state_transition.next_state

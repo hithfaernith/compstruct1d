@@ -9,16 +9,22 @@ class ALUFN(IntEnum):
     ADD = 0x00
     SUB = 0x01
     MUL = 0x02
+
     AND = 0x18
     OR = 0x1E
     XOR = 0x16
     A = 0x1A
+
     SHL = 0x20
     SHR = 0x21
     SRA = 0x23
+
     CMPEQ = 0x33
     CMPLT = 0x35
     CMPLE = 0x37
+
+    LEFT_ROTATE = 0x24
+    RIGHT_ROTATE = 0x25
 
     PLAYER_CLIP_MOVE = 0x08
     ENEMY_MOVE_LEFT = 0x09

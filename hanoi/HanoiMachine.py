@@ -60,7 +60,10 @@ class HanoiMachine(GameMachine):
 
             SET_LAST_TOWER = auto()
             WIN_CHECK = auto()
-            WIN = auto()
+            WIN_STATE = auto()
+
+            NEXT_LEVEL = auto()
+            LEVEL_RESET = auto()
 
         _PLAYER_WAIT = 5
         _ENEMY_MOVE_DELAY = 2
@@ -73,6 +76,7 @@ class HanoiMachine(GameMachine):
 
         we, wsel = None, None
         next_state, signal_render = None, False
+        level_reset = False
 
         if self.state == STATES.START:
             self.a_sel = PMOVE  # ACONST = 0
@@ -397,23 +401,40 @@ class HanoiMachine(GameMachine):
 
         elif self.state == STATES.WIN_CHECK:
             self.a_sel = REGS.TOWER
-            self.b_sel = 0x000F
+            self.b_sel = REGS.LEVEL_DISKS
             self.alufn = ALUFN.CMPEQ
 
             we, wsel = 0, 0
             if self.alu_output[0] == 0b1:
-                next_state = STATES.WIN
+                next_state = STATES.WIN_STATE
             else:
                 next_state = STATES.INC_PLAYER_POS
 
-        elif self.state == STATES.WIN:
-            self.a_sel = 0b10  # win state value
-            self.b_sel = 0
+        elif self.state == STATES.WIN_STATE:
+            self.a_sel = 0b10
+            self.b_sel = 0b00
             self.alufn = ALUFN.A
 
             we, wsel = 1, REGS.GAME_STATE
-            next_state = STATES.WIN
+            next_state = STATES.NEXT_LEVEL
             signal_render = True
+
+        elif self.state == STATES.NEXT_LEVEL:
+            self.a_sel = REGS.GAME_LEVEL
+            self.b_sel = 1
+            self.alufn = ALUFN.ADD
+
+            we, wsel = 1, REGS.GAME_LEVEL
+            next_state = STATES.LEVEL_RESET
+
+        elif self.state == STATES.LEVEL_RESET:
+            self.a_sel = 0
+            self.b_sel = 0
+            self.alufn = ALUFN.A
+
+            we, wsel = 0, 0
+            next_state = STATES.START
+            level_reset = True
 
         else:
             raise ValueError(f'INVALID STATE {self.state}')
@@ -422,8 +443,10 @@ class HanoiMachine(GameMachine):
         assert wsel is not None
         assert next_state is not None
 
+        # print(next_state)
         assert next_state in STATES
         return StateTransition(
             we=we, wsel=wsel, alu_output=self.alu_output,
-            next_state=next_state, signal_render=signal_render
+            next_state=next_state, signal_render=signal_render,
+            soft_reset=level_reset
         )

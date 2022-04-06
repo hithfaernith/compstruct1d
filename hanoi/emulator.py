@@ -209,6 +209,12 @@ class Emulator(object):
                             spacebar_pressed = 1
                             PICK_OR_DROP = ~PICK_OR_DROP
 
+                    elif event.key == pygame.K_END:
+                        # hard reset game state, won't be FPGA
+                        self.state.reset_state(reset_cycles=False)
+                    elif event.key == pygame.K_r:
+                        self.state.soft_reset()
+
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_w:
                         PMOVE[0] = 0  # up

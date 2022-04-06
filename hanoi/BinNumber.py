@@ -102,6 +102,10 @@ class BinNumber(object):
         )
 
     def __lshift__(self, bits):
+        if isinstance(bits, BinNumber):
+            bits = bits.unsigned_value
+            # print(bits, self.value)
+
         new_val = self.value << bits
         return self.__class__(
             num=new_val, num_bits=self.num_bits,
@@ -109,6 +113,9 @@ class BinNumber(object):
         )
 
     def __rshift__(self, bits):
+        if isinstance(bits, BinNumber):
+            bits = bits.unsigned_value
+
         new_val = self.value >> bits
         return self.__class__(
             num=new_val, num_bits=self.num_bits,

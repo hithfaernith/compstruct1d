@@ -1,16 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="test_project" board="Alchitry Au" language="Lucid" version="3">
   <files>
-    <src>eight_bit_adder.luc</src>
-    <src>eight_bit_shiftleft.luc</src>
-    <src>seq_plus_two.luc</src>
-    <src>full_adder_ROM.luc</src>
+    <src>power.luc</src>
+    <src>segment_test.luc</src>
+    <src>boolean_unit.luc</src>
+    <src>adder_b16.luc</src>
     <src>seq_plus_vary.luc</src>
-    <component>counter.luc</component>
-    <src top="true">au_top.luc</src>
+    <src>reverse.luc</src>
+    <src>alu_full.luc</src>
+    <src>pausable_slow_clock.luc</src>
+    <src>register.luc</src>
+    <component>edge_detector.luc</component>
+    <component>pipeline.luc</component>
     <component>reset_conditioner.luc</component>
-    <src>full_adder.luc</src>
     <src>fsm.luc</src>
+    <src>dff_b16.luc</src>
+    <src>compare_unit.luc</src>
+    <src>seq_plus_two.luc</src>
+    <src>multiply.luc</src>
+    <src>eight_bit_shiftleft.luc</src>
+    <src>full_adder.luc</src>
+    <src>segment_decoder.luc</src>
+    <src>manual_alu.luc</src>
+    <src>passthrough_switch.luc</src>
+    <src top="true">au_top.luc</src>
+    <src>shifter.luc</src>
+    <component>button_conditioner.luc</component>
+    <src>tester.luc</src>
+    <src>blinker.luc</src>
+    <component>counter.luc</component>
+    <src>full_adder_ROM.luc</src>
+    <src>multi_segment.luc</src>
+    <src>eight_bit_adder.luc</src>
+    <src>divide.luc</src>
+    <src>adder_b16_tester.luc</src>
     <constraint lib="true">alchitry.acf</constraint>
     <constraint lib="true">io.acf</constraint>
     <constraint lib="true">au.xdc</constraint>
