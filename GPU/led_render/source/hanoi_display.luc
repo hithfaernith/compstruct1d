@@ -57,8 +57,12 @@ module hanoi_display (
     enemy_color.x = led_matrix.x;
     enemy_color.y = led_matrix.y;
     
-    led_matrix.color = (
-      tower_color.color ^ player_color.color ^ enemy_color.color
-    );
+    if (enemy_color.color == Colors.ENEMY_COLOR) {
+      led_matrix.color = enemy_color.color;
+    } else {
+      led_matrix.color = (
+        tower_color.color ^ player_color.color
+      );
+    }
   }
 }
