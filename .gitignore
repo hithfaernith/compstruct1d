@@ -1,11 +1,11 @@
 ALU/work/*
 ALU/work
-*/test_project.runs/*
-*.bin
-*.tcl
-*.bin
-*.swp
-__pycache__
+**/test_project.runs/*
+**/work/vivado
+**/*.bin
+**/*.tcl
+**/*.swp
+**/__pycache__
 
-.idea
-.vscode
+**/.idea
+**/.vscode

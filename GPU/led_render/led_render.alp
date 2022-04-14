@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="led_render" board="Alchitry Au" language="Lucid" version="3">
+  <files>
+    <src>ws2812b_writer.luc</src>
+    <src top="true">au_top.luc</src>
+    <component>reset_conditioner.luc</component>
+    <src>matrix.luc</src>
+    <constraint lib="true">alchitry.acf</constraint>
+    <constraint lib="true">au.xdc</constraint>
+    <constraint>custom.acf</constraint>
+  </files>
+</project>
