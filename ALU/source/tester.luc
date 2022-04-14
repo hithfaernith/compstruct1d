@@ -1,0 +1,297 @@
+module tester (
+    input clk,  // clock
+    input rst,  // reset
+    input man_reset,
+    
+    input select[2],
+    input man_input[16],
+    input write_enable,
+    input pause,
+    
+    output out[8],
+    output display[16],
+    output error_is_happening
+  ) {
+  
+  .clk(clk) {
+    .rst(rst) {
+      dff current_a[16];
+      dff current_b[16];
+      dff current_alufn[6];
+      
+      dff current_ans[16];
+      
+      toggled_slowclock tcl(.pause(pause));
+      
+    }
+  }
+  sig a[16], b[16], alufn[6];
+  
+  alu_full alu(.a(current_a.q), .b(current_b.q), .alufn(current_alufn.q));
+  
+  sig final_alu_out[16], ans[16];
+  
+  const SUCCESS_SIGNAL = 8hAA;
+  
+  .clk(tcl.value) {
+    .rst(rst) {
+      fsm state = {
+        ADD,
+        ADD_OVERFLOW,  
+        SUBTRACT,
+        SUBTRACT_UNDERFLOW,
+        MULTIPLY,
+        MULTIPLY_OVERFLOW,
+        MULTIPLY_UNDERFLOW,
+        DIVIDE_WHOLE,
+        DIVIDE_FRACTIONAL,
+        DIVIDE_BY_ZERO,
+        AND,
+        OR,
+        XOR,
+        A,
+        LEFT_SHIFT,
+        RIGHT_SHIFT,
+        LEFT_ARITH_SHIFT,
+        RIGHT_ARITH_SHIFT,
+        COMPARE_EQ_WHEN_EQ,
+        COMPARE_EQ_WHEN_LT,
+        COMPARE_EQ_WHEN_GT,
+        COMPARE_LT_WHEN_EQ,
+        COMPARE_LT_WHEN_LT,
+        COMPARE_LT_WHEN_GT,
+        COMPARE_LTE_WHEN_EQ,
+        COMPARE_LTE_WHEN_LT,
+        COMPARE_LTE_WHEN_GT,
+        SUCCESS
+      };
+    }
+  }
+  
+  always {
+    case(state.q){
+      state.ADD:
+        a = 1;
+        b = 1;
+        alufn = 6b000000;
+        ans = 2;
+        
+      state.ADD_OVERFLOW:
+        a = 32767;
+        b = 1;
+        alufn = 6b000000;
+        ans = -32768;
+        
+      state.SUBTRACT:
+        a = 5;
+        b = 3;
+        alufn = 6b000001;
+        ans = 2;
+        
+      state.SUBTRACT_UNDERFLOW:
+        a = -32768;
+        b = 1;
+        alufn = 6b000001;
+        ans = 32767;
+      
+      state.MULTIPLY:
+        a = 1;
+        b = 2;
+        alufn = 6b000010;
+        ans = 2;
+        
+      state.MULTIPLY_OVERFLOW:
+        a = 8192;
+        b = 4;
+        alufn = 6b000010;
+        ans = -32768;
+        
+      state.MULTIPLY_UNDERFLOW:
+        a = -8193;
+        b = 4;
+        alufn = 6b000010;
+        ans = 32764;
+        
+      state.DIVIDE_WHOLE:
+        a = 8;
+        b = 2;
+        alufn = 6b000011;
+        ans = 4;
+        
+      state.DIVIDE_FRACTIONAL:
+        a = 9;
+        b = 2;
+        alufn = 6b000011;
+        ans = 4;
+        
+      state.DIVIDE_BY_ZERO:
+        a = 8;
+        b = 0;
+        alufn = 6b000011;
+        ans = -1;
+        
+      state.AND:
+        a = 16hFF00;
+        b = 16hAAAA;
+        alufn = 6b011000;
+        ans = 16hAA00;
+        
+      state.OR:
+        a = 16hFF00;
+        b = 16hAAAA;
+        alufn = 6b011110;
+        ans = 16hFFAA;
+        
+      state.XOR:
+        a = 16hFF00;
+        b = 16hAAAA;
+        alufn = 6b010110;
+        ans = 16h55AA;
+        
+      state.A:
+        a = 16hFF00;
+        b = 16hAAAA;
+        alufn = 6b011010;
+        ans = 16hFF00;
+        
+      state.LEFT_SHIFT:
+        a = 16b1111001111001111;
+        b = 16h0002;
+        alufn = 6b100000;
+        ans = 16b1100111100111100;
+        
+      state.RIGHT_SHIFT:
+        a = 16b1111001111001111;
+        b = 16h0002;
+        alufn = 6b100001;
+        ans = 16b0011110011110011;
+        
+      state.LEFT_ARITH_SHIFT:
+        a = 16b1111001111001111;
+        b = 16h0002;
+        alufn = 6b100010;
+        ans = 16b1100111100111100;
+        
+      state.RIGHT_ARITH_SHIFT:
+        a = 16b1111001111001111;
+        b = 16h0002;
+        alufn = 6b100011;
+        ans = 16b1111110011110011;
+        
+      state.COMPARE_EQ_WHEN_EQ:
+        a = 1;
+        b = 1;
+        alufn = 6b110011;
+        ans = 1;
+        
+      state.COMPARE_EQ_WHEN_LT:
+        a = 1;
+        b = 2;
+        alufn = 6b110011;
+        ans = 0;
+        
+      state.COMPARE_EQ_WHEN_GT:
+        a = 2;
+        b = 1;
+        alufn = 6b110011;
+        ans = 0;
+        
+      state.COMPARE_LT_WHEN_EQ:
+        a = 1;
+        b = 1;
+        alufn = 6b110101;
+        ans = 0;
+        
+      state.COMPARE_LT_WHEN_LT:
+        a = 1;
+        b = 2;
+        alufn = 6b110101;
+        ans = 1;
+        
+      state.COMPARE_LT_WHEN_GT:
+        a = 2;
+        b = 1;
+        alufn = 6b110101;
+        ans = 0;
+        
+      state.COMPARE_LTE_WHEN_EQ:
+        a = 1;
+        b = 1;
+        alufn = 6b110111;
+        ans = 1;
+        
+      state.COMPARE_LTE_WHEN_LT:
+        a = 1;
+        b = 2;
+        alufn = 6b110111;
+        ans = 1;
+        
+      state.COMPARE_LTE_WHEN_GT:
+        a = 2;
+        b = 1;
+        alufn = 6b110111;
+        ans = 0;
+                
+      default:
+        a = 0;
+        b = 0;
+        alufn = 0;
+        ans = 16hFAAF;
+    }
+    
+    current_ans.d = ans;
+    current_a.d = a;
+    current_b.d = b;
+    current_alufn.d = alufn;
+    
+    if (state.q == state.SUCCESS)
+      state.d = state.q;
+    else
+      state.d = state.q + 1;
+      
+    
+    final_alu_out = alu.out;
+    if (write_enable) {
+      case (select) {
+        2b00:
+          current_a.d = man_input;
+        2b01:
+          current_a.d = man_input;
+        2b10:
+          current_alufn.d = man_input[5:0];
+        2b11:
+          final_alu_out = alu.out ^ man_input;
+      }
+    }
+    
+
+    if (final_alu_out == current_ans.q) {
+      error_is_happening = 0;
+    } else {
+      error_is_happening = 1;
+    }
+      
+    
+    
+    if (state.q == state.SUCCESS)
+      out = SUCCESS_SIGNAL;
+    else
+      out = state.q;
+    
+    if (man_reset)
+      state.d = 0;
+      
+    display = 0;
+    case (select) {
+      2b00:
+        display = current_a.q;
+      2b01:
+        display = current_b.q;
+      2b10:
+        display = current_alufn.q;
+      2b11:
+        display = final_alu_out;
+    }
+
+  }
+}

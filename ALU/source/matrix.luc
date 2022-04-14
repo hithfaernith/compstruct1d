@@ -1,0 +1,42 @@
+module matrix #(
+  WIDTH = 32: WIDTH > 0,
+  HEIGHT = 8: HEIGHT > 0,
+  NUM_PIXELS = WIDTH * HEIGHT
+) (
+    input clk,  // clock
+    input rst,  // reset
+    input update,
+    input color[24],
+    output x[$clog2(WIDTH)],
+    output y[$clog2(HEIGHT)],
+    output pixel[$clog2(WIDTH * HEIGHT)],
+    output led
+  ) {
+  
+  ws2812b_writer writer(
+    #PIXEL_COUNT(NUM_PIXELS), .clk(clk), .rst(rst)
+  );
+  
+  sig pixel_no[$clog2(NUM_PIXELS)];
+  sig modulo_pixel[$clog2(HEIGHT)];
+  sig x_position[$clog2(WIDTH)];
+  
+  always {
+    writer.color = color;
+    writer.update = update;
+    pixel = writer.pixel;
+    led = writer.led;
+    
+    pixel_no = writer.pixel;
+    x_position = pixel_no / HEIGHT;
+    // p % height = p - p * floor(p / height)
+    modulo_pixel = pixel_no - x_position * HEIGHT;
+    x = x_position;
+    
+    if (x_position[0] == 1b0) {
+      y = HEIGHT - modulo_pixel - 1b1;
+    } else {
+      y = modulo_pixel;
+    }
+  }
+}

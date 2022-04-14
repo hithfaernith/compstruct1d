@@ -1,0 +1,16 @@
+module toggled_slowclock (
+    input clk,  // clock
+    input rst,  // reset
+    input pause,
+    output value
+  ) {
+  
+  counter slowclock(#SIZE(1), #DIV(26), .clk(clk), .rst(rst));
+
+  always {
+    if (pause)
+      value = 0;
+    else
+      value = slowclock.value;
+  }
+}

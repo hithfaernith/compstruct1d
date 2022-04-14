@@ -1,0 +1,28 @@
+module enemy_display (
+    input clk,  // clock
+    input rst,  // reset
+    input enemy_positions[8][8],
+    input enemy_dirs[8][2],
+    input x[5], input y[3],
+    output color[24]
+  ) {
+
+  sig enemy_x[5], enemy_y[3];
+  sig enemy_position[8];
+  sig k[4];
+  
+  always {
+    color = Colors.BLACK;
+    for (k=0; k<8; k++) {
+      enemy_position = enemy_positions[k];
+      enemy_x = enemy_position[4:0];
+      enemy_y = enemy_position[7:5];
+      if (
+        (enemy_x == x) && (enemy_y == y) &&
+        (enemy_dirs[k] != 2b00)
+      ) {
+        color = Colors.RED;
+      }
+    }
+  }
+}

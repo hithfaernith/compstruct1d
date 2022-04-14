@@ -1,0 +1,40 @@
+module player_display (
+    input clk,  // clock
+    input rst,  // reset
+    input player_position[8],
+    input player_disk[4],
+    input x[5], input y[3],
+    output color[24]
+  ) {
+
+  sig player_y[3];
+  sig player_x[5];
+  sig disk_length[5];
+  
+  always {
+    color = Colors.BLACK;
+    player_y = player_position[7:5];
+    player_x = player_position[4:0];
+    
+    disk_length = 5;
+    case (player_disk) {
+      4b0000: disk_length = 0;
+      4b0001: disk_length = 1;
+      4b0010: disk_length = 2;
+      4b0100: disk_length = 3;
+      4b1000: disk_length = 4;
+    }
+    
+    if (y == player_y) {
+      if (x == player_x) {
+        color = Colors.PLAYER_COLOR;
+      } else if (x > player_x) {
+      // ^ paranoid about overflow, not sure if necessary though
+        if (disk_length >= (x - player_x)) {
+          color = Colors.ACTIVE_DISK_COLOR;
+        }
+      }
+    }
+    
+  }
+}

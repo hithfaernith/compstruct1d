@@ -1,0 +1,36 @@
+module alu_full (
+    input a[16],
+    input b[16],
+    input alufn[6],
+    output out[16]
+  ) {
+  
+  
+  adder_b16 add(.subtract(alufn[0]),.x(a),.y(b));
+  multiply mul(.x(a),.y(b));
+  divide div(.x(a), .y(b));
+  boolean_unit bol(.a(a), .b(b), .alufn(alufn));
+  shifter shf(.number(a), .bits(b[3:0]),.shift_type(alufn[1:0]));
+  compare_unit com(.z(add.z),.v(add.v),.n(add.n),.alufn(alufn));
+  
+  
+  
+  
+  always {
+    if (alufn[5:1] == 5b00000) {
+      out = add.s;
+    } else if (alufn[5:0] == 6b000010){
+      out = mul.out;
+    } else if (alufn[5:0] == 6b000011) {
+      out = div.out;
+    } else if (alufn[5:4] == 2b01){
+      out = bol.out;
+    } else if (alufn[5:4] == 2b10){
+      out = shf.out;
+    } else if (alufn[5:4] == 2b11){
+      out = com.out;
+    } else {
+      out = 0;
+    }
+  }
+}
