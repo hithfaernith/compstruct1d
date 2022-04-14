@@ -2,9 +2,13 @@
 <project name="led_render" board="Alchitry Au" language="Lucid" version="3">
   <files>
     <src>ws2812b_writer.luc</src>
+    <src>player_display.luc</src>
+    <src>tower_display.luc</src>
     <src top="true">au_top.luc</src>
     <component>reset_conditioner.luc</component>
+    <src>hanoi_display.luc</src>
     <src>matrix.luc</src>
+    <src>enemy_display.luc</src>
     <constraint lib="true">alchitry.acf</constraint>
     <constraint lib="true">au.xdc</constraint>
     <constraint>custom.acf</constraint>

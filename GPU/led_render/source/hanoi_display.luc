@@ -1,0 +1,64 @@
+global Colors {
+    const BLUE = 24hFF0000;
+    const BLACK = 24h000000;
+    const GREEN = 24h0000FF;
+    const DARK_GREEN = 24h200132;
+    const INDIGO = 24h824B00;
+    const RED = 24h00FF00;
+  
+    const PLAYER_COLOR = GREEN;
+    const TOWER_COLOR = BLUE;  
+    const DISK_COLOR = INDIGO;
+    const ACTIVE_DISK_COLOR = DARK_GREEN;
+    const ENEMY_COLOR = RED;
+}
+
+module hanoi_display (
+    input clk,  // clock
+    input rst,  // reset
+    input player_position[8],
+    input tower_positions[3][8],
+    input enemy_positions[8][8],
+    input enemy_dirs[8][2],
+    input tower_disks[3][4],
+    input active_disk[4],
+    output led
+  ) {
+    
+  matrix led_matrix(
+    #WIDTH(32), #HEIGHT(8), .clk(clk), .rst(rst)
+  );
+  
+  tower_display tower_color(
+    .clk(clk), .rst(rst), .tower_positions(tower_positions)
+  );
+  
+  player_display player_color(
+    .clk(clk), .rst(rst), .player_position(player_position)
+  );
+  
+  enemy_display enemy_color(
+    .clk(clk), .rst(rst), .enemy_positions(enemy_positions),
+    .enemy_dirs(enemy_dirs)
+  );
+  
+  always {
+    led_matrix.update = 1;
+    led = led_matrix.led;
+    
+    tower_color.x = led_matrix.x;
+    tower_color.y = led_matrix.y;
+    tower_color.tower_disks = tower_disks;
+    
+    player_color.x = led_matrix.x;
+    player_color.y = led_matrix.y;
+    player_color.player_disk = active_disk;
+    
+    enemy_color.x = led_matrix.x;
+    enemy_color.y = led_matrix.y;
+    
+    led_matrix.color = (
+      tower_color.color ^ player_color.color ^ enemy_color.color
+    );
+  }
+}

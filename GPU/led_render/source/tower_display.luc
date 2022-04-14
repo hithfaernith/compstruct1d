@@ -1,0 +1,81 @@
+module tower_display (
+    input clk,  // clock
+    input rst,  // reset
+    input tower_positions[3][8],
+    input tower_disks[3][4],
+    input x[5], input y[3],
+    output color[24]
+  ) {
+  
+  sig tower_position[8];
+  sig tower_x[5], tower_y[3];
+  sig tower_pixels[4][4];
+  sig disk_pixels_x[2], disk_pixels_y[2];
+  sig pixel_has_disk;
+  sig tower[4];
+  var k;
+
+  always {
+    color = Colors.BLACK;
+    
+    for (k=0; k<3; k++) {
+      tower_position = tower_positions[k];
+      tower_y = tower_position[7:5];
+      tower_x = tower_position[4:0];
+      tower = tower_disks[k];
+      
+      case (tower) {
+        4b0000:
+          tower_pixels = {4b0000, 4b0000, 4b0000, 4b0000};
+        4b0001:
+          tower_pixels = {4b0000, 4b0000, 4b0000, 4b1111};
+        4b0010:
+          tower_pixels = {4b0000, 4b0000, 4b0000, 4b0111};
+        4b0011:
+          tower_pixels = {4b0000, 4b0000, 4b0111, 4b1111};
+        4b0100:
+          tower_pixels = {4b0000, 4b0000, 4b0000, 4b0011};
+        4b0101:
+          tower_pixels = {4b0000, 4b0000, 4b0011, 4b1111};
+        4b0110:
+          tower_pixels = {4b0000, 4b0000, 4b0011, 4b0111};
+        4b0111:
+          tower_pixels = {4b0000, 4b0011, 4b0111, 4b1111};
+          
+        4b1000:
+          tower_pixels = {4b0000, 4b0000, 4b0000, 4b0001};
+        4b1001:
+          tower_pixels = {4b0000, 4b0000, 4b0001, 4b1111};
+        4b1010:
+          tower_pixels = {4b0000, 4b0000, 4b0001, 4b0111};
+        4b1011:
+          tower_pixels = {4b0000, 4b0001, 4b0111, 4b1111};
+        4b1100:
+          tower_pixels = {4b0000, 4b0000, 4b0001, 4b0011};
+        4b1101:
+          tower_pixels = {4b0000, 4b0001, 4b0011, 4b1111};
+        4b1110:
+          tower_pixels = {4b0000, 4b0001, 4b0011, 4b0111};
+        4b1111:
+          tower_pixels = {4b0001, 4b0011, 4b0111, 4b1111};
+          
+        default: 
+          tower_pixels = {4b1111, 4b1111, 4b1111, 4b1111};
+      }
+      
+      if ((y < tower_y) && (x ==  tower_x)) {
+        color = Colors.TOWER_COLOR;
+      } else if (
+        (x <= tower_x + 4) && (y < 4) && (tower_x < x)
+      ) {
+        disk_pixels_x = x - (tower_x + 1);
+        disk_pixels_y = y;
+        
+        pixel_has_disk = tower_pixels[disk_pixels_y][disk_pixels_x];
+        if (pixel_has_disk) {
+          color = Colors.DISK_COLOR;
+        }
+      }
+    }
+  }
+}

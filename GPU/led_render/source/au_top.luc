@@ -14,9 +14,7 @@ module au_top (
   
   sig rst;                  // reset signal
   
-  matrix led_matrix(
-    #WIDTH(32), #HEIGHT(8), .clk(clk), .rst(rst)
-  );
+  hanoi_display display(.clk(clk), .rst(rst));
   
   .clk(clk) {
     // The reset conditioner is used to synchronize the reset signal to the FPGA
@@ -24,38 +22,34 @@ module au_top (
     reset_conditioner reset_cond;
   }
   
-  sig x_coordinate[5];
-  sig y_coordinate[3];
-  sig pixel_no[8];
+  sig tower1[8], tower2[8], tower3[8];
   
   always {
     reset_cond.in = ~rst_n; // input raw inverted reset signal
     rst = reset_cond.out;   // conditioned reset
     usb_tx = usb_rx;        // loop serial port
-    led = 8h00;             // turn LEDs off
     
-    io_led = 3x{{8h00}};    // turn LEDs off
-    io_seg = 8hff;          // turn segments off
-    io_sel = 4hf;           // select no digits
+    io_led = io_dip;
+    io_seg = 8hFF;
+    io_sel = 4b1111;
     
-    x_coordinate = io_dip[0][4:0];
-    y_coordinate = io_dip[0][7:5];
-    pixel_no = led_matrix.pixel;
-    io_led[0][4:0] = x_coordinate;
-    io_led[1][7:5] = y_coordinate;
-    
-    led_matrix.update = 1b1; // sample write 
-    led_matrix.color = 24h000000;
-    outled = led_matrix.led;
-    io_led[1][0] = 1b0;
+    tower1 = (4 << 5) + 7;
+    tower2 = (6 << 5) + 15;
+    tower3 = (5 << 5) + 22;
 
-    if (
-      (x_coordinate == led_matrix.x) &&
-      (y_coordinate == led_matrix.y)
-    ) {
-      led_matrix.color = 24h010000;
-    }
+    led = io_dip[0][7:0];
+    display.active_disk = io_dip[2][7:4];
+    display.player_position = io_dip[0][7:0];
+    display.tower_positions = {tower1, tower2, tower3};
+    display.enemy_dirs = 8x{{2b11}};
+    display.enemy_positions = {
+      8b00000001, 8b00100010, 8b01000100, 8b01101000,
+      8b10010000, 8b10110001, 8b11010010, 8b11110100
+    };
     
-    io_led[2] = pixel_no;
+    display.tower_disks[0] = io_dip[1][3:0];
+    display.tower_disks[1] = io_dip[1][7:4];
+    display.tower_disks[2] = io_dip[2][3:0];
+    outled = display.led;
   }
 }
