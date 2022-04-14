@@ -2,14 +2,14 @@ module boolean_unit (
     input a[16],
     input b[16],
     input alufn[6],
-    output out[16]
+    output res[16]
   ) {
 
   sig inputs[2], func[4];
   var i;
   
   always {
-    out = 0;
+    res = 0;
     
     // We use the lower 4 bits of alufn as a lookup table
     // for the output of the binary function. We select
@@ -44,7 +44,7 @@ module boolean_unit (
     for (i=0; i<16; i++) {
       inputs[1] = b[i];
       inputs[0] = a[i];
-      out[i] = func[inputs];
+      res[i] = func[inputs];
     }
   }
 }

@@ -1,28 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="test_project" board="Alchitry Au" language="Lucid" version="3">
   <files>
-    <src>fsm.luc</src>
-    <src>adder_b16_tester.luc</src>
-    <src>segment_test.luc</src>
-    <src>segment_decoder.luc</src>
-    <src>boolean_unit.luc</src>
-    <src>eight_bit_adder.luc</src>
+    <src>blinker.luc</src>
+    <src>ws2812b_writer.luc</src>
     <component>counter.luc</component>
-    <src>seq_plus_vary.luc</src>
-    <src>adder_b16.luc</src>
-    <src top="true">au_top.luc</src>
-    <src>compare_unit.luc</src>
-    <src>full_adder.luc</src>
-    <src>seq_plus_two.luc</src>
-    <src>eight_bit_shiftleft.luc</src>
-    <src>dff_b16.luc</src>
-    <src>multi_segment.luc</src>
-    <src>shifter.luc</src>
+    <src>segment_test.luc</src>
+    <src>passthrough_switch.luc</src>
+    <src>regfile_unit.luc</src>
     <src>full_adder_ROM.luc</src>
-    <src>shifter_unit.luc</src>
+    <src>math_unit.luc</src>
+    <src>multiply.luc</src>
+    <src>dff_b16.luc</src>
+    <src>enemy_display.luc</src>
+    <src>hanoi_display.luc</src>
+    <src>adder_b16.luc</src>
+    <src>reverse.luc</src>
+    <src>solo_msb_unit.luc</src>
+    <src>alu_unit.luc</src>
     <component>reset_conditioner.luc</component>
-    <constraint lib="true">alchitry.acf</constraint>
-    <constraint lib="true">io.acf</constraint>
+    <src>player_clip_move.luc</src>
+    <src>multi_segment.luc</src>
+    <src>matrix.luc</src>
+    <src>compare_unit.luc</src>
+    <src>player_display.luc</src>
+    <src>globals.luc</src>
+    <src>enemy_move_left_unit.luc</src>
+    <src>power.luc</src>
+    <src top="true">au_top.luc</src>
+    <src>full_adder.luc</src>
+    <src>game_state_machine.luc</src>
+    <src>pausable_slow_clock.luc</src>
+    <src>register.luc</src>
+    <src>hanoi_state_machine.luc</src>
+    <src>old_compare_unit.luc</src>
+    <src>shift_unit.luc</src>
+    <src>boolean_unit.luc</src>
+    <src>adder_b16_tester.luc</src>
+    <src>divide.luc</src>
+    <src>segment_decoder.luc</src>
+    <src>player_clip_move_unit.luc</src>
+    <src>tower_display.luc</src>
+    <constraint>custom.acf</constraint>
     <constraint lib="true">au.xdc</constraint>
   </files>
 </project>
