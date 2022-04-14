@@ -1,18 +1,25 @@
 module compare_unit (
-    input z,
-    input v,
-    input n,
+    input a[16],
+    input b[16],
     input alufn[6],
-    output out
+    
+    output res[16]
   ) {
+  
+  sig compare_code[3];
 
   always {
-    out = 0;
+    res = 0;
+    compare_code = alufn[2:0];
     
-    case (alufn[2:1]) {
-      2b01: out = z; // comparism A = B
-      2b10: out = n ^ v; // comparism A < B
-      2b11: out = z + (n ^ v); // comparism A <= B
+    case (compare_code) {
+      3b011:
+        res = a == b;
+      3b101:
+        res = a < b;
+      3b111:
+        res = a <= b;
     }
+    
   }
 }

@@ -1,4 +1,4 @@
-module old_compare_unit (
+module compare_unit (
     input z,
     input v,
     input n,
