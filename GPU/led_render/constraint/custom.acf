@@ -18,6 +18,13 @@ pin usb_tx USB_RX;
 
 pin outled C46;
 
+pin reset_signal C2 pullup;
+pin pick_drop_physical_signal C3 pullup;
+pin up_signal C6 pullup;
+pin down_signal C5 pullup;
+pin left_signal C8 pullup;
+pin right_signal C9 pullup;
+
 
 pin io_led[0][0] B21;
 pin io_led[0][1] B20;

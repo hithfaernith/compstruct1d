@@ -15,7 +15,13 @@ module au_top_0 (
     output reg [7:0] io_seg,
     output reg [3:0] io_sel,
     input [4:0] io_button,
-    input [23:0] io_dip
+    input [23:0] io_dip,
+    input reset_signal,
+    input pick_drop_physical_signal,
+    input up_signal,
+    input down_signal,
+    input left_signal,
+    input right_signal
   );
   
   
@@ -23,6 +29,14 @@ module au_top_0 (
   reg rst;
   
   reg [3:0] pmove;
+  
+  reg [3:0] pmove_physical;
+  
+  reg reset_final;
+  
+  reg pick_or_drop_final;
+  
+  reg [3:0] pmove_final;
   
   wire [1-1:0] M_reset_cond_out;
   reg [1-1:0] M_reset_cond_in;
@@ -40,8 +54,14 @@ module au_top_0 (
   wire [1-1:0] M_pick_drop_edge_out;
   edge_detector_3 pick_drop_edge (
     .clk(clk),
-    .in(M_pick_drop_button_out),
+    .in(pick_or_drop_final),
     .out(M_pick_drop_edge_out)
+  );
+  wire [1-1:0] M_pick_drop_physical_cond_out;
+  button_conditioner_2 pick_drop_physical_cond (
+    .clk(clk),
+    .in(pick_drop_physical_signal),
+    .out(M_pick_drop_physical_cond_out)
   );
   wire [1-1:0] M_slowclock_value;
   counter_4 slowclock (
@@ -86,9 +106,9 @@ module au_top_0 (
   game_state_machine_6 gsm (
     .clk(M_slowclock_value),
     .rst(rst),
-    .pmove(pmove),
+    .pmove(pmove_final),
     .pick_or_drop(M_pick_or_drop_q),
-    .reset_game(io_dip[0+0+0-:1]),
+    .reset_game(reset_final),
     .dump_player_pos(M_gsm_dump_player_pos),
     .dump_player_counter(M_gsm_dump_player_counter),
     .dump_enemy_no(M_gsm_dump_enemy_no),
@@ -107,6 +127,10 @@ module au_top_0 (
   always @* begin
     M_pick_or_drop_d = M_pick_or_drop_q;
     
+    pmove_physical[0+0-:1] = ~up_signal;
+    pmove_physical[1+0-:1] = ~down_signal;
+    pmove_physical[2+0-:1] = ~left_signal;
+    pmove_physical[3+0-:1] = ~right_signal;
     M_reset_cond_in = ~rst_n;
     rst = M_reset_cond_out;
     usb_tx = usb_rx;
@@ -114,7 +138,7 @@ module au_top_0 (
     pmove[1+2-:3] = io_button[2+2-:3];
     io_led = io_dip;
     io_led[0+7+0-:1] = M_pick_or_drop_q;
-    io_led[0+6+0-:1] = M_pick_drop_edge_out;
+    io_led[0+6+0-:1] = reset_signal;
     io_led[0+5+0-:1] = M_pick_drop_button_out;
     io_led[0+0+3-:4] = pmove;
     io_led[8+0+5-:6] = M_gsm_current_state;
@@ -129,6 +153,9 @@ module au_top_0 (
     outled = M_display_led;
     led = 8'hff;
     M_pick_or_drop_d = M_pick_or_drop_q ^ M_pick_drop_edge_out;
+    pick_or_drop_final = M_pick_drop_button_out | ~M_pick_drop_physical_cond_out;
+    reset_final = io_dip[0+0+0-:1] | ~reset_signal;
+    pmove_final = pmove | pmove_physical;
   end
   
   always @(posedge clk) begin

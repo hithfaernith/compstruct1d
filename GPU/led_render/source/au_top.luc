@@ -9,18 +9,34 @@ module au_top (
     output io_seg [8],      // 7-segment LEDs on IO Shield
     output io_sel [4],      // Digit select on IO Shield
     input io_button [5],    // 5 buttons on IO Shield
-    input io_dip [3][8]     // DIP switches on IO Shield
+    input io_dip [3][8],     // DIP switches on IO Shield
+    
+    
+    input reset_signal,
+    input pick_drop_physical_signal,
+    input up_signal,
+    input down_signal,
+    input left_signal,
+    input right_signal
   ) {
   
   sig rst;                  // reset signal
   sig pmove[4];
+  sig pmove_physical[4];
+  
+  sig reset_final;
+  sig pick_or_drop_final;
+  sig pmove_final[4];
   
   .clk(clk) {
     // The reset conditioner is used to synchronize the reset signal to the FPGA
     // clock. This ensures the entire FPGA comes out of reset at the same time.
     reset_conditioner reset_cond;
     button_conditioner pick_drop_button(#MIN_DELAY(50), .in(io_button[1]));
-    edge_detector pick_drop_edge(#RISE(1), #FALL(0), .in(pick_drop_button.out));
+    edge_detector pick_drop_edge(#RISE(1), #FALL(0), .in(pick_or_drop_final));
+    
+    button_conditioner pick_drop_physical_cond(#MIN_DELAY(50), .in(pick_drop_physical_signal));
+    
     
     .rst(rst) {
       counter slowclock(#SIZE(1), #DIV(14));
@@ -33,11 +49,16 @@ module au_top (
   game_state_machine gsm(
     .clk(slowclock.value),
     .rst(rst),
-    .pmove(pmove),
+    .pmove(pmove_final),
     .pick_or_drop(pick_or_drop.q),
-    .reset_game(io_dip[0][0])
+    .reset_game(reset_final)
   );
   always {
+    pmove_physical[0] = ~up_signal;
+    pmove_physical[1] = ~down_signal;
+    pmove_physical[2] = ~left_signal;
+    pmove_physical[3] = ~right_signal;
+    
     reset_cond.in = ~rst_n; // input raw inverted reset signal
     rst = reset_cond.out;   // conditioned reset
     usb_tx = usb_rx;        // loop serial port
@@ -49,7 +70,7 @@ module au_top (
     
     io_led = io_dip;
     io_led[0][7] = pick_or_drop.q;
-    io_led[0][6] = pick_drop_edge.out;
+    io_led[0][6] = reset_signal;
     io_led[0][5] = pick_drop_button.out;
     
     io_led[0][3:0] = pmove;
@@ -69,6 +90,12 @@ module au_top (
     led = 8hFF;
     
     pick_or_drop.d = pick_or_drop.q ^ pick_drop_edge.out;
+    
+    
+    pick_or_drop_final = pick_drop_button.out | ~pick_drop_physical_cond.out;
+    reset_final = io_dip[0][0] | ~reset_signal;
+    pmove_final = pmove | pmove_physical;
+    
   }
 }
 
