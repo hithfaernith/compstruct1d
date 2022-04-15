@@ -17,10 +17,10 @@ module player_display (
     disk_length = 5;
     case (player_disk) {
       4b0000: disk_length = 0;
-      4b0001: disk_length = 1;
-      4b0010: disk_length = 2;
-      4b0100: disk_length = 3;
-      4b1000: disk_length = 4;
+      4b0001: disk_length = 4;
+      4b0010: disk_length = 3;
+      4b0100: disk_length = 2;
+      4b1000: disk_length = 1;
     }
     
     if (y == player_y) {

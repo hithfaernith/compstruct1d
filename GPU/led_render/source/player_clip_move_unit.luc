@@ -1,0 +1,52 @@
+module player_clip_move_unit (
+    input a[16],
+    input b[16],
+    
+    output res[16]
+  ) {
+  
+  const UP = 0;
+  const DOWN = 1;
+  const LEFT = 2;
+  const RIGHT = 3;
+  
+  sig x[5],y[3];
+  
+  sig player_position[16];
+  sig player_move[16];
+  sig new_position[16];
+
+  always {
+    player_position = a;
+    player_move = b;
+    new_position = 0;
+    new_position[7:0] = player_position[7:0];
+    
+    x = player_position[4:0];
+    y = player_position[7:5];
+    
+    if (x == 0) {
+      player_move[LEFT] = 0;
+    } else if (x == 31) {
+      player_move[RIGHT] = 0;
+    }
+    
+    if (y == 7) {
+      player_move[UP] = 0;
+    } else if (y == 0) {
+      player_move[DOWN] = 0;
+    }
+    
+    if (player_move[UP] == 1) {
+      new_position[7:5] = player_position[7:5] + 1;
+    } else if (player_move[DOWN] == 1) {
+      new_position[7:5] = player_position[7:5] - 1;
+    } else if (player_move[LEFT] == 1) {
+      new_position[4:0] = player_position[4:0] - 1;
+    } else if (player_move[RIGHT] == 1) {
+      new_position[4:0] = player_position[4:0] + 1;
+    }
+    
+    res = new_position;
+  }
+}

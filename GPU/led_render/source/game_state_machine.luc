@@ -1,0 +1,484 @@
+module game_state_machine (
+    input clk,  // clock
+    input rst,  // reset
+    input pmove[4],
+    input pick_or_drop,
+    
+    
+    
+    output dump_player_pos[8],
+    output dump_player_counter[16],
+    output dump_enemy_no[16],
+    output dump_tower_no[16],
+    output dump_last_fire_wait[16],
+    output dump_active_disk[4],
+    output dump_game_state[16],
+    output dump_enemy_positions[8][8],
+    output dump_enemy_directions[8][2],
+    output dump_enemy_move_waits[8][16],
+    output dump_tower_positions[3][8],
+    output dump_tower_states[3][4],
+    
+    
+    output current_state[6]
+  ) {
+  
+  alu_unit alu;
+  
+  .clk(clk) {
+  .rst(rst) {
+    regfile_unit regfile(.wd(alu.res));
+      
+    fsm states = {
+      START,
+      PLAYER_INIT,
+      INC_PLAYER_POS,
+      CMP_PLAYER_WAIT,
+      PLAYER_MOVE,
+        
+      INIT_ENEMY_POS,
+      INIT_ENEMY_NO,
+      INC_ENEMY_NO,
+      CHECK_ENEMY_NO,
+      IF_ENEMY_HIDDEN,
+        
+      LAST_FIRE_CHECK,
+      INC_FIRE_WAIT,
+      ENEMY_WAIT_CHECK, 
+      INC_ENEMY_WAIT,
+      RESET_ENEMY_WAIT,
+        
+      FIRE_ENEMY,
+      RESET_FIRE_WAIT,
+      SET_ENEMY_POS,
+      CHECK_ENEMY_LEFT,
+      ENEMY_MOVE_LEFT,
+        
+      ENEMY_HIDE,
+      COLLISION_CHECK,
+      DEATH,
+      RESET_TOWER_NO,
+      INC_TOWER_NO,
+        
+      TOWER_NO_CMP,
+      CHECK_TOWER_POS,
+      IF_DROPPABLE,
+      DROP_DISK,
+      CLEAR_DISK_SEL,
+      
+      IF_PICKABLE,
+      PICK_DISK,
+      RM_TOWER_DISK,
+      SET_LAST_TOWER,
+      WIN_CHECK,
+        
+      WIN,
+      ERROR
+    };
+  }
+  }
+  
+  const _PLAYER_WAIT = 20;
+  const _ENEMY_MOVE_DELAY = 8; //2;
+  const _MIN_FIRE_DELAY = 160;
+
+  always {
+    alu.a = regfile.aout;
+    alu.b = regfile.bout;
+    
+    case (states.q) {
+      states.START:
+        regfile.asel = pmove;
+        regfile.bsel = 0;
+        regfile.aconst = 1;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.CMPEQ;
+        regfile.we = 0;
+        regfile.wsel = 0;
+        if (alu.res[0] == 1)
+          states.d = states.START;
+        else
+          states.d = states.PLAYER_INIT;
+      states.PLAYER_INIT:
+        regfile.asel = 0;
+        regfile.bsel = 0;
+        regfile.aconst = 1;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.A;
+        regfile.we = 1;
+        regfile.wsel = Regs.PLAYER_COUNTER;
+        states.d = states.INC_PLAYER_POS;
+      states.INC_PLAYER_POS:
+        regfile.asel = Regs.PLAYER_COUNTER;
+        regfile.bsel = 1;
+        regfile.aconst = 0;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.ADD;
+        regfile.we = 1;
+        regfile.wsel = Regs.PLAYER_COUNTER;
+        states.d = states.CMP_PLAYER_WAIT;
+      states.CMP_PLAYER_WAIT:
+        regfile.asel = Regs.PLAYER_COUNTER;
+        regfile.bsel = _PLAYER_WAIT;
+        regfile.aconst = 0;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.CMPLT;
+        regfile.we = 0;
+        regfile.wsel = 0;
+        if (alu.res[0] == 1)
+          states.d = states.INIT_ENEMY_NO;
+        else
+          states.d = states.PLAYER_MOVE;
+      states.PLAYER_MOVE:
+        regfile.asel = Regs.PLAYER_POS;
+        regfile.bsel = pmove;
+        regfile.aconst = 0;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.PLAYER_CLIP_MOVE;
+        regfile.we = 1;
+        regfile.wsel = Regs.PLAYER_POS;
+        states.d = states.PLAYER_INIT;
+      states.INIT_ENEMY_NO:
+        regfile.asel = 0;
+        regfile.bsel = 1;
+        regfile.aconst = 1;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.SUB;
+        regfile.we = 1;
+        regfile.wsel = Regs.ENEMY_NO;
+        states.d = states.INC_ENEMY_NO;
+      states.INC_ENEMY_NO:
+        regfile.asel = Regs.ENEMY_NO;
+        regfile.bsel = 1;
+        regfile.aconst = 0;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.ADD;
+        regfile.we = 1;
+        regfile.wsel = Regs.ENEMY_NO;
+        states.d = states.CHECK_ENEMY_NO;
+      states.CHECK_ENEMY_NO:
+        regfile.asel = Regs.ENEMY_NO;
+        regfile.bsel = 7;
+        regfile.aconst = 0;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.CMPLT;
+        regfile.we = 0;
+        regfile.wsel = 0;
+        if (alu.res[0] == 1)
+          states.d = states.IF_ENEMY_HIDDEN;
+        else
+          states.d = states.RESET_TOWER_NO;
+      states.IF_ENEMY_HIDDEN:
+        regfile.asel = Regs.ENEMY_DIRECTIONS;
+        regfile.bsel = 0;
+        regfile.aconst = 0;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.CMPEQ;
+        regfile.we = 0;
+        regfile.wsel = 0;
+        if (alu.res[0] == 1)
+          states.d = states.LAST_FIRE_CHECK;
+        else
+          states.d = states.ENEMY_WAIT_CHECK;
+      states.ENEMY_WAIT_CHECK:
+        regfile.asel = Regs.ENEMY_MOVE_WAITS;
+        regfile.bsel = _ENEMY_MOVE_DELAY;
+        regfile.aconst = 0;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.CMPLT;
+        regfile.we = 0;
+        regfile.wsel = 0;
+        if (alu.res != 0)
+          states.d = states.INC_ENEMY_WAIT;
+        else
+          states.d = states.RESET_ENEMY_WAIT;
+      states.LAST_FIRE_CHECK:
+        regfile.asel = Regs.LAST_FIRE_WAIT;
+        regfile.bsel = _MIN_FIRE_DELAY;
+        regfile.aconst = 0;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.CMPLT;
+        regfile.we = 0;
+        regfile.wsel = 0;
+        if (alu.res[0] == 1)
+          states.d = states.INC_FIRE_WAIT;
+        else
+          states.d = states.FIRE_ENEMY;
+      states.INC_FIRE_WAIT:
+        regfile.asel = Regs.LAST_FIRE_WAIT;
+        regfile.bsel = 1;
+        regfile.aconst = 0;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.ADD;
+        regfile.we = 1;
+        regfile.wsel = Regs.LAST_FIRE_WAIT;
+        states.d = states.INC_ENEMY_NO;
+      states.FIRE_ENEMY:
+        regfile.asel = 2b10;
+        regfile.bsel = 0;
+        regfile.aconst = 1;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.A;
+        regfile.we = 1;
+        regfile.wsel = Regs.ENEMY_DIRECTIONS;
+        states.d = states.SET_ENEMY_POS;
+      states.SET_ENEMY_POS:
+        regfile.asel = 8h1F;
+        regfile.bsel = Regs.PLAYER_POS;
+        regfile.aconst = 1;
+        regfile.bconst = 0;
+        alu.alufn = Alufns.OR;
+        regfile.we = 1;
+        regfile.wsel = Regs.ENEMY_POSITIONS;
+        states.d = states.RESET_FIRE_WAIT;
+      states.RESET_FIRE_WAIT:
+        regfile.asel = 0;
+        regfile.bsel = 0;
+        regfile.aconst = 1;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.A;
+        regfile.we = 1;
+        regfile.wsel = Regs.LAST_FIRE_WAIT;
+        states.d = states.INC_ENEMY_NO;
+      states.INC_ENEMY_WAIT:
+        regfile.asel = Regs.ENEMY_MOVE_WAITS;
+        regfile.bsel = 1;
+        regfile.aconst = 0;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.ADD;
+        regfile.we = 1;
+        regfile.wsel = Regs.ENEMY_MOVE_WAITS;
+        states.d = states.COLLISION_CHECK;
+      states.RESET_ENEMY_WAIT:
+        regfile.asel = 0;
+        regfile.bsel = 0;
+        regfile.aconst = 1;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.A;
+        regfile.we = 1;
+        regfile.wsel = Regs.ENEMY_MOVE_WAITS;
+        states.d = states.CHECK_ENEMY_LEFT;
+      states.CHECK_ENEMY_LEFT:
+        regfile.asel = Regs.ENEMY_POSITIONS;
+        regfile.bsel = 8h1F;
+        regfile.aconst = 0;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.AND;
+        regfile.we = 0;
+        regfile.wsel = 0;
+        if (alu.res != 0)
+          states.d = states.ENEMY_MOVE_LEFT;
+        else
+          states.d = states.ENEMY_HIDE;
+      states.ENEMY_HIDE:
+        regfile.asel = 0;
+        regfile.bsel = 0;
+        regfile.aconst = 1;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.A;
+        regfile.we = 1;
+        regfile.wsel = Regs.ENEMY_DIRECTIONS;
+        states.d = states.INC_ENEMY_NO;
+      states.ENEMY_MOVE_LEFT:
+        regfile.asel = Regs.ENEMY_POSITIONS;
+        regfile.bsel = 1;
+        regfile.aconst = 0;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.ENEMY_MOVE_LEFT;
+        regfile.we = 1;
+        regfile.wsel = Regs.ENEMY_POSITIONS;
+        states.d = states.COLLISION_CHECK;
+      states.COLLISION_CHECK:
+        regfile.asel = Regs.ENEMY_POSITIONS;
+        regfile.bsel = Regs.PLAYER_POS;
+        regfile.aconst = 0;
+        regfile.bconst = 0;
+        alu.alufn = Alufns.CMPEQ;
+        regfile.we = 0;
+        regfile.wsel = 0;
+        if (alu.res[0] == 1)
+          states.d = states.DEATH;
+        else
+          states.d = states.INC_ENEMY_NO;
+      states.DEATH:
+        regfile.asel = 2b01;
+        regfile.bsel = 0;
+        regfile.aconst = 1;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.A;
+        regfile.we = 1;
+        regfile.wsel = Regs.GAME_STATE;
+        states.d = states.DEATH;
+      states.RESET_TOWER_NO:
+        regfile.asel = 16hFFFF;
+        regfile.bsel = 0;
+        regfile.aconst = 1;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.A;
+        regfile.we = 1;
+        regfile.wsel = Regs.TOWER_NO;
+        states.d = states.INC_TOWER_NO;
+      states.INC_TOWER_NO:
+        regfile.asel = Regs.TOWER_NO;
+        regfile.bsel = 1;
+        regfile.aconst = 0;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.ADD;
+        regfile.we = 1;
+        regfile.wsel = Regs.TOWER_NO;
+        states.d = states.TOWER_NO_CMP;
+      states.TOWER_NO_CMP:
+        regfile.asel = Regs.TOWER_NO;
+        regfile.bsel = 2;
+        regfile.aconst = 0;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.CMPLE;
+        regfile.we = 0;
+        regfile.wsel = 0;
+        if (alu.res[0] == 1)
+          states.d = states.CHECK_TOWER_POS;
+        else
+          states.d = states.SET_LAST_TOWER;
+      states.CHECK_TOWER_POS:
+        regfile.asel = Regs.TOWER_POSITIONS;
+        regfile.bsel = Regs.PLAYER_POS;
+        regfile.aconst = 0;
+        regfile.bconst = 0;
+        alu.alufn = Alufns.CMPEQ;
+        regfile.we = 0;
+        regfile.wsel = 0;
+        if (alu.res[0] == 1) {
+          if (pick_or_drop[0] == 1)
+            states.d = states.IF_PICKABLE;
+          else
+            states.d = states.IF_DROPPABLE;
+        } else {
+          states.d = states.INC_TOWER_NO;
+        }
+      states.IF_DROPPABLE:
+        regfile.asel = Regs.TOWER_STATES;
+        regfile.bsel = Regs.ACTIVE_DISK;
+        regfile.aconst = 0;
+        regfile.bconst = 0;
+        alu.alufn = Alufns.CMPLT;
+        regfile.we = 0;
+        regfile.wsel = 0;
+        if (alu.res[0] == 1)
+          states.d = states.DROP_DISK;
+        else
+          states.d = states.INC_TOWER_NO;
+      states.DROP_DISK:
+        regfile.asel = Regs.TOWER_STATES;
+        regfile.bsel = Regs.ACTIVE_DISK;
+        regfile.aconst = 0;
+        regfile.bconst = 0;
+        alu.alufn = Alufns.OR;
+        regfile.we = 1;
+        regfile.wsel = Regs.TOWER_STATES;
+        states.d = states.CLEAR_DISK_SEL;
+      states.CLEAR_DISK_SEL:
+        regfile.asel = 0;
+        regfile.bsel = 0;
+        regfile.aconst = 1;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.A;
+        regfile.we = 1;
+        regfile.wsel = Regs.ACTIVE_DISK;
+        states.d = states.INC_TOWER_NO;
+      states.IF_PICKABLE:
+        regfile.asel = Regs.ACTIVE_DISK;
+        regfile.bsel = 0;
+        regfile.aconst = 0;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.CMPEQ;
+        regfile.we = 0;
+        regfile.wsel = 0;
+        if (alu.res[0] == 1)
+          states.d = states.PICK_DISK;
+        else
+          states.d = states.INC_TOWER_NO;
+      states.PICK_DISK:
+        regfile.asel = Regs.TOWER_STATES;
+        regfile.bsel = 0;
+        regfile.aconst = 0;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.SOLO_MSB;
+        regfile.we = 1;
+        regfile.wsel = Regs.ACTIVE_DISK;
+        states.d = states.RM_TOWER_DISK;
+      states.RM_TOWER_DISK:
+        regfile.asel = Regs.TOWER_STATES;
+        regfile.bsel = Regs.ACTIVE_DISK;
+        regfile.aconst = 0;
+        regfile.bconst = 0;
+        alu.alufn = Alufns.XOR;
+        regfile.we = 1;
+        regfile.wsel = Regs.TOWER_STATES;
+        states.d = states.INC_TOWER_NO;
+      states.SET_LAST_TOWER:
+        regfile.asel = 0; // differ from python
+        regfile.bsel = 0;
+        regfile.aconst = 1;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.A;
+        regfile.we = 1;
+        regfile.wsel = Regs.TOWER_NO;
+        states.d = states.WIN_CHECK;
+      states.WIN_CHECK:
+        regfile.asel = Regs.TOWER_STATES;
+        regfile.bsel = 16h000F;
+        regfile.aconst = 0;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.CMPEQ;
+        regfile.we = 0;
+        regfile.wsel = 0;
+        if (alu.res[0] == 1)
+          states.d = states.WIN;
+        else
+          states.d = states.INC_PLAYER_POS;
+      states.WIN:
+        regfile.asel = 2b10;
+        regfile.bsel = 0;
+        regfile.aconst = 1;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.A;
+        regfile.we = 1;
+        regfile.wsel = Regs.GAME_STATE;
+        states.d = states.WIN;
+      
+      states.ERROR:
+        regfile.asel = 0;
+        regfile.bsel = 0;
+        regfile.aconst = 1;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.A;
+        regfile.we = 0;
+        regfile.wsel = 0;
+        states.d = states.ERROR;
+      default:
+        regfile.asel = 0;
+        regfile.bsel = 0;
+        regfile.aconst = 1;
+        regfile.bconst = 1;
+        alu.alufn = Alufns.A;
+        regfile.we = 0;
+        regfile.wsel = 0;
+        states.d = states.ERROR;
+    }
+    
+    dump_player_pos = regfile.dump_player_pos;
+    dump_player_counter = regfile.dump_player_counter;
+    dump_enemy_no = regfile.dump_enemy_no;
+    dump_tower_no = regfile.dump_tower_no;
+    dump_last_fire_wait = regfile.dump_last_fire_wait;
+    dump_active_disk = regfile.dump_active_disk;
+    dump_game_state = regfile.dump_game_state;
+    dump_enemy_positions = regfile.dump_enemy_positions;
+    dump_enemy_directions = regfile.dump_enemy_directions;
+    dump_enemy_move_waits = regfile.dump_enemy_move_waits;
+    dump_tower_positions = regfile.dump_tower_positions;
+    dump_tower_states = regfile.dump_tower_states;
+    
+    current_state = states.q;
+  }
+}

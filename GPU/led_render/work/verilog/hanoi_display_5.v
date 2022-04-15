@@ -4,7 +4,7 @@
    This is a temporary file and any changes made to it will be destroyed.
 */
 
-module hanoi_display_1 (
+module hanoi_display_5 (
     input clk,
     input rst,
     input [7:0] player_position,
@@ -19,12 +19,12 @@ module hanoi_display_1 (
   
   
   wire [5-1:0] M_led_matrix_x;
-  wire [4-1:0] M_led_matrix_y;
-  wire [9-1:0] M_led_matrix_pixel;
+  wire [3-1:0] M_led_matrix_y;
+  wire [8-1:0] M_led_matrix_pixel;
   wire [1-1:0] M_led_matrix_led;
   reg [1-1:0] M_led_matrix_update;
   reg [24-1:0] M_led_matrix_color;
-  matrix_3 led_matrix (
+  matrix_8 led_matrix (
     .clk(clk),
     .rst(rst),
     .update(M_led_matrix_update),
@@ -39,7 +39,7 @@ module hanoi_display_1 (
   reg [12-1:0] M_tower_color_tower_disks;
   reg [5-1:0] M_tower_color_x;
   reg [3-1:0] M_tower_color_y;
-  tower_display_4 tower_color (
+  tower_display_9 tower_color (
     .tower_positions(tower_positions),
     .tower_disks(M_tower_color_tower_disks),
     .x(M_tower_color_x),
@@ -51,7 +51,7 @@ module hanoi_display_1 (
   reg [4-1:0] M_player_color_player_disk;
   reg [5-1:0] M_player_color_x;
   reg [3-1:0] M_player_color_y;
-  player_display_5 player_color (
+  player_display_10 player_color (
     .player_position(player_position),
     .player_disk(M_player_color_player_disk),
     .x(M_player_color_x),
@@ -62,7 +62,7 @@ module hanoi_display_1 (
   wire [24-1:0] M_enemy_color_color;
   reg [5-1:0] M_enemy_color_x;
   reg [3-1:0] M_enemy_color_y;
-  enemy_display_6 enemy_color (
+  enemy_display_11 enemy_color (
     .enemy_positions(enemy_positions),
     .enemy_dirs(enemy_dirs),
     .x(M_enemy_color_x),

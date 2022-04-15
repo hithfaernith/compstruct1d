@@ -1,0 +1,22 @@
+module enemy_move_left_unit (
+    input a[16],
+    input b[16],
+    
+    output res[16]
+  ) {
+
+  sig enemy_pos[16], move_amount[16];
+  sig new_position[16];
+  
+  always {
+    enemy_pos = a;
+    move_amount = b;
+    new_position = 0;
+    
+    new_position[7:5] = enemy_pos[7:5];
+    new_position[4:0] = enemy_pos - move_amount;
+    
+    res = new_position;
+    
+  }
+}

@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="led_render" board="Alchitry Au" language="Lucid" version="3">
   <files>
+    <src>boolean_unit.luc</src>
     <src>tower_display.luc</src>
-    <src>matrix.luc</src>
-    <src top="true">au_top.luc</src>
+    <component>pipeline.luc</component>
+    <src>game_state_machine.luc</src>
     <src>hanoi_display.luc</src>
-    <src>player_display.luc</src>
+    <component>counter.luc</component>
     <src>enemy_display.luc</src>
     <src>ws2812b_writer.luc</src>
+    <src>solo_msb_unit.luc</src>
+    <src>math_unit.luc</src>
+    <src>alu_unit.luc</src>
+    <src>matrix.luc</src>
+    <src>compare_unit.luc</src>
+    <src top="true">au_top.luc</src>
+    <src>player_display.luc</src>
+    <src>globals.luc</src>
+    <src>enemy_move_left_unit.luc</src>
+    <src>regfile_unit.luc</src>
     <component>reset_conditioner.luc</component>
+    <component>edge_detector.luc</component>
+    <src>shift_unit.luc</src>
+    <component>button_conditioner.luc</component>
+    <src>player_clip_move_unit.luc</src>
     <constraint lib="true">au.xdc</constraint>
     <constraint>custom.acf</constraint>
   </files>

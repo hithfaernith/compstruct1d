@@ -1,0 +1,20 @@
+module solo_msb_unit (
+    input a[16],
+    input b[16],
+    
+    output res[16]
+  ) {
+
+  var i;
+  
+  always {
+  
+    res = 0;
+    
+    for (i=0; i<16; i++) {
+      if(a[i] == 1) {
+        res = 1 << i;
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+global Alufns {
+  const ADD = 6h00;
+  const SUB = 6h01;
+  const MUL = 6h02;
+  const AND = 6h18;
+  const OR = 6h1E;
+  const XOR = 6h16;
+  const A = 6h1A;
+  const SHL = 6h20;
+  const SHR = 6h21;
+  const SRA = 6h23;
+  const CMPEQ = 6h33;
+  const CMPLT = 6h35;
+  const CMPLE = 6h37;
+
+  const PLAYER_CLIP_MOVE = 6h08;
+  const ENEMY_MOVE_LEFT = 6h09;
+  const SOLO_MSB = 6h0A;
+}
+
+global PickOrDrop {
+  const PICK = 1;
+  const DROP = 0;
+}
+
+global Regs {
+  const PLAYER_POS = 0;
+  const PLAYER_COUNTER = 1;
+  const ENEMY_NO = 2;
+  const TOWER_NO = 3;
+  const LAST_FIRE_WAIT = 4;
+  const ACTIVE_DISK = 5;
+  const GAME_STATE = 6;
+  const ENEMY_POSITIONS = 7;
+  const ENEMY_DIRECTIONS = 8;
+  const ENEMY_MOVE_WAITS = 9;
+  const TOWER_POSITIONS = 10;
+  const TOWER_STATES = 11;
+}

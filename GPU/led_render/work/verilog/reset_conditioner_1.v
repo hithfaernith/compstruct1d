@@ -8,7 +8,7 @@
    Parameters:
      STAGES = 4
 */
-module reset_conditioner_2 (
+module reset_conditioner_1 (
     input clk,
     input in,
     output reg out

@@ -1,0 +1,33 @@
+module alu_unit (
+    input a[16],
+    input b[16],
+    input alufn[6],
+    
+    output res[16]
+  ) {
+  
+  .a(a) {
+  .b(b) {
+  .alufn(alufn) {
+    math_unit math;
+    boolean_unit boolean;
+    shift_unit shift;
+    compare_unit compare;
+  }     
+  }
+  }
+
+  always {
+    res = 0;
+    case (alufn[5:4]) {
+      2b00:
+        res = math.res;
+      2b01:
+        res = boolean.res;
+      2b10:
+        res = shift.res;
+      2b11:
+        res = compare.res;
+    }
+  }
+}

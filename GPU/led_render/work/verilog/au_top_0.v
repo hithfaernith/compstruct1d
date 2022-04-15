@@ -22,6 +22,35 @@ module au_top_0 (
   
   reg rst;
   
+  reg [3:0] pmove;
+  
+  wire [1-1:0] M_reset_cond_out;
+  reg [1-1:0] M_reset_cond_in;
+  reset_conditioner_1 reset_cond (
+    .clk(clk),
+    .in(M_reset_cond_in),
+    .out(M_reset_cond_out)
+  );
+  wire [1-1:0] M_pick_drop_button_out;
+  button_conditioner_2 pick_drop_button (
+    .clk(clk),
+    .in(io_button[1+0-:1]),
+    .out(M_pick_drop_button_out)
+  );
+  wire [1-1:0] M_pick_drop_edge_out;
+  edge_detector_3 pick_drop_edge (
+    .clk(clk),
+    .in(M_pick_drop_button_out),
+    .out(M_pick_drop_edge_out)
+  );
+  wire [1-1:0] M_slowclock_value;
+  counter_4 slowclock (
+    .clk(clk),
+    .rst(rst),
+    .value(M_slowclock_value)
+  );
+  reg M_pick_or_drop_d, M_pick_or_drop_q = 1'h0;
+  
   wire [1-1:0] M_display_led;
   reg [8-1:0] M_display_player_position;
   reg [24-1:0] M_display_tower_positions;
@@ -29,7 +58,7 @@ module au_top_0 (
   reg [16-1:0] M_display_enemy_dirs;
   reg [12-1:0] M_display_tower_disks;
   reg [4-1:0] M_display_active_disk;
-  hanoi_display_1 display (
+  hanoi_display_5 display (
     .clk(clk),
     .rst(rst),
     .player_position(M_display_player_position),
@@ -41,37 +70,72 @@ module au_top_0 (
     .led(M_display_led)
   );
   
-  wire [1-1:0] M_reset_cond_out;
-  reg [1-1:0] M_reset_cond_in;
-  reset_conditioner_2 reset_cond (
-    .clk(clk),
-    .in(M_reset_cond_in),
-    .out(M_reset_cond_out)
+  wire [8-1:0] M_gsm_dump_player_pos;
+  wire [16-1:0] M_gsm_dump_player_counter;
+  wire [16-1:0] M_gsm_dump_enemy_no;
+  wire [16-1:0] M_gsm_dump_tower_no;
+  wire [16-1:0] M_gsm_dump_last_fire_wait;
+  wire [4-1:0] M_gsm_dump_active_disk;
+  wire [16-1:0] M_gsm_dump_game_state;
+  wire [64-1:0] M_gsm_dump_enemy_positions;
+  wire [16-1:0] M_gsm_dump_enemy_directions;
+  wire [128-1:0] M_gsm_dump_enemy_move_waits;
+  wire [24-1:0] M_gsm_dump_tower_positions;
+  wire [12-1:0] M_gsm_dump_tower_states;
+  wire [6-1:0] M_gsm_current_state;
+  game_state_machine_6 gsm (
+    .clk(M_slowclock_value),
+    .rst(rst),
+    .pmove(pmove),
+    .pick_or_drop(M_pick_or_drop_q),
+    .dump_player_pos(M_gsm_dump_player_pos),
+    .dump_player_counter(M_gsm_dump_player_counter),
+    .dump_enemy_no(M_gsm_dump_enemy_no),
+    .dump_tower_no(M_gsm_dump_tower_no),
+    .dump_last_fire_wait(M_gsm_dump_last_fire_wait),
+    .dump_active_disk(M_gsm_dump_active_disk),
+    .dump_game_state(M_gsm_dump_game_state),
+    .dump_enemy_positions(M_gsm_dump_enemy_positions),
+    .dump_enemy_directions(M_gsm_dump_enemy_directions),
+    .dump_enemy_move_waits(M_gsm_dump_enemy_move_waits),
+    .dump_tower_positions(M_gsm_dump_tower_positions),
+    .dump_tower_states(M_gsm_dump_tower_states),
+    .current_state(M_gsm_current_state)
   );
   
-  reg [7:0] tower1;
-  reg [7:0] tower2;
-  reg [7:0] tower3;
-  
   always @* begin
+    M_pick_or_drop_d = M_pick_or_drop_q;
+    
     M_reset_cond_in = ~rst_n;
     rst = M_reset_cond_out;
     usb_tx = usb_rx;
+    pmove[0+0-:1] = io_button[0+0-:1];
+    pmove[1+2-:3] = io_button[2+2-:3];
     io_led = io_dip;
+    io_led[0+7+0-:1] = M_pick_or_drop_q;
+    io_led[0+6+0-:1] = M_pick_drop_edge_out;
+    io_led[0+5+0-:1] = M_pick_drop_button_out;
+    io_led[0+0+3-:4] = pmove;
+    io_led[8+0+5-:6] = M_gsm_current_state;
     io_seg = 8'hff;
     io_sel = 4'hf;
-    tower1 = 9'h087;
-    tower2 = 9'h0cf;
-    tower3 = 9'h0b6;
-    led = io_dip[0+0+7-:8];
-    M_display_active_disk = io_dip[16+4+3-:4];
-    M_display_player_position = io_dip[0+0+7-:8];
-    M_display_tower_positions = {tower1, tower2, tower3};
-    M_display_enemy_dirs = 16'hffff;
-    M_display_enemy_positions = 64'h0122446890b1d2f4;
-    M_display_tower_disks[0+3-:4] = io_dip[8+0+3-:4];
-    M_display_tower_disks[4+3-:4] = io_dip[8+4+3-:4];
-    M_display_tower_disks[8+3-:4] = io_dip[16+0+3-:4];
+    M_display_player_position = M_gsm_dump_player_pos;
+    M_display_enemy_positions = M_gsm_dump_enemy_positions;
+    M_display_enemy_dirs = M_gsm_dump_enemy_directions;
+    M_display_tower_disks = M_gsm_dump_tower_states;
+    M_display_tower_positions = M_gsm_dump_tower_positions;
+    M_display_active_disk = M_gsm_dump_active_disk;
     outled = M_display_led;
+    led = 8'hff;
+    M_pick_or_drop_d = M_pick_or_drop_q ^ M_pick_drop_edge_out;
   end
+  
+  always @(posedge clk) begin
+    if (rst == 1'b1) begin
+      M_pick_or_drop_q <= 1'h0;
+    end else begin
+      M_pick_or_drop_q <= M_pick_or_drop_d;
+    end
+  end
+  
 endmodule

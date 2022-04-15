@@ -4,7 +4,7 @@
    This is a temporary file and any changes made to it will be destroyed.
 */
 
-module player_display_5 (
+module player_display_10 (
     input [7:0] player_position,
     input [3:0] player_disk,
     input [4:0] x,
@@ -31,16 +31,16 @@ module player_display_5 (
         disk_length = 1'h0;
       end
       4'h1: begin
-        disk_length = 1'h1;
+        disk_length = 3'h4;
       end
       4'h2: begin
-        disk_length = 2'h2;
-      end
-      4'h4: begin
         disk_length = 2'h3;
       end
+      4'h4: begin
+        disk_length = 2'h2;
+      end
       4'h8: begin
-        disk_length = 3'h4;
+        disk_length = 1'h1;
       end
     endcase
     if (y == player_y) begin

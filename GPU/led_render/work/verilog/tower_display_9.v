@@ -4,7 +4,7 @@
    This is a temporary file and any changes made to it will be destroyed.
 */
 
-module tower_display_4 (
+module tower_display_9 (
     input [23:0] tower_positions,
     input [11:0] tower_disks,
     input [4:0] x,

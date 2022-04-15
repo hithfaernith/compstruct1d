@@ -7,30 +7,30 @@
 /*
    Parameters:
      WIDTH = 32
-     HEIGHT = 16
+     HEIGHT = 8
      NUM_PIXELS = WIDTH*HEIGHT
 */
-module matrix_3 (
+module matrix_8 (
     input clk,
     input rst,
     input update,
     input [23:0] color,
     output reg [4:0] x,
-    output reg [3:0] y,
-    output reg [8:0] pixel,
+    output reg [2:0] y,
+    output reg [7:0] pixel,
     output reg led
   );
   
   localparam WIDTH = 6'h20;
-  localparam HEIGHT = 5'h10;
-  localparam NUM_PIXELS = 11'h200;
+  localparam HEIGHT = 4'h8;
+  localparam NUM_PIXELS = 10'h100;
   
   
-  wire [9-1:0] M_writer_pixel;
+  wire [8-1:0] M_writer_pixel;
   wire [1-1:0] M_writer_led;
   reg [1-1:0] M_writer_update;
   reg [24-1:0] M_writer_color;
-  ws2812b_writer_7 writer (
+  ws2812b_writer_14 writer (
     .clk(clk),
     .rst(rst),
     .update(M_writer_update),
@@ -39,9 +39,9 @@ module matrix_3 (
     .led(M_writer_led)
   );
   
-  reg [8:0] pixel_no;
+  reg [7:0] pixel_no;
   
-  reg [3:0] modulo_pixel;
+  reg [2:0] modulo_pixel;
   
   reg [4:0] x_position;
   
@@ -51,11 +51,11 @@ module matrix_3 (
     pixel = M_writer_pixel;
     led = M_writer_led;
     pixel_no = M_writer_pixel;
-    x_position = pixel_no / 5'h10;
-    modulo_pixel = pixel_no - x_position * 5'h10;
+    x_position = pixel_no / 4'h8;
+    modulo_pixel = pixel_no - x_position * 4'h8;
     x = x_position;
     if (x_position[0+0-:1] == 1'h0) begin
-      y = 5'h10 - modulo_pixel - 1'h1;
+      y = 4'h8 - modulo_pixel - 1'h1;
     end else begin
       y = modulo_pixel;
     end

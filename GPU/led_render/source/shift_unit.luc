@@ -1,0 +1,39 @@
+module shift_unit (
+    input a[16],
+    input b[16],
+    input alufn[6],
+    
+    output res[16]
+    ) {
+  
+    const LEFT_SHIFT = 3b000;
+    const RIGHT_SHIFT = 3b001;
+    const LEFT_ARITH_SHIFT = 3b010;
+    const RIGHT_ARITH_SHIFT = 3b011;
+    
+    const LEFT_ROTATE = 3b100;
+    const RIGHT_ROTATE = 3b101;
+    
+    sig shift_bits[4];
+    sig shift_type[3];
+    always {
+      res = a;
+      shift_bits = b[3:0];
+      shift_type = alufn[2:0];
+    
+      case (shift_type) {
+        LEFT_SHIFT:
+          res = a << shift_bits;
+        RIGHT_SHIFT:
+          res = a >> shift_bits;
+        LEFT_ARITH_SHIFT:
+          res = $signed(a) <<< shift_bits;
+        RIGHT_ARITH_SHIFT:
+          res = $signed(a) >>> shift_bits;
+        LEFT_ROTATE:
+          res = (a << shift_bits)|(a >> (16 - shift_bits));
+        RIGHT_ROTATE:
+          res = (a >> shift_bits)|(a << (16 - shift_bits));
+      }
+  }
+}

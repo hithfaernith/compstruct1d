@@ -4,7 +4,7 @@
    This is a temporary file and any changes made to it will be destroyed.
 */
 
-module enemy_display_6 (
+module enemy_display_11 (
     input [63:0] enemy_positions,
     input [15:0] enemy_dirs,
     input [4:0] x,

@@ -1,0 +1,217 @@
+module regfile_unit (
+    input clk,  // clock
+    input rst,  // reset
+    
+    input asel[16],
+    input aconst,
+    input bsel[16],
+    input bconst,
+    
+    input wsel[4],
+    input we,
+    input wd[16],
+    
+    output aout[16],
+    output bout[16],
+    
+    
+    output dump_player_pos[8],
+    output dump_player_counter[16],
+    output dump_enemy_no[16],
+    output dump_tower_no[16],
+    output dump_last_fire_wait[16],
+    output dump_active_disk[4],
+    output dump_game_state[16],
+    output dump_enemy_positions[8][8],
+    output dump_enemy_directions[8][2],
+    output dump_enemy_move_waits[8][16],
+    output dump_tower_positions[3][8],
+    output dump_tower_states[3][4]
+  ) {
+  
+  var i;
+  
+  const NUM_ENEMIES = 8;
+  const NUM_TOWERS = 3;
+  
+
+  
+  .clk(clk) {
+  .rst(rst) {
+      dff player_pos[8];
+      dff player_counter[16];
+      dff enemy_no[16];
+      dff tower_no[16];
+      dff last_fire_wait[16];
+      dff active_disk[4];
+      dff game_state[16];
+      dff enemy_positions[NUM_ENEMIES][8](#INIT(NUM_ENEMIESx{{8b00000000}}));
+      dff enemy_directions[NUM_ENEMIES][2];
+      dff enemy_move_waits[NUM_ENEMIES][16];
+      dff tower_positions[NUM_TOWERS][8](#INIT({8b10000111,8b11001111,8b10110110}));
+      dff tower_states[NUM_TOWERS][4](#INIT({4b1111, 4b0000, 4b0000}));
+  }
+  }
+  
+  sig selected_enemy_position[8];
+  sig selected_enemy_direction[2];
+  sig selected_enemy_move_wait[16];
+  sig selected_tower_position[8];
+  sig selected_tower_state[4];
+  
+  always {
+    
+    
+    selected_enemy_position = 0;
+    selected_enemy_direction = 0;
+    selected_enemy_move_wait = 0;
+    for (i=0; i<NUM_ENEMIES; i++) {
+      if (enemy_no.q == i) {
+        selected_enemy_position = enemy_positions.q[i];
+        selected_enemy_direction = enemy_directions.q[i];
+        selected_enemy_move_wait = enemy_move_waits.q[i];
+      }
+    }
+    
+      
+    selected_tower_position = 0;
+    selected_tower_state = 0;
+    for (i=0; i<NUM_TOWERS; i++) {
+      if (tower_no.q == i) {
+        selected_tower_position = tower_positions.q[i];
+        selected_tower_state = tower_states.q[i];
+      }
+    }
+    
+    
+    
+    aout = 0;
+    if (aconst) {
+      aout = asel;
+    } else {
+      case (asel) {
+        0:
+          aout = player_pos.q;
+        1:
+          aout = player_counter.q;
+        2:
+          aout = enemy_no.q;
+        3:
+          aout = tower_no.q;
+        4:
+          aout = last_fire_wait.q;
+        5:
+          aout = active_disk.q;
+        6:
+          aout = game_state.q;
+        7:
+          aout = selected_enemy_position;
+        8:
+          aout = selected_enemy_direction;
+        9:
+          aout = selected_enemy_move_wait;
+        10:
+          aout = selected_tower_position;
+        11:
+          aout = selected_tower_state;
+      }
+    }
+    
+    
+    bout = 0;
+    if (bconst) {
+      bout = bsel;
+    } else {
+      case (bsel) {
+        0:
+          bout = player_pos.q;
+        1:
+          bout = player_counter.q;
+        2:
+          bout = enemy_no.q;
+        3:
+          bout = tower_no.q;
+        4:
+          bout = last_fire_wait.q;
+        5:
+          bout = active_disk.q;
+        6:
+          bout = game_state.q;
+        7:
+          bout = selected_enemy_position;
+        8:
+          bout = selected_enemy_direction;
+        9:
+          bout = selected_enemy_move_wait;
+        10:
+          bout = selected_tower_position;
+        11:
+          bout = selected_tower_state;
+      }
+    }
+    
+   
+    if (we) {
+      case (wsel) {
+        0:
+          player_pos.d = wd;
+        1:
+          player_counter.d = wd;
+        2:
+          enemy_no.d = wd;
+        3:
+          tower_no.d = wd;
+        4:
+          last_fire_wait.d = wd;
+        5:
+          active_disk.d = wd;
+        6:
+          game_state.d = wd;
+        7:
+          for (i=0; i<NUM_ENEMIES; i++) {
+            if (enemy_no.q == i) {
+              enemy_positions.d[i] = wd;
+            }
+          }
+        8:
+          for (i=0; i<NUM_ENEMIES; i++) {
+            if (enemy_no.q == i) {
+              enemy_directions.d[i] = wd;
+            }
+          }
+        9:
+          for (i=0; i<NUM_ENEMIES; i++) {
+            if (enemy_no.q == i) {
+              enemy_move_waits.d[i] = wd;
+            }
+          }
+        10:
+          for (i=0; i<NUM_TOWERS; i++) {
+            if (tower_no.q == i) {
+              tower_positions.d[i] = wd;
+            }
+          }
+        11:
+          for (i=0; i<NUM_TOWERS; i++) {
+            if (tower_no.q == i) {
+              tower_states.d[i] = wd;
+            }
+          }
+      }
+    }
+    
+    dump_player_pos = player_pos.q;
+    dump_player_counter = player_counter.q;
+    dump_enemy_no = enemy_no.q;
+    dump_tower_no = tower_no.q;
+    dump_last_fire_wait = last_fire_wait.q;
+    dump_active_disk = active_disk.q;
+    dump_game_state = game_state.q;
+    dump_enemy_positions = enemy_positions.q;
+    dump_enemy_directions = enemy_directions.q;
+    dump_enemy_move_waits = enemy_move_waits.q;
+    dump_tower_positions = tower_positions.q;
+    dump_tower_states = tower_states.q;
+    
+  }
+}

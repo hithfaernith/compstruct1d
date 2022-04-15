@@ -1,0 +1,39 @@
+module math_unit (
+    input a[16],
+    input b[16],
+    input alufn[6],
+    
+    output res[16]
+  ) {
+  
+  .a(a){ 
+  .b(b){
+    player_clip_move_unit player_clip_move;
+    enemy_move_left_unit enemy_move_left;
+    solo_msb_unit solo_msb;
+  }
+  }
+  
+  const ERROR = 16hAAAA;
+
+  always {
+    case (alufn[5:0]) {
+      6b000000:
+        res = a+b;
+      6b000001:
+        res = a-b;
+      6b000010:
+        res = a*b;
+      6b000011:
+        res = a/b;
+      6b001000:
+        res = player_clip_move.res;
+      6b001001:
+        res = enemy_move_left.res;
+      6b001010:
+        res = solo_msb.res;
+      default:
+        res = ERROR;
+    }
+  }
+}
