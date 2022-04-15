@@ -9,6 +9,7 @@ module game_state_machine_6 (
     input rst,
     input [3:0] pmove,
     input pick_or_drop,
+    input reset_game,
     output reg [7:0] dump_player_pos,
     output reg [15:0] dump_player_counter,
     output reg [15:0] dump_enemy_no,
@@ -61,6 +62,7 @@ module game_state_machine_6 (
     .clk(clk),
     .rst(rst),
     .wd(M_alu_res),
+    .reset_game(reset_game),
     .asel(M_regfile_asel),
     .aconst(M_regfile_aconst),
     .bsel(M_regfile_bsel),
@@ -575,6 +577,9 @@ module game_state_machine_6 (
     dump_tower_positions = M_regfile_dump_tower_positions;
     dump_tower_states = M_regfile_dump_tower_states;
     current_state = M_states_q;
+    if (reset_game) begin
+      M_states_d = START_states;
+    end
   end
   
   always @(posedge clk) begin

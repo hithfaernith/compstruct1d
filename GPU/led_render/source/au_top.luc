@@ -30,9 +30,13 @@ module au_top (
   }
   
   hanoi_display display(.clk(clk), .rst(rst));
-  game_state_machine gsm(.clk(slowclock.value), .rst(rst), .pmove(pmove), .pick_or_drop(pick_or_drop.q));
-  
-  
+  game_state_machine gsm(
+    .clk(slowclock.value),
+    .rst(rst),
+    .pmove(pmove),
+    .pick_or_drop(pick_or_drop.q),
+    .reset_game(io_dip[0][0])
+  );
   always {
     reset_cond.in = ~rst_n; // input raw inverted reset signal
     rst = reset_cond.out;   // conditioned reset

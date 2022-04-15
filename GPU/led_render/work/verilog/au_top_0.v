@@ -88,6 +88,7 @@ module au_top_0 (
     .rst(rst),
     .pmove(pmove),
     .pick_or_drop(M_pick_or_drop_q),
+    .reset_game(io_dip[0+0+0-:1]),
     .dump_player_pos(M_gsm_dump_player_pos),
     .dump_player_counter(M_gsm_dump_player_counter),
     .dump_enemy_no(M_gsm_dump_enemy_no),

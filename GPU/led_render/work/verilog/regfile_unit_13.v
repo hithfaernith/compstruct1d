@@ -14,6 +14,7 @@ module regfile_unit_13 (
     input [3:0] wsel,
     input we,
     input [15:0] wd,
+    input reset_game,
     output reg [15:0] aout,
     output reg [15:0] bout,
     output reg [7:0] dump_player_pos,
@@ -254,6 +255,20 @@ module regfile_unit_13 (
     dump_enemy_move_waits = M_enemy_move_waits_q;
     dump_tower_positions = M_tower_positions_q;
     dump_tower_states = M_tower_states_q;
+    if (reset_game) begin
+      M_player_pos_d = 1'h0;
+      M_player_counter_d = 1'h0;
+      M_enemy_no_d = 1'h0;
+      M_tower_no_d = 1'h0;
+      M_last_fire_wait_d = 1'h0;
+      M_active_disk_d = 1'h0;
+      M_game_state_d = 1'h0;
+      M_enemy_positions_d = 64'h0000000000000000;
+      M_enemy_directions_d = 16'h0000;
+      M_enemy_move_waits_d = 128'h00000000000000000000000000000000;
+      M_tower_positions_d = 24'h87cfb6;
+      M_tower_states_d = 12'hf00;
+    end
   end
   
   always @(posedge clk) begin

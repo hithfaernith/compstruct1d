@@ -3,6 +3,7 @@ module game_state_machine (
     input rst,  // reset
     input pmove[4],
     input pick_or_drop,
+    input reset_game,
     
     
     
@@ -27,7 +28,7 @@ module game_state_machine (
   
   .clk(clk) {
   .rst(rst) {
-    regfile_unit regfile(.wd(alu.res));
+    regfile_unit regfile(.wd(alu.res), .reset_game(reset_game));
       
     fsm states = {
       START,
@@ -480,5 +481,8 @@ module game_state_machine (
     dump_tower_states = regfile.dump_tower_states;
     
     current_state = states.q;
+    
+    if (reset_game)
+      states.d = states.START;
   }
 }

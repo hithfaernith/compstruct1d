@@ -11,6 +11,8 @@ module regfile_unit (
     input we,
     input wd[16],
     
+    input reset_game,
+    
     output aout[16],
     output bout[16],
     
@@ -212,6 +214,21 @@ module regfile_unit (
     dump_enemy_move_waits = enemy_move_waits.q;
     dump_tower_positions = tower_positions.q;
     dump_tower_states = tower_states.q;
+    
+    if (reset_game) {
+      player_pos.d = 0;
+      player_counter.d = 0;
+      enemy_no.d = 0;
+      tower_no.d = 0;
+      last_fire_wait.d = 0;
+      active_disk.d = 0;
+      game_state.d = 0;
+      enemy_positions.d = NUM_ENEMIESx{{8b0}};
+      enemy_directions.d = NUM_ENEMIESx{{2b0}};
+      enemy_move_waits.d = NUM_ENEMIESx{{16b0}};
+      tower_positions.d = {8b10000111,8b11001111,8b10110110};
+      tower_states.d = {4b1111, 4b0000, 4b0000};
+    }
     
   }
 }
