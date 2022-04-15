@@ -1,6 +1,4 @@
 module player_display (
-    input clk,  // clock
-    input rst,  // reset
     input player_position[8],
     input player_disk[4],
     input x[5], input y[3],

@@ -30,15 +30,15 @@ module hanoi_display (
   );
   
   tower_display tower_color(
-    .clk(clk), .rst(rst), .tower_positions(tower_positions)
+    .tower_positions(tower_positions)
   );
   
   player_display player_color(
-    .clk(clk), .rst(rst), .player_position(player_position)
+    .player_position(player_position)
   );
   
   enemy_display enemy_color(
-    .clk(clk), .rst(rst), .enemy_positions(enemy_positions),
+    .enemy_positions(enemy_positions),
     .enemy_dirs(enemy_dirs)
   );
   

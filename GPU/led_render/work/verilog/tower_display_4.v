@@ -5,8 +5,6 @@
 */
 
 module tower_display_4 (
-    input clk,
-    input rst,
     input [23:0] tower_positions,
     input [11:0] tower_disks,
     input [4:0] x,

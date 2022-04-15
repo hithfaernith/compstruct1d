@@ -5,8 +5,6 @@
 */
 
 module player_display_5 (
-    input clk,
-    input rst,
     input [7:0] player_position,
     input [3:0] player_disk,
     input [4:0] x,

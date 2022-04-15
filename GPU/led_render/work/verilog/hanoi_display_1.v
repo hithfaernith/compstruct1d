@@ -19,8 +19,8 @@ module hanoi_display_1 (
   
   
   wire [5-1:0] M_led_matrix_x;
-  wire [3-1:0] M_led_matrix_y;
-  wire [8-1:0] M_led_matrix_pixel;
+  wire [4-1:0] M_led_matrix_y;
+  wire [9-1:0] M_led_matrix_pixel;
   wire [1-1:0] M_led_matrix_led;
   reg [1-1:0] M_led_matrix_update;
   reg [24-1:0] M_led_matrix_color;
@@ -40,8 +40,6 @@ module hanoi_display_1 (
   reg [5-1:0] M_tower_color_x;
   reg [3-1:0] M_tower_color_y;
   tower_display_4 tower_color (
-    .clk(clk),
-    .rst(rst),
     .tower_positions(tower_positions),
     .tower_disks(M_tower_color_tower_disks),
     .x(M_tower_color_x),
@@ -54,8 +52,6 @@ module hanoi_display_1 (
   reg [5-1:0] M_player_color_x;
   reg [3-1:0] M_player_color_y;
   player_display_5 player_color (
-    .clk(clk),
-    .rst(rst),
     .player_position(player_position),
     .player_disk(M_player_color_player_disk),
     .x(M_player_color_x),
@@ -67,8 +63,6 @@ module hanoi_display_1 (
   reg [5-1:0] M_enemy_color_x;
   reg [3-1:0] M_enemy_color_y;
   enemy_display_6 enemy_color (
-    .clk(clk),
-    .rst(rst),
     .enemy_positions(enemy_positions),
     .enemy_dirs(enemy_dirs),
     .x(M_enemy_color_x),

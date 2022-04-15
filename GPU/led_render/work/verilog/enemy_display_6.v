@@ -5,8 +5,6 @@
 */
 
 module enemy_display_6 (
-    input clk,
-    input rst,
     input [63:0] enemy_positions,
     input [15:0] enemy_dirs,
     input [4:0] x,

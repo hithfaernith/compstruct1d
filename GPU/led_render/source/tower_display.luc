@@ -1,6 +1,4 @@
 module tower_display (
-    input clk,  // clock
-    input rst,  // reset
     input tower_positions[3][8],
     input tower_disks[3][4],
     input x[5], input y[3],

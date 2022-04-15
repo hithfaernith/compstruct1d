@@ -1,6 +1,4 @@
 module enemy_display (
-    input clk,  // clock
-    input rst,  // reset
     input enemy_positions[8][8],
     input enemy_dirs[8][2],
     input x[5], input y[3],
