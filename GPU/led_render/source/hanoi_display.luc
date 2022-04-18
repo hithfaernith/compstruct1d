@@ -1,16 +1,21 @@
 global Colors {
-    const BLUE = 24hFF0000;
-    const BLACK = 24h000000;
-    const GREEN = 24h0000FF;
-    const DARK_GREEN = 24h200132;
-    const INDIGO = 24h824B00;
-    const RED = 24h00FF00;
+  const BLUE = 24hFF0000;
+  const BLACK = 24h000000;
+  const GREEN = 24h0000FF;
+  const DARK_GREEN = 24h200132;
+  const OLIVE = 24h008080;
   
-    const PLAYER_COLOR = GREEN;
-    const TOWER_COLOR = BLUE;  
-    const DISK_COLOR = INDIGO;
-    const ACTIVE_DISK_COLOR = DARK_GREEN;
-    const ENEMY_COLOR = RED;
+  const INDIGO = 24h824B00;
+  const RED = 24h00FF00;
+  const GRAY = 24h010101;
+  
+  const PLAYER_DROP_COLOR = GREEN;
+  const PLAYER_PICK_COLOR = OLIVE;
+  
+  const TOWER_COLOR = BLUE;  
+  const DISK_COLOR = INDIGO;
+  const ACTIVE_DISK_COLOR = DARK_GREEN;
+  const ENEMY_COLOR = RED;
 }
 
 module hanoi_display (
@@ -22,10 +27,11 @@ module hanoi_display (
     input enemy_dirs[8][2],
     input tower_disks[3][4],
     input active_disk[4],
+    input pick_or_drop,
     output led
   ) {
     
-  matrix led_matrix(
+  dual_matrix led_matrix(
     #WIDTH(32), #HEIGHT(8), .clk(clk), .rst(rst)
   );
   
@@ -34,7 +40,8 @@ module hanoi_display (
   );
   
   player_display player_color(
-    .player_position(player_position)
+    .player_position(player_position),
+    .pick_or_drop(pick_or_drop)
   );
   
   enemy_display enemy_color(
@@ -56,13 +63,30 @@ module hanoi_display (
     
     enemy_color.x = led_matrix.x;
     enemy_color.y = led_matrix.y;
+    led_matrix.color = Colors.BLACK;
     
-    if (enemy_color.color == Colors.ENEMY_COLOR) {
-      led_matrix.color = enemy_color.color;
-    } else {
-      led_matrix.color = (
-        tower_color.color ^ player_color.color
-      );
+    if (led_matrix.screen == 0) {
+      if (enemy_color.color == Colors.ENEMY_COLOR) {
+        led_matrix.color = enemy_color.color;
+      } else {
+        led_matrix.color = (
+          tower_color.color ^ player_color.color
+        );
+      }
+    }
+    
+    if ((led_matrix.screen == 1) && (led_matrix.y == 7)) {
+      led_matrix.color = Colors.GRAY;
     }
   }
 }
+
+
+
+
+
+
+
+
+
+

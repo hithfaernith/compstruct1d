@@ -9,6 +9,7 @@ module player_display_10 (
     input [3:0] player_disk,
     input [4:0] x,
     input [2:0] y,
+    input pick_or_drop,
     output reg [23:0] color
   );
   
@@ -45,7 +46,11 @@ module player_display_10 (
     endcase
     if (y == player_y) begin
       if (x == player_x) begin
-        color = 24'h0000ff;
+        if (pick_or_drop == 1'h0) begin
+          color = 24'h0000ff;
+        end else begin
+          color = 24'h008080;
+        end
       end else begin
         if (x > player_x) begin
           if (disk_length >= (x - player_x)) begin

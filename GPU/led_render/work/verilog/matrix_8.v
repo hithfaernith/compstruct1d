@@ -8,9 +8,10 @@
    Parameters:
      WIDTH = 32
      HEIGHT = 8
-     NUM_PIXELS = WIDTH*HEIGHT
+     PIXELS_PER_SCREEN = WIDTH*HEIGHT
+     NUM_PIXELS = PIXELS_PER_SCREEN*2
 */
-module matrix_8 (
+module dual_matrix_8 (
     input clk,
     input rst,
     input update,
@@ -18,15 +19,17 @@ module matrix_8 (
     output reg [4:0] x,
     output reg [2:0] y,
     output reg [7:0] pixel,
+    output reg [0:0] screen,
     output reg led
   );
   
   localparam WIDTH = 6'h20;
   localparam HEIGHT = 4'h8;
-  localparam NUM_PIXELS = 10'h100;
+  localparam PIXELS_PER_SCREEN = 10'h100;
+  localparam NUM_PIXELS = 12'h200;
   
   
-  wire [8-1:0] M_writer_pixel;
+  wire [9-1:0] M_writer_pixel;
   wire [1-1:0] M_writer_led;
   reg [1-1:0] M_writer_update;
   reg [24-1:0] M_writer_color;
@@ -39,7 +42,7 @@ module matrix_8 (
     .led(M_writer_led)
   );
   
-  reg [7:0] pixel_no;
+  reg [8:0] pixel_no;
   
   reg [2:0] modulo_pixel;
   
@@ -51,13 +54,26 @@ module matrix_8 (
     pixel = M_writer_pixel;
     led = M_writer_led;
     pixel_no = M_writer_pixel;
-    x_position = pixel_no / 4'h8;
-    modulo_pixel = pixel_no - x_position * 4'h8;
-    x = x_position;
-    if (x_position[0+0-:1] == 1'h0) begin
-      y = 4'h8 - modulo_pixel - 1'h1;
+    if (pixel_no < 10'h100) begin
+      screen = 1'h0;
+      x_position = pixel_no / 4'h8;
+      modulo_pixel = pixel_no - x_position * 4'h8;
+      x = x_position;
+      if (x_position[0+0-:1] == 1'h0) begin
+        y = 4'h8 - modulo_pixel - 1'h1;
+      end else begin
+        y = modulo_pixel;
+      end
     end else begin
-      y = modulo_pixel;
+      screen = 1'h1;
+      x_position = (pixel_no - 10'h100) / 4'h8;
+      modulo_pixel = (pixel_no - 10'h100) - x_position * 4'h8;
+      x = x_position;
+      if (x_position[0+0-:1] == 1'h0) begin
+        y = modulo_pixel;
+      end else begin
+        y = 4'h8 - modulo_pixel - 1'h1;
+      end
     end
   end
 endmodule

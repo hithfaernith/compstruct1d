@@ -13,18 +13,18 @@ module ws2812b_writer_14 (
     input rst,
     input update,
     input [23:0] color,
-    output reg [7:0] pixel,
+    output reg [8:0] pixel,
     output reg led
   );
   
-  localparam PIXEL_COUNT = 10'h100;
+  localparam PIXEL_COUNT = 12'h200;
   
   
   localparam SEND_PIXEL_state = 1'd0;
   localparam RESET_state = 1'd1;
   
   reg M_state_d, M_state_q = SEND_PIXEL_state;
-  reg [7:0] M_pixel_ctr_d, M_pixel_ctr_q = 1'h0;
+  reg [8:0] M_pixel_ctr_d, M_pixel_ctr_q = 1'h0;
   reg [4:0] M_bit_ctr_d, M_bit_ctr_q = 1'h0;
   reg [6:0] M_ctr_d, M_ctr_q = 1'h0;
   reg [12:0] M_rst_ctr_d, M_rst_ctr_q = 1'h0;
@@ -53,7 +53,7 @@ module ws2812b_writer_14 (
           if (M_bit_ctr_q == 5'h17) begin
             M_bit_ctr_d = 1'h0;
             M_pixel_ctr_d = M_pixel_ctr_q + 1'h1;
-            if (M_pixel_ctr_q == 11'h0ff) begin
+            if (M_pixel_ctr_q == 13'h01ff) begin
               M_pixel_ctr_d = 1'h0;
               M_state_d = RESET_state;
             end

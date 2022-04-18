@@ -13,6 +13,8 @@ module hanoi_display_5 (
     input [15:0] enemy_dirs,
     input [11:0] tower_disks,
     input [3:0] active_disk,
+    input [8:0] test_position,
+    input pick_or_drop,
     output reg led
   );
   
@@ -21,10 +23,11 @@ module hanoi_display_5 (
   wire [5-1:0] M_led_matrix_x;
   wire [3-1:0] M_led_matrix_y;
   wire [8-1:0] M_led_matrix_pixel;
+  wire [1-1:0] M_led_matrix_screen;
   wire [1-1:0] M_led_matrix_led;
   reg [1-1:0] M_led_matrix_update;
   reg [24-1:0] M_led_matrix_color;
-  matrix_8 led_matrix (
+  dual_matrix_8 led_matrix (
     .clk(clk),
     .rst(rst),
     .update(M_led_matrix_update),
@@ -32,6 +35,7 @@ module hanoi_display_5 (
     .x(M_led_matrix_x),
     .y(M_led_matrix_y),
     .pixel(M_led_matrix_pixel),
+    .screen(M_led_matrix_screen),
     .led(M_led_matrix_led)
   );
   
@@ -53,6 +57,7 @@ module hanoi_display_5 (
   reg [3-1:0] M_player_color_y;
   player_display_10 player_color (
     .player_position(player_position),
+    .pick_or_drop(pick_or_drop),
     .player_disk(M_player_color_player_disk),
     .x(M_player_color_x),
     .y(M_player_color_y),
@@ -70,9 +75,15 @@ module hanoi_display_5 (
     .color(M_enemy_color_color)
   );
   
+  reg [4:0] test_x;
+  
+  reg [3:0] test_y;
+  
   always @* begin
     M_led_matrix_update = 1'h1;
     led = M_led_matrix_led;
+    test_x = test_position[0+4-:5];
+    test_y = test_position[5+3-:4];
     M_tower_color_x = M_led_matrix_x;
     M_tower_color_y = M_led_matrix_y;
     M_tower_color_tower_disks = tower_disks;
@@ -81,10 +92,16 @@ module hanoi_display_5 (
     M_player_color_player_disk = active_disk;
     M_enemy_color_x = M_led_matrix_x;
     M_enemy_color_y = M_led_matrix_y;
-    if (M_enemy_color_color == 24'h00ff00) begin
-      M_led_matrix_color = M_enemy_color_color;
-    end else begin
-      M_led_matrix_color = (M_tower_color_color ^ M_player_color_color);
+    M_led_matrix_color = 24'h000000;
+    if (M_led_matrix_screen == 1'h0) begin
+      if (M_enemy_color_color == 24'h00ff00) begin
+        M_led_matrix_color = M_enemy_color_color;
+      end else begin
+        M_led_matrix_color = (M_tower_color_color ^ M_player_color_color);
+      end
+    end
+    if ((M_led_matrix_screen == 1'h1) && (M_led_matrix_y == 3'h7)) begin
+      M_led_matrix_color = 24'h010101;
     end
   end
 endmodule

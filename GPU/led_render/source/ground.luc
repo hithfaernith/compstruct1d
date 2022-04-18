@@ -1,0 +1,24 @@
+module ground (
+    input enemy_positions[8][8],
+    input x[5], input y[3],
+    output color[24]
+  ) {
+
+  sig ground_x[5], ground_y[3];
+  sig enemy_position[8];
+  sig k[4];
+  
+  always {
+    color = Colors.BLACK;
+    for (k=0; k<8; k++) {
+      enemy_position = enemy_positions[k];
+      ground_x = enemy_position[4:0];
+      ground_y = 3b000;
+      if (
+        (ground_x == x) && (ground_y == y)
+      ) {
+        color = Colors.RED;
+      }
+    }
+  }
+}

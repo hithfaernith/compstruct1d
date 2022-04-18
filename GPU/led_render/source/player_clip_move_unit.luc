@@ -10,7 +10,7 @@ module player_clip_move_unit (
   const LEFT = 2;
   const RIGHT = 3;
   
-  sig x[5],y[3];
+  sig x[5], y[3];
   
   sig player_position[16];
   sig player_move[16];

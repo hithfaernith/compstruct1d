@@ -1,17 +1,23 @@
-module matrix #(
+// dual screen display module
+
+module dual_matrix #(
   WIDTH = 32: WIDTH > 0,
   HEIGHT = 8: HEIGHT > 0,
-  NUM_PIXELS = WIDTH * HEIGHT
+  PIXELS_PER_SCREEN = WIDTH * HEIGHT,
+  NUM_PIXELS = PIXELS_PER_SCREEN * 2
 ) (
     input clk,  // clock
     input rst,  // reset
     input update,
     input color[24],
     output x[$clog2(WIDTH)],
-    output y[$clog2(HEIGHT)],
+    output y[$clog2(HEIGHT)], // one more bit for the screen
     output pixel[$clog2(WIDTH * HEIGHT)],
+    output screen[1],
     output led
   ) {
+  // we map the pixel no for two LED matrices attached to one another
+  // to their x, y coordinate and their screen number
   
   ws2812b_writer writer(
     #PIXEL_COUNT(NUM_PIXELS), .clk(clk), .rst(rst)
@@ -26,17 +32,32 @@ module matrix #(
     writer.update = update;
     pixel = writer.pixel;
     led = writer.led;
-    
     pixel_no = writer.pixel;
-    x_position = pixel_no / HEIGHT;
-    // p % height = p - p * floor(p / height)
-    modulo_pixel = pixel_no - x_position * HEIGHT;
-    x = x_position;
     
-    if (x_position[0] == 1b0) {
-      y = HEIGHT - modulo_pixel - 1b1;
+    if (pixel_no < PIXELS_PER_SCREEN) {
+      screen = 0;
+      x_position = pixel_no / HEIGHT;
+      // p % height = p - height * floor(p / height)
+      modulo_pixel = pixel_no - x_position * HEIGHT;
+      x = x_position;
+    
+      if (x_position[0] == 1b0) {
+        y = HEIGHT - modulo_pixel - 1b1;
+      } else {
+        y = modulo_pixel;
+      }
     } else {
-      y = modulo_pixel;
+      screen = 1;
+      x_position = (pixel_no - PIXELS_PER_SCREEN) / HEIGHT;
+      // p % height = p - height * floor(p / height)
+      modulo_pixel = (pixel_no - PIXELS_PER_SCREEN) - x_position * HEIGHT;
+      x = x_position;
+      
+      if (x_position[0] == 1b0) {
+        y = modulo_pixel;
+      } else {
+        y = HEIGHT - modulo_pixel - 1b1;
+      }
     }
   }
 }

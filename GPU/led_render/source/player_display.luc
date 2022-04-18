@@ -2,6 +2,7 @@ module player_display (
     input player_position[8],
     input player_disk[4],
     input x[5], input y[3],
+    input pick_or_drop,
     output color[24]
   ) {
 
@@ -25,7 +26,11 @@ module player_display (
     
     if (y == player_y) {
       if (x == player_x) {
-        color = Colors.PLAYER_COLOR;
+        if (pick_or_drop == 0) {
+          color = Colors.PLAYER_DROP_COLOR;
+        } else {
+          color = Colors.PLAYER_PICK_COLOR;
+        }
       } else if (x > player_x) {
       // ^ paranoid about overflow, not sure if necessary though
         if (disk_length >= (x - player_x)) {

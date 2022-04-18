@@ -32,17 +32,15 @@ module au_top (
     // The reset conditioner is used to synchronize the reset signal to the FPGA
     // clock. This ensures the entire FPGA comes out of reset at the same time.
     reset_conditioner reset_cond;
-    button_conditioner pick_drop_button(#MIN_DELAY(50), .in(io_button[1]));
+    button_conditioner pick_drop_shield_button(#MIN_DELAY(50), .in(io_button[1]));
     edge_detector pick_drop_edge(#RISE(1), #FALL(0), .in(pick_or_drop_final));
     
     button_conditioner pick_drop_physical_cond(#MIN_DELAY(50), .in(pick_drop_physical_signal));
     
-    
     .rst(rst) {
       counter slowclock(#SIZE(1), #DIV(14));
-      dff pick_or_drop;
+      dff pick_or_drop(.rst(rst));
     }
-    
   }
   
   hanoi_display display(.clk(clk), .rst(rst));
@@ -66,12 +64,10 @@ module au_top (
     pmove[0] = io_button[0];
     pmove[3:1] = io_button[4:2];
     
-    
-    
     io_led = io_dip;
     io_led[0][7] = pick_or_drop.q;
     io_led[0][6] = reset_signal;
-    io_led[0][5] = pick_drop_button.out;
+    io_led[0][5] = pick_drop_shield_button.out;
     
     io_led[0][3:0] = pmove;
     io_led[1][5:0] = gsm.current_state;
@@ -84,7 +80,7 @@ module au_top (
     display.tower_disks = gsm.dump_tower_states;
     display.tower_positions = gsm.dump_tower_positions;
     display.active_disk = gsm.dump_active_disk;
-    
+    display.pick_or_drop = pick_or_drop.q;
     
     outled = display.led;
     led = 8hFF;
@@ -92,31 +88,9 @@ module au_top (
     pick_or_drop.d = pick_or_drop.q ^ pick_drop_edge.out;
     
     
-    pick_or_drop_final = pick_drop_button.out | ~pick_drop_physical_cond.out;
+    pick_or_drop_final = pick_drop_shield_button.out | ~pick_drop_physical_cond.out;
     reset_final = io_dip[0][0] | ~reset_signal;
     pmove_final = pmove | pmove_physical;
     
   }
 }
-
-
-/*
-    sig tower1[8], tower2[8], tower3[8];
-    tower1 = (4 << 5) + 7;
-    tower2 = (6 << 5) + 15;
-    tower3 = (5 << 5) + 22;
-
-    led = io_dip[0][7:0];
-    display.active_disk = io_dip[2][7:4];
-    display.player_position = io_dip[0][7:0];
-    display.tower_positions = {tower1, tower2, tower3};
-    display.enemy_dirs = 8x{{2b11}};
-    display.enemy_positions = {
-      8b00000001, 8b00100010, 8b01000100, 8b01101000,
-      8b10010000, 8b10110001, 8b11010010, 8b11110100
-    };
-    
-    display.tower_disks[0] = io_dip[1][3:0];
-    display.tower_disks[1] = io_dip[1][7:4];
-    display.tower_disks[2] = io_dip[2][3:0];
-    */

@@ -7,6 +7,7 @@
     <src>game_state_machine.luc</src>
     <src>hanoi_display.luc</src>
     <component>counter.luc</component>
+    <src>ground.luc</src>
     <src>enemy_display.luc</src>
     <src>ws2812b_writer.luc</src>
     <src>solo_msb_unit.luc</src>
