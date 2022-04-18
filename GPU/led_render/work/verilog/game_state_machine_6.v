@@ -288,7 +288,7 @@ module game_state_machine_6 (
         M_regfile_bconst = 1'h0;
         M_alu_alufn = 6'h1e;
         M_regfile_we = 1'h1;
-        M_regfile_wsel = 4'h8;
+        M_regfile_wsel = 3'h7;
         M_states_d = FIRE_ENEMY_states;
       end
       FIRE_ENEMY_states: begin
@@ -298,7 +298,7 @@ module game_state_machine_6 (
         M_regfile_bconst = 1'h1;
         M_alu_alufn = 6'h1a;
         M_regfile_we = 1'h1;
-        M_regfile_wsel = 3'h7;
+        M_regfile_wsel = 4'h8;
         M_states_d = RESET_FIRE_WAIT_states;
       end
       RESET_FIRE_WAIT_states: begin

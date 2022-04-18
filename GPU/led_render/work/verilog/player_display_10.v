@@ -46,10 +46,10 @@ module player_display_10 (
     endcase
     if (y == player_y) begin
       if (x == player_x) begin
-        if (pick_or_drop == 1'h0) begin
-          color = 24'h0000ff;
+        if (pick_or_drop == 1'h1) begin
+          color = 24'h6029ff;
         end else begin
-          color = 24'h008080;
+          color = 24'h0000ff;
         end
       end else begin
         if (x > player_x) begin

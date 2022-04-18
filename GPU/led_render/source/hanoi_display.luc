@@ -3,7 +3,7 @@ global Colors {
   const BLACK = 24h000000;
   const GREEN = 24h0000FF;
   const DARK_GREEN = 24h200132;
-  const OLIVE = 24h008080;
+  const OLIVE = 24h6029FF;
   
   const INDIGO = 24h824B00;
   const RED = 24h00FF00;

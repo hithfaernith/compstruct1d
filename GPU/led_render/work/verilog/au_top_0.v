@@ -38,8 +38,6 @@ module au_top_0 (
   
   reg [3:0] pmove_final;
   
-  reg [8:0] test_positiion;
-  
   wire [1-1:0] M_reset_cond_out;
   reg [1-1:0] M_reset_cond_in;
   reset_conditioner_1 reset_cond (
@@ -47,11 +45,11 @@ module au_top_0 (
     .in(M_reset_cond_in),
     .out(M_reset_cond_out)
   );
-  wire [1-1:0] M_pick_drop_button_out;
-  button_conditioner_2 pick_drop_button (
+  wire [1-1:0] M_pick_drop_shield_button_out;
+  button_conditioner_2 pick_drop_shield_button (
     .clk(clk),
     .in(io_button[1+0-:1]),
-    .out(M_pick_drop_button_out)
+    .out(M_pick_drop_shield_button_out)
   );
   wire [1-1:0] M_pick_drop_edge_out;
   edge_detector_3 pick_drop_edge (
@@ -80,7 +78,6 @@ module au_top_0 (
   reg [16-1:0] M_display_enemy_dirs;
   reg [12-1:0] M_display_tower_disks;
   reg [4-1:0] M_display_active_disk;
-  reg [9-1:0] M_display_test_position;
   reg [1-1:0] M_display_pick_or_drop;
   hanoi_display_5 display (
     .clk(clk),
@@ -91,7 +88,6 @@ module au_top_0 (
     .enemy_dirs(M_display_enemy_dirs),
     .tower_disks(M_display_tower_disks),
     .active_disk(M_display_active_disk),
-    .test_position(M_display_test_position),
     .pick_or_drop(M_display_pick_or_drop),
     .led(M_display_led)
   );
@@ -142,15 +138,10 @@ module au_top_0 (
     usb_tx = usb_rx;
     pmove[0+0-:1] = io_button[0+0-:1];
     pmove[1+2-:3] = io_button[2+2-:3];
-    test_positiion[8+0-:1] = io_dip[8+7+0-:1];
-    test_positiion[0+7-:8] = io_dip[16+0+7-:8];
-    M_display_test_position = test_positiion;
     io_led = io_dip;
     io_led[0+7+0-:1] = M_pick_or_drop_q;
     io_led[0+6+0-:1] = reset_signal;
-    io_led[0+5+0-:1] = M_pick_drop_button_out;
-    test_positiion[8+0-:1] = 1'h1;
-    test_positiion[0+7-:8] = io_dip[16+7-:8];
+    io_led[0+5+0-:1] = M_pick_drop_shield_button_out;
     io_led[0+0+3-:4] = pmove;
     io_led[8+0+5-:6] = M_gsm_current_state;
     io_seg = 8'hff;
@@ -165,9 +156,12 @@ module au_top_0 (
     outled = M_display_led;
     led = 8'hff;
     M_pick_or_drop_d = M_pick_or_drop_q ^ M_pick_drop_edge_out;
-    pick_or_drop_final = M_pick_drop_button_out | ~M_pick_drop_physical_cond_out;
+    pick_or_drop_final = M_pick_drop_shield_button_out | ~M_pick_drop_physical_cond_out;
     reset_final = io_dip[0+0+0-:1] | ~reset_signal;
     pmove_final = pmove | pmove_physical;
+    if (reset_final) begin
+      M_pick_or_drop_d = 1'h0;
+    end
   end
   
   always @(posedge clk) begin

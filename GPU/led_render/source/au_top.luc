@@ -11,7 +11,6 @@ module au_top (
     input io_button [5],    // 5 buttons on IO Shield
     input io_dip [3][8],     // DIP switches on IO Shield
     
-    
     input reset_signal,
     input pick_drop_physical_signal,
     input up_signal,
@@ -39,7 +38,7 @@ module au_top (
     
     .rst(rst) {
       counter slowclock(#SIZE(1), #DIV(14));
-      dff pick_or_drop(.rst(rst));
+      dff pick_or_drop;
     }
   }
   
@@ -91,6 +90,10 @@ module au_top (
     pick_or_drop_final = pick_drop_shield_button.out | ~pick_drop_physical_cond.out;
     reset_final = io_dip[0][0] | ~reset_signal;
     pmove_final = pmove | pmove_physical;
+    
+    if (reset_final) {
+      pick_or_drop.d = 0;
+    }
     
   }
 }

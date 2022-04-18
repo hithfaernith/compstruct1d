@@ -13,7 +13,6 @@ module hanoi_display_5 (
     input [15:0] enemy_dirs,
     input [11:0] tower_disks,
     input [3:0] active_disk,
-    input [8:0] test_position,
     input pick_or_drop,
     output reg led
   );
@@ -75,15 +74,9 @@ module hanoi_display_5 (
     .color(M_enemy_color_color)
   );
   
-  reg [4:0] test_x;
-  
-  reg [3:0] test_y;
-  
   always @* begin
     M_led_matrix_update = 1'h1;
     led = M_led_matrix_led;
-    test_x = test_position[0+4-:5];
-    test_y = test_position[5+3-:4];
     M_tower_color_x = M_led_matrix_x;
     M_tower_color_y = M_led_matrix_y;
     M_tower_color_tower_disks = tower_disks;

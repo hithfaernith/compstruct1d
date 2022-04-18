@@ -205,6 +205,7 @@ module game_state_machine (
           states.d = states.INC_FIRE_WAIT;
         else
           states.d = states.SET_ENEMY_POS;
+          
       states.INC_FIRE_WAIT:
         regfile.asel = Regs.LAST_FIRE_WAIT;
         regfile.bsel = 1;
@@ -222,7 +223,7 @@ module game_state_machine (
         regfile.bconst = 0;
         alu.alufn = Alufns.OR;
         regfile.we = 1;
-        regfile.wsel = Regs.ENEMY_DIRECTIONS;
+        regfile.wsel = Regs.ENEMY_POSITIONS;
         states.d = states.FIRE_ENEMY;
       states.FIRE_ENEMY:
         regfile.asel = 2b10;
@@ -231,7 +232,7 @@ module game_state_machine (
         regfile.bconst = 1;
         alu.alufn = Alufns.A;
         regfile.we = 1;
-        regfile.wsel = Regs.ENEMY_POSITIONS;
+        regfile.wsel = Regs.ENEMY_DIRECTIONS;
         states.d = states.RESET_FIRE_WAIT;
         
       states.RESET_FIRE_WAIT:
@@ -243,6 +244,7 @@ module game_state_machine (
         regfile.we = 1;
         regfile.wsel = Regs.LAST_FIRE_WAIT;
         states.d = states.INC_ENEMY_NO;
+        
       states.INC_ENEMY_WAIT:
         regfile.asel = Regs.ENEMY_MOVE_WAITS;
         regfile.bsel = 1;

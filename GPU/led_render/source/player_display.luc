@@ -26,10 +26,10 @@ module player_display (
     
     if (y == player_y) {
       if (x == player_x) {
-        if (pick_or_drop == 0) {
-          color = Colors.PLAYER_DROP_COLOR;
+        if (pick_or_drop == 1) {
+          color = Colors.PLAYER_PICK_COLOR;  
         } else {
-          color = Colors.PLAYER_PICK_COLOR;
+          color = Colors.PLAYER_DROP_COLOR;
         }
       } else if (x > player_x) {
       // ^ paranoid about overflow, not sure if necessary though
