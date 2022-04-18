@@ -11,7 +11,7 @@ Tham Jit
 Wee Chun Hui  
 Yong Zheng Yew  
 
-Relevant folders:
-ALU - lucid code for 16-bit ALU checkoff submission 
-GPU/led_render - lucid code for final raiders of hanoi game, and supporing LED matrix drivers
+Relevant folders:  
+ALU - lucid code for 16-bit ALU checkoff submission   
+GPU/led_render - lucid code for final raiders of hanoi game, and supporing LED matrix drivers  
 hanoi - python game, ALU and state machine emulator (for verifying / debugging our state transistion diagram before translatiion to lucid)
