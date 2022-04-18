@@ -17,7 +17,7 @@ GPU/led_render - lucid code for final raiders of hanoi game, and supporing LED m
 hanoi - python game, ALU and state machine emulator
   
 ~~todo~~ feature wishlist:  
-1. ~~change player color to indicator pick / drop state~~
+1. ~~change player color to indicate pick / drop state~~
 2. ~~reorder state machine to avoid occasional flickering due to enemy being made visible before being repositioned to right edge~~
 3. ~~create white border on the top of the second screen to denote floor of the game area~~
 4. expand playable game area to both LED matrices
