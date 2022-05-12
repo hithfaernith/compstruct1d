@@ -20,7 +20,7 @@ Relevant folders:
 ALU - lucid code for 16-bit ALU checkoff submission   
 GPU/led_render - lucid code for final raiders of hanoi game, and supporing LED matrix drivers  
 hanoi - python game, ALU and state machine emulator  
-
+  \
 ![arcade](https://user-images.githubusercontent.com/11241733/168064779-f9909814-3eef-4ac7-9fc0-bca8ee2c2bdd.png)
 
 ~~todo~~ feature wishlist:  
