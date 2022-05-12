@@ -1,6 +1,6 @@
 # compstruct1d
 For ISTD Computational Structures 1D Project 2022.  
-[View out project on the 2022 ISTD virtual exhibit website](https://natalieagus.github.io/istd-1d-exhibition-2022/compstruct/Raiders-Of-Hanoi/)
+[View our project on the 2022 ISTD virtual exhibit website](https://natalieagus.github.io/istd-1d-exhibition-2022/compstruct/Raiders-Of-Hanoi/)
 
 ![arcade](https://user-images.githubusercontent.com/11241733/168064779-f9909814-3eef-4ac7-9fc0-bca8ee2c2bdd.png)
 
