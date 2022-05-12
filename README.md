@@ -1,20 +1,23 @@
 # compstruct1d
 For ISTD Computational Structures 1D Project 2022.  
-[View our project on the 2022 ISTD virtual exhibit website](https://natalieagus.github.io/istd-1d-exhibition-2022/compstruct/Raiders-Of-Hanoi/)
+[View our project on the 2022 ISTD virtual exhibit website](https://natalieagus.github.io/istd-1d-exhibition-2022/compstruct/Raiders-Of-Hanoi/)  
 
-![arcade](https://user-images.githubusercontent.com/11241733/168064779-f9909814-3eef-4ac7-9fc0-bca8ee2c2bdd.png)
+<p align="center" style="display=flex">
+  <img style="height:360px" src="https://user-images.githubusercontent.com/11241733/168070005-2003b796-7540-4740-a67a-f3c097d378d2.gif"/> 
+  <img style="height:360px" src="https://user-images.githubusercontent.com/11241733/168064779-f9909814-3eef-4ac7-9fc0-bca8ee2c2bdd.png"/>
+</p>
 
-Raiders of hanoi is a 2D arcade game where the player (green square) has to mvoe around using the joystick, to pick up disks (purple) and drop them onto the towers (blue) to solve the 4-disk towers of hanoi while avoiding the enemies that would spawn from the right edge and move left to attack the player. Created as a FPGA state machine that selects inputs to a single 16-bit ALU as part of the 50.002 1D project requirements.
+Raiders of hanoi is a 2D arcade game where the player (green square) has to mvoe around using the joystick, to pick up disks (purple) and drop them onto the towers (blue) to solve the 4-disk towers of hanoi while avoiding the enemies that would spawn from the right edge and move left to attack the player. Created as a FPGA state machine that selects inputs to a single 16-bit ALU as part of the 50.002 1D project requirements.  
 
 Team members:  
 Acqquilaa Bathumalai  
 Beverley Chee  
 Christopher Lye Sze Kian  
 Constance Chua Jie Ning  
-Lim Thian Yew  
-Tham Jit  
-Wee Chun Hui  
-Yong Zheng Yew  
+[(Charles) Lim Thian Yew](https://github.com/milselarch)  
+[Tham Jit](https://github.com/asdfash)  
+[Wee Chun Hui](https://github.com/hithfaernith)  
+[Yong Zheng Yew](https://github.com/snproj)  
 
 Relevant folders:  
 ALU - lucid code for 16-bit ALU checkoff submission   
