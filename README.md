@@ -2,7 +2,9 @@
 For ISTD Computational Structures 1D Project 2022.  
 [View our project on the 2022 ISTD virtual exhibit website](https://natalieagus.github.io/istd-1d-exhibition-2022/compstruct/Raiders-Of-Hanoi/)  
 
-![gameplay footage](https://user-images.githubusercontent.com/11241733/168070005-2003b796-7540-4740-a67a-f3c097d378d2.gif)
+<div width="100%" style="display: flex; flex-direction: column">
+    <img src="https://user-images.githubusercontent.com/11241733/168070005-2003b796-7540-4740-a67a-f3c097d378d2.gif" width="50%" /><img src="https://user-images.githubusercontent.com/11241733/170072391-8d827e00-d26d-4851-b9eb-e3b09ba93613.gif" width="50%" />
+</div>
 
 Raiders of hanoi is a 2D arcade game where the player (green square) has to mvoe around using the joystick, to pick up disks (purple) and drop them onto the towers (blue) to solve the 4-disk towers of hanoi while avoiding the enemies that would spawn from the right edge and move left to attack the player. Created as a FPGA state machine that selects inputs to a single 16-bit ALU as part of the 50.002 1D project requirements.  
 
