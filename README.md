@@ -2,7 +2,7 @@
 For ISTD Computational Structures 1D Project 2022.  
 [View our project on the 2022 ISTD virtual exhibit website](https://natalieagus.github.io/istd-1d-exhibition-2022/compstruct/Raiders-Of-Hanoi/)  
 
-<div width="100%" style="display: flex; flex-direction: column">
+<div width="100%">
     <img src="https://user-images.githubusercontent.com/11241733/168070005-2003b796-7540-4740-a67a-f3c097d378d2.gif" width="50%" /><img src="https://user-images.githubusercontent.com/11241733/170072391-8d827e00-d26d-4851-b9eb-e3b09ba93613.gif" width="50%" />
 </div>
 
